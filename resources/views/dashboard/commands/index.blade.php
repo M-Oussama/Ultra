@@ -65,13 +65,13 @@
                     width: '30px',
                 },
                 {
-                    data: 'client',
+                    data: 'client.name',
                 },
                 {
-                    data: 'montant',
+                    data: 'amount',
                 },
                 {
-                    data: 'Payment Type',
+                    data: 'date',
                 },
                 {
                     data: null,
@@ -274,9 +274,10 @@
                             <th>ID</th>
                             <th>ID</th>
                             <th>Client</th>
-                            <th>Montant</th>
+                            <th>Amount</th>
                             <th>Date</th>
-                            <th>Payment Type</th>
+                            <th>Operation</th>
+
 
 
 

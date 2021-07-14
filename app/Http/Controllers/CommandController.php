@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Command;
+use App\Models\CommandProduct;
 use App\Models\product;
 use App\Models\Client;
 
@@ -18,7 +19,7 @@ class CommandController extends Controller
 
     public function index()
     {
-        $commands = Command::all();
+        $commands = Command::with('client')->get();
 
         return view('dashboard.commands.index')->with('commands',$commands);
     }
@@ -34,8 +35,31 @@ class CommandController extends Controller
             ->with('products',$products);
     }
 
-    public function store(Response $response)
+    public function store(Request $request)
     {
-        return response()->json(["data"=>$response->products]);
+        $products = $request->products;
+        $client = Client::find($request->client_id);
+
+        $command = new Command();
+        $command->date = date("Y-m-d H:i:s");
+        $command->client_id = $client->id;
+        $command->payment_type = $request->payment_type;
+        $command->save();
+        $amount = 0;
+
+        foreach ($products as $product){
+            $command_product = new CommandProduct();
+            $command_product->command_id = $command->id;
+            $command_product->product_id = $product['id'];
+            $command_product->price = $product['price'];
+            $command_product->quantity = $product['quantity'];
+            $command_product->amount = $product['amount'];
+            $command_product->save();
+            $amount += $product['amount'];
+        }
+        $command->amount = $amount;
+        $command->save();
+
+        return response()->json(["success"=>true]);
     }
 }

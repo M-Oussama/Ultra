@@ -105,11 +105,17 @@
         function addProduct(){
 
             if(!productExists(product)){
-                added_products.push(product);
+
+
                 price = $('#product_price').val();
                 quantity = $('#product_quantity').val();
 
                 var montant = price * quantity;
+
+                product['price'] = price;
+                product['quantity'] = quantity;
+                product['amount']  = montant;
+                added_products.push(product);
                 $('#kt_datatable').DataTable().row.add([
                     ' <label class="checkbox checkbox-single">' +
                     '                            <input type="checkbox" name="ids[]" value="' + product['id']+ '" class="checkable"/>' +
@@ -162,7 +168,7 @@
                 }
             });
             $.ajax({
-                type: "post",
+                type: "POST",
                 url: "dash/commands/store",
                 header:{
                     'X-CSRF-TOKEN': token
@@ -171,8 +177,11 @@
                     products: added_products,
                     client_id: '{{$client->id}}'
                 },
+                dataType: "json",
                 success: function (data) {
-                    console.log(data);
+                    window.location.href = "{{URL('dash/commands')}}";
+
+
                 }
             });
 

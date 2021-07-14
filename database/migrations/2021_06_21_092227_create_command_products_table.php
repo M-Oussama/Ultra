@@ -16,6 +16,10 @@ class CreateCommandProductsTable extends Migration
         Schema::create('command_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('command_id');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('quantity');
+            $table->unsignedBigInteger('amount');
             $table->timestamps();
         });
     }

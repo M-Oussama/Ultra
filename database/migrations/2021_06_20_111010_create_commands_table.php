@@ -17,8 +17,8 @@ class CreateCommandsTable extends Migration
             $table->id();
             $table->string('date');
             $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('amount')->nullable();
             $table->string('payment_type')->nullable();
-            $table->unsignedBigInteger('commands_products')->nullable();
             $table->timestamps();
         });
     }
