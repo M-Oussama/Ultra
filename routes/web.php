@@ -82,7 +82,7 @@ Route::get('dash/optimize-cache', [ConsoleController::class, 'optimizeCache']);
 Route::get('dash/add-model', [ConsoleController::class, 'addModel']);
 Route::get('dash/commands/create/{client_id}', [CommandController::class, 'create']);
 Route::post('dash/commands/store', [CommandController::class, 'store']);
-
+Route::get('dash/commands/{id}/return', [CommandController::class, 'createCommandReturn']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

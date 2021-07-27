@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CommandProduct extends Model
 {
     use HasFactory;
+    public function product(){
+       return $this->belongsTo(product::class);
+    }
 }

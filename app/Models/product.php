@@ -13,4 +13,5 @@ class product extends Model implements HasMedia
 {
     use HasFactory, Notifiable, HasRoles, InteractsWithMedia;
 
+
 }

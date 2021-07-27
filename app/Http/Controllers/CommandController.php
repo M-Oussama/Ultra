@@ -62,4 +62,14 @@ class CommandController extends Controller
 
         return response()->json(["success"=>true]);
     }
+    public function createCommandReturn($id){
+        $commands = Command::find($id);
+        $products = product::all();
+        $command_products = CommandProduct::with('product')->get();
+        return view('dashboard.commands.create_return_command')
+            ->with('commands',$commands)
+            ->with('command_products',$command_products)
+            ->with('products',$products);
+
+    }
 }

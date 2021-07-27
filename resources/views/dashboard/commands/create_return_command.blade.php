@@ -17,10 +17,85 @@
     <!-- Page scripts -->
     <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
     <script>
-        var table = $('#kt_datatable').dataTable();
+        var table = $('#kt_datatable');
         var products =  JSON.parse('{!!  json_encode($products)!!}');
         var added_products = [];
         // begin table
+
+        table.DataTable({
+            responsive: true,
+
+            // DOM Layout settings
+            dom: `<'row'<'col-sm-12'tr>>
+			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+
+            lengthMenu: [5, 10, 25, 50],
+
+            pageLength: 10,
+
+            language: {
+                'lengthMenu': 'Display _MENU_',
+            },
+
+            data: {!! $command_products !!},
+
+            // Order settings
+            order: [[1, 'asc']],
+
+            headerCallback: function (thead, data, start, end, display) {
+                thead.getElementsByTagName('th')[0].innerHTML = `
+                    <label class="checkbox checkbox-single">
+                        <input type="checkbox" value="" class="group-checkable"/>
+                        <span></span>
+                    </label>`;
+            },
+
+            columns: [
+                {
+                    data: null,
+                    width: '30px',
+                    className: 'dt-left',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `
+                        <label class="checkbox checkbox-single">
+                            <input type="checkbox" name="ids[]" value="` + row.id + `" class="checkable"/>
+                            <span></span>
+                        </label>`;
+                    },
+                },
+                {
+                    data: "id",
+                    width: '30px',
+                },
+                {
+                    data: 'product.name',
+                },
+                {
+                    data: 'price',
+                },
+                {
+                    data: 'quantity',
+                },
+                {
+                    data: 'amount',
+                },
+                {
+                    data: null,
+                    title: 'Return Quantity',
+                    orderable: false,
+                    width: '175px',
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        return ' <div class="form-group col-sm-12 col-md-12"> \
+                             <input type="text" name="name" value="{{old('name')}}" autocomplete="family-name" \
+                             class="form-control form-control-solid" placeholder="Quantity" required/> \
+                             </div> \
+                            ';
+                    },
+                },
+            ],
+        });
 
         table.on('change', '.group-checkable', function () {
             var set = $(this).closest('table').find('td:first-child .checkable');
@@ -179,7 +254,7 @@
                 },
                 data: {
                     products: added_products,
-                    client_id: '{{$client->id}}'
+
                 },
                 dataType: "json",
                 success: function (data) {
@@ -304,7 +379,7 @@
                             <th>Prix Unitaire</th>
                             <th>Quantité</th>
                             <th>Montant</th>
-                            <th>Opreation</th>
+                            <th>Return Quantity</th>
 
                         </tr>
                         </thead>
