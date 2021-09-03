@@ -87,7 +87,7 @@
                         </a>\
                         @canany(['edit-command','delete-command'])
                                 @can('edit-command')
-                            <a href="dash/commands/' + row.id + '/return" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
+                            <a href="dash/commands/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
                                     <span class="svg-icon svg-icon-md">\
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -100,16 +100,14 @@
                                 </a>\
                             @endcan
                             @can('edit-command')
-                            <a href="dash/commands/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
-                                    <span class="svg-icon svg-icon-md">\
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
-                                                <rect x="0" y="0" width="24" height="24"/>\
-                                                <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero"\ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>\
-                                                <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>\
-                                            </g>\
-                                        </svg>\
-                                    </span>\
+                            <a href="dash/commands/' + row.id + '/viewInvoice" class="btn btn-sm btn-clean btn-icon mr-2" title="print">\
+                                   <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Devices/Printer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                        <rect x="0" y="0" width="24" height="24"/>\
+                                        <path d="M16,17 L16,21 C16,21.5522847 15.5522847,22 15,22 L9,22 C8.44771525,22 8,21.5522847 8,21 L8,17 L5,17 C3.8954305,17 3,16.1045695 3,15 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,15 C21,16.1045695 20.1045695,17 19,17 L16,17 Z M17.5,11 C18.3284271,11 19,10.3284271 19,9.5 C19,8.67157288 18.3284271,8 17.5,8 C16.6715729,8 16,8.67157288 16,9.5 C16,10.3284271 16.6715729,11 17.5,11 Z M10,14 L10,20 L14,20 L14,14 L10,14 Z" fill="#000000"/>\
+                                        <rect fill="#000000" opacity="0.3" x="8" y="2" width="8" height="2" rx="1"/>\
+                                    </g>\
+                                </svg><!--end::Svg Icon--></span>\
                                 </a>\
                             @endcan
                             @can('delete-command')
@@ -167,8 +165,8 @@
             var user_name = $(e.relatedTarget).data('user_name');
 
             //populate the textbox
-            $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete the user ' + user_name + ' ?');
-            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + user_id);
+            $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete this command ' + user_name + ' ?');
+            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + command_id/+"destroy");
         });
 
         //delete multi modal

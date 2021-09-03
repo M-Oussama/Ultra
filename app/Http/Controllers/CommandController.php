@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ChiffreEnLettre;
 use App\Models\Command;
 use App\Models\CommandProduct;
 use App\Models\product;
@@ -62,14 +63,87 @@ class CommandController extends Controller
 
         return response()->json(["success"=>true]);
     }
-    public function createCommandReturn($id){
-        $commands = Command::find($id);
+    public function edit($command_id){
+        $commands = Command::find($command_id);
         $products = product::all();
-        $command_products = CommandProduct::with('product')->get();
-        return view('dashboard.commands.create_return_command')
+        $command_products = CommandProduct::where('command_id',$command_id)->get();
+       // return response()->json(["data"=>$command_products]);
+        return view('dashboard.commands.edit_client_command')
             ->with('commands',$commands)
             ->with('command_products',$command_products)
             ->with('products',$products);
 
     }
+
+    public function update(Request $request,$command_id)
+    {
+        $products = $request->products;
+        $commandProducts = CommandProduct::where('command_id',$command_id)->get();
+        $amount = 0;
+        $command = Command::find($command_id);
+
+       foreach ($commandProducts as $commandProduct)
+            $commandProduct->delete();
+
+        foreach ($products as $product){
+        $command_product = new CommandProduct();
+        $command_product->command_id = $command_id;
+        $command_product->product_id = $product['id'];
+        $command_product->price = $product['price'];
+        $command_product->quantity = $product['quantity'];
+        $command_product->amount = $product['amount'];
+        $command_product->save();
+        $amount += $product['amount'];
+        }
+        $command->amount = $amount;
+        $command->save();
+
+
+        return response()->json(["success"=>true]);
+    }
+
+    public function destroy($command_id){
+        $command = Command::find($command_id);
+        $commandProducts = CommandProduct::where('command_id',$command_id)->get();
+
+        foreach ($commandProducts as $commandProduct)
+            $commandProduct->delete();
+
+        $command->delete();
+
+    }
+    function isDecimal( $val )
+    {
+        return is_numeric( $val ) && floor( $val ) != $val;
+    }
+    public function viewInvoice($command_id){
+        $command = Command::find($command_id);
+        $lettre =new ChiffreEnLettre();
+
+        $commandProducts = CommandProduct::where('command_id',$command_id)->get();
+
+        if($this->isDecimal($command->amount)){
+            list($int, $float) = explode('.',  $command->amount);
+            $amountLetter =  $lettre->Conversion($int)." Dinar(s)";
+            $centime = "";
+            if($float>0){
+                $centime =  $lettre->Conversion($float)." Cts";
+            }
+            $amountLetter .= $amountLetter.$centime;
+        }else{
+            $amountLetter =  $lettre->Conversion( $command->amount)."Dinar(s)";
+
+        }
+
+
+
+
+
+
+
+      //  return response()->json((["data"=>$amountLetter]));
+
+        return view('invoice')->with((["amountLetter"=>$amountLetter,"commandProducts"=>$commandProducts, "command"=>$command]));
+    }
+
 }
