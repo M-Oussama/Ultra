@@ -50,7 +50,7 @@ class SupplierController extends Controller
         $supplier->surname = $request->surname;
         $supplier->email = $request->email;
        // $supplier->phone = $request->phone;
-        $supplier->type_id = $request->type;
+        $supplier->type_id = 1;
         $supplier->debt = $request->debt;
         $supplier->save();
 
@@ -101,7 +101,7 @@ class SupplierController extends Controller
             $supplier->surname = $request->surname;
             $supplier->email = $request->email;
             $supplier->sold = $request->sold;
-            $supplier->type_id = $request->type;
+            $supplier->type_id = 1;
             $supplier->NRC = $request->nrc;
             $supplier->NIF = $request->nif;
             $supplier->NART = $request->nart;

@@ -3,6 +3,9 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 <head>
+    <title>
+        Facture
+    </title>
     <style>
         #invoice{
             padding: 30px;
@@ -230,17 +233,28 @@
                 <div class="row contacts">
                     <div class="col invoice-to">
                         <div class="text-gray-light">Doit:</div>
-                        <h2 class="to">John Doe</h2>
-                        <div class="address">03 RUE MOHAMED DRARENI HYDRA</div>
+                        <h2 class="to">{{$command->client->name}}</h2>
+{{--                        <div class="address">03 RUE MOHAMED DRARENI HYDRA</div>--}}
+                        <div class="address">{{$command->client->email}}</div>
                         <div class="address">ALGER-ALGERIE</div>
-                        <div class="address">NIF: 054512151214512</div>
-                        <div class="address">RC: 01/4545151451B19</div>
+                        @if($command->client->NRC)
+                        <div class="address">NRC: {{$command->client->NRC}}</div>
+                        @endif
+                        @if($command->client->NIF)
+                            <div class="address">NIF: {{$command->client->NIF}}</div>
+                        @endif
+                        @if($command->client->NART)
+                            <div class="address">NART: {{$command->client->NART}}</div>
+                        @endif
+                        @if($command->client->NIS)
+                            <div class="address">NIS: {{$command->client->NIS}}</div>
+                        @endif
 
                     </div>
                     <div class="col invoice-details">
                         <h1 class="invoice-id">Facture N° {{$command->id}}/{{date('Y')}}
                         </h1>
-                        <div class="date">ALGER LE: {{$command->date}}</div>
+                        <div class="date">ALGER LE: {{date("d/m/Y", strtotime($command->date))}}</div>
                     </div>
                 </div>
                 <table border="0" cellspacing="0" cellpadding="0">

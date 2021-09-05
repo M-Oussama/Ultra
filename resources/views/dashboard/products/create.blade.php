@@ -93,14 +93,14 @@
                                 <span class="form-text text-muted">Please enter the Quantity</span>
                             </div>
 
-                            <div class="form-group col-sm-12 col-md-12">
-                                <label>Choose a Type : </label>
-                                <select class="form-control" id="kt_select2_1" name="type">
-                                    @foreach($types as $type)
-                                        <option value="{{$type->id}}">{{$type->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+{{--                            <div class="form-group col-sm-12 col-md-12">--}}
+{{--                                <label>Choose a Type : </label>--}}
+{{--                                <select class="form-control" id="kt_select2_1" name="type">--}}
+{{--                                    @foreach($types as $type)--}}
+{{--                                        <option value="{{$type->id}}">{{$type->name}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
                         </div>
 
                     </div>

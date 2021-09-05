@@ -20,7 +20,8 @@ class CommandSeeder extends Seeder
             'list-command',
             'create-command',
             'edit-command',
-            'delete-command'
+            'delete-command',
+            'create-command-admin'
         ];
 
         foreach ($permissions as $permission) {
@@ -77,7 +78,7 @@ class CommandSeeder extends Seeder
         $users_create->order = 2;
         $users_create->icon = 'flaticon-layers';
         $users_create->isSection = false;
-        $users_create->permissions = 'create-command';
+        $users_create->permissions = 'create-command-admin';
         $users_create->save();
 
         $users_edit = new Menu();

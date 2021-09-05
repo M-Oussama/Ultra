@@ -121,9 +121,9 @@ class CommandController extends Controller
         $lettre =new ChiffreEnLettre();
 
         $commandProducts = CommandProduct::where('command_id',$command_id)->get();
-
-        if($this->isDecimal($command->amount)){
-            list($int, $float) = explode('.',  $command->amount);
+        $amountTax = $command->amount*1.19;
+        if($this->isDecimal($amountTax)){
+            list($int, $float) = explode('.',  $amountTax);
             $amountLetter =  $lettre->Conversion($int)." Dinar(s)";
             $centime = "";
             if($float>0){
@@ -131,19 +131,10 @@ class CommandController extends Controller
             }
             $amountLetter .= $amountLetter.$centime;
         }else{
-            $amountLetter =  $lettre->Conversion( $command->amount)."Dinar(s)";
+            $amountLetter =  $lettre->Conversion($amountTax)."Dinar(s)";
 
         }
-
-
-
-
-
-
-
-      //  return response()->json((["data"=>$amountLetter]));
-
-        return view('invoice')->with((["amountLetter"=>$amountLetter,"commandProducts"=>$commandProducts, "command"=>$command]));
+         return view('invoice')->with((["amountLetter"=>$amountLetter,"commandProducts"=>$commandProducts, "command"=>$command]));
     }
 
 }
