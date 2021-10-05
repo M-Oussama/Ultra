@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product->barcode = $request->barcode;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
-        $product->type_id = 1;
+        $product->type_id = $request->type;
         $product->save();
 
         if (!empty($request->avatar)) {
@@ -114,7 +114,7 @@ class ProductController extends Controller
             $product->barcode = $request->barcode;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
-            $product->type_id = 1;
+            $product->type_id = $request->type;
             $product->save();
 
             if (!empty($request->avatar)) {

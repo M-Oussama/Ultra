@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('page_meta')
-    <title>Create Command For</title>
+    <title>Edit Command </title>
     <meta name="keywords" content="Rozaric"/>
     <meta name="description" content="Rozaric">
     <meta name="author" content="Rozaric">
@@ -15,20 +15,31 @@
 
 @section('scripts')
     <!-- Page scripts -->
+
     <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
     <script>
+        var row_id = 1;
         var table = $('#kt_datatable');
         var products =  JSON.parse('{!!  json_encode($products)!!}');
+        var command_products = JSON.parse('{!!  json_encode($command_products)!!}');
         var added_products = [];
-
+        console.log(command_products);
+        var command_id = command_products[0].command_id;
         $('#kt_datatable').DataTable({
             "createdRow": function (row, data, dataIndex) {
-                var rowID = "row_" + data[1];
-                $(row).attr('id', rowID);
+                 var rowID = "row_" + data[1];
+                 $(row).attr('id', rowID);
             }
         });
         // begin table
+        fillTable();
 
+        function fillTable(){
+            console.log(command_products);
+            $.each(command_products, function(key,value) {
+                _addProduct(value);
+            });
+        }
         table.on('change', '.group-checkable', function () {
             var set = $(this).closest('table').find('td:first-child .checkable');
             var checked = $(this).is(':checked');
@@ -54,16 +65,33 @@
                 groupcheck.prop('checked', true);
             }
         });
+        function deleteRow(rowID){
+
+
+            table.DataTable().row('#row_'+rowID).remove().draw();
+            added_products.splice(getProductID(rowID), 1);
+            console.log(rowID);
+        }
+
+        function getProductID(rowID){
+            for (let i = 0; i <added_products.length ; i++) {
+                if(rowID == added_products[i].id)
+                    return i;
+            }
+            return null;
+        }
 
         //delete modal
         $('#deleteModal').on('show.bs.modal', function (e) {
             //get data-id attribute of the clicked element
-            var user_id = $(e.relatedTarget).data('user_id');
-            var user_name = $(e.relatedTarget).data('user_name');
+            var command_id = $(e.relatedTarget).data('command_id');
+            var rowID = $(e.relatedTarget).data('row_id');
+            var product_name = $(e.relatedTarget).data('product_name');
 
             //populate the textbox
-            $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete the user ' + user_name + ' ?');
-            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + user_id);
+            $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete this product ' + product_name + ' ?');
+            // $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + user_id);
+
         });
 
         //delete multi modal
@@ -108,20 +136,15 @@
             $('#product_price').val(product['price']);
             $('#product_quantity').val(product['quantity']);
 
-        }
-        function deleteRow(rowID){
 
 
-            table.DataTable().row('#row_'+rowID).remove().draw();
-            added_products.splice(getProductID(rowID), 1);
-            console.log(rowID);
+
         }
         var id = 1;
         function addProduct(){
 
             if(!productExists(product)){
-
-
+                console.log(product);
                 price = $('#product_price').val();
                 quantity = $('#product_quantity').val();
 
@@ -133,14 +156,15 @@
                 added_products.push(product);
                 $('#kt_datatable').DataTable().row.add([
                     ' <label class="checkbox checkbox-single">' +
-                    '                            <input type="checkbox" name="ids[]" value="' + product['id']+ '" class="checkable"/>' +
+                    '                            <input type="checkbox" name="ids[]" value="' + product.id+ '" class="checkable"/>' +
                     '                            <span></span>' +
                     '                        </label>',
-                    id,
+                    product.id,
                     product['name'],
                     price,
                     quantity,
                     montant,
+
                     '<span onclick="deleteRow('+product.id+')" class="btn btn-sm btn-clean btn-icon" title="Delete">'+
                     '<span class="svg-icon svg-icon-md">'+
                     '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'+
@@ -163,7 +187,50 @@
 
         }
 
+        function _addProduct(command){
+
+            if(!productExists(command.product)){
+
+                console.log(command.product);
+
+                var amount = parseFloat(command.price)* parseFloat(command.quantity);
+                command.product.quantity = command.quantity;
+                command.product.amount = amount;
+                added_products.push(command.product);
+                $('#kt_datatable').DataTable().row.add([
+                    ' <label class="checkbox checkbox-single">' +
+                    '                            <input type="checkbox" name="ids[]" value="' + command.product.id+ '" class="checkable"/>' +
+                    '                            <span></span>' +
+                    '                        </label>',
+                    command.product.id,
+                    command.product.name,
+                    command.price,
+                    command.quantity,
+                    amount,
+                    '<span onclick="deleteRow('+command.product.id+')" class="btn btn-sm btn-clean btn-icon" title="Delete">'+
+                    '<span class="svg-icon svg-icon-md">'+
+                    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'+
+                    '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'+
+                    '<rect x="0" y="0" width="24" height="24"/>'+
+                    '<path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"/>'+
+                    '<path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>'+
+                    '</g>'+
+                    '</svg>'+
+                    '</span>'+
+                    '</span>'
+                    ,
+
+                ]).draw();
+                id++;
+                console.log("clicked");
+
+            }
+            //$("#addProduct").modal('toggle');
+
+        }
+
         $('#saveCommand').on('click',function () {
+            $("#saveModal").modal('toggle');
             KTApp.blockPage({
                 overlayColor: '#000000',
                 opacity: 0.1,
@@ -171,7 +238,7 @@
                 state: 'danger',
                 message: 'please wait...'
             });
-            var token = $('meta[name="csrf-token"]').attr('content');
+            var token =  '{{csrf_token()}}';
 
             $.ajaxSetup({
                 headers: {
@@ -180,17 +247,20 @@
             });
             $.ajax({
                 type: "POST",
-                url: "dash/commands/store",
+                url: "dash/commands/"+command_id+"/update",
                 header:{
                     'X-CSRF-TOKEN': token
                 },
-                data: {
-                    products: added_products,
-                    client_id: '{{$client->id}}'
-                },
+                data: {products: added_products},
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     window.location.href = "{{URL('dash/commands')}}";
+
+
+                },
+                error: function(error){
+                    console.log(error);
                 }
             });
 
@@ -309,7 +379,7 @@
                             <th>Prix Unitaire</th>
                             <th>Quantité</th>
                             <th>Montant</th>
-                            <th>Opreation</th>
+                            <th>Return Quantity</th>
 
                         </tr>
                         </thead>
@@ -373,7 +443,7 @@
                             <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
                                 Close
                             </button>
-                            <button type="submit" class="btn btn-danger font-weight-bold">Delete</button>
+                            <button type="button" class="btn btn-danger font-weight-bold">Delete</button>
                         </div>
                     </div>
                 </form>

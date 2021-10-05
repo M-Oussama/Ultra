@@ -1,0 +1,425 @@
+@extends('layouts.dashboard')
+
+@section('page_meta')
+    <title>Monthly Profit</title>
+    <meta name="keywords" content="Rozaric"/>
+    <meta name="description" content="Rozaric">
+    <meta name="author" content="Rozaric">
+@endsection
+
+@section('styles')
+    <!-- Page styles -->
+@endsection
+
+@section('scripts')
+    <!-- Page scripts -->
+    <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script>
+        var table = $('#kt_datatable');
+
+        var months =  JSON.parse('{!!  json_encode($months)!!}');
+
+        // begin table
+        table.DataTable({
+            responsive: true,
+
+            // DOM Layout settings
+            dom: `<'row'<'col-sm-12'tr>>
+			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+
+            lengthMenu: [5, 10, 25, 50],
+
+            pageLength: 10,
+
+            language: {
+                'lengthMenu': 'Display _MENU_',
+            },
+
+            data: {!! $monthlyProfits !!},
+
+            // Order settings
+            order: [[1, 'asc']],
+
+            headerCallback: function (thead, data, start, end, display) {
+                thead.getElementsByTagName('th')[0].innerHTML = `
+                    <label class="checkbox checkbox-single">
+                        <input type="checkbox" value="" class="group-checkable"/>
+                        <span></span>
+                    </label>`;
+            },
+
+            columns: [
+                {
+                    data: null,
+                    width: '30px',
+                    className: 'dt-left',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `
+                        <label class="checkbox checkbox-single">
+                            <input type="checkbox" name="ids[]" value="` + row.id + `" class="checkable"/>
+                            <span></span>
+                        </label>`;
+                    },
+                },
+                {
+                    data: "id",
+                    width: '30px',
+                },
+                {
+                    data: 'month',
+                    render: function (data, type, row) {
+                        return "<span>"+ months[data-1] +"</span>"
+                    }
+                },
+                {
+                    data: 'year',
+                },
+                {
+                    data: 'profit',
+                },
+                {
+                    data: null,
+                    title: 'Actions',
+                    orderable: false,
+                    width: '175px',
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        return '\
+                        \
+                        @canany(['edit-command','delete-command'])
+                                @can('edit-command')
+                            <a href="dash/monthlyProfit/' + row.id + '/show" class="btn btn-sm btn-clean btn-icon mr-2" title="Show" target="_target">\
+                                   <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Home/Book-open.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                <rect x="0" y="0" width="24" height="24"/>\
+                                <path d="M13.6855025,18.7082217 C15.9113859,17.8189707 18.682885,17.2495635 22,17 C22,16.9325178 22,13.1012863 22,5.50630526 L21.9999762,5.50630526 C21.9999762,5.23017604 21.7761292,5.00632908 21.5,5.00632908 C21.4957817,5.00632908 21.4915635,5.00638247 21.4873465,5.00648922 C18.658231,5.07811173 15.8291155,5.74261533 13,7 C13,7.04449645 13,10.79246 13,18.2438906 L12.9999854,18.2438906 C12.9999854,18.520041 13.2238496,18.7439052 13.5,18.7439052 C13.5635398,18.7439052 13.6264972,18.7317946 13.6855025,18.7082217 Z" fill="#000000"/>\
+                                <path d="M10.3144829,18.7082217 C8.08859955,17.8189707 5.31710038,17.2495635 1.99998542,17 C1.99998542,16.9325178 1.99998542,13.1012863 1.99998542,5.50630526 L2.00000925,5.50630526 C2.00000925,5.23017604 2.22385621,5.00632908 2.49998542,5.00632908 C2.50420375,5.00632908 2.5084219,5.00638247 2.51263888,5.00648922 C5.34175439,5.07811173 8.17086991,5.74261533 10.9999854,7 C10.9999854,7.04449645 10.9999854,10.79246 10.9999854,18.2438906 L11,18.2438906 C11,18.520041 10.7761358,18.7439052 10.4999854,18.7439052 C10.4364457,18.7439052 10.3734882,18.7317946 10.3144829,18.7082217 Z" fill="#000000" opacity="0.3"/>\
+                            </g>\
+                        </svg><!--end::Svg Icon--></span>\
+                                </a>\
+                            @endcan
+                                @can('edit-command')
+                            <a href="dash/monthlyProfit/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="print">\
+                                  <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Design/Edit.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                            <rect x="0" y="0" width="24" height="24"/>\
+                                            <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>\
+                                            <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>\
+                                        </g>\
+                                    </svg><!--end::Svg Icon--></span>\
+                                </a>\
+                            @endcan
+                                @can('delete-command')
+                            <a href="#" data-toggle="modal"  data-target="#deleteModal" data-user_id="' + row.id + '" data-user_name="' + row.name + '" class="btn btn-sm btn-clean btn-icon" title="Delete">\
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Home/Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                            <rect x="0" y="0" width="24" height="24"/>\
+                                            <path d="M6,8 L18,8 L17.106535,19.6150447 C17.04642,20.3965405 16.3947578,21 15.6109533,21 L8.38904671,21 C7.60524225,21 6.95358004,20.3965405 6.89346498,19.6150447 L6,8 Z M8,10 L8.45438229,14.0894406 L15.5517885,14.0339036 L16,10 L8,10 Z" fill="#000000" fill-rule="nonzero"/>\
+                                            <path d="M14,4.5 L14,3.5 C14,3.22385763 13.7761424,3 13.5,3 L10.5,3 C10.2238576,3 10,3.22385763 10,3.5 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>\
+                                        </g>\
+                                    </svg><!--end::Svg Icon--></span>\
+                                </a>\
+                            @endcan
+                                @else
+                            <i>No Actions Available </i>\
+@endcanany
+                            ';
+                    },
+                },
+            ],
+        });
+
+        table.on('change', '.group-checkable', function () {
+            var set = $(this).closest('table').find('td:first-child .checkable');
+            var checked = $(this).is(':checked');
+
+            $(set).each(function () {
+                if (checked) {
+                    $(this).prop('checked', true);
+                    $(this).closest('tr').addClass('active');
+                } else {
+                    $(this).prop('checked', false);
+                    $(this).closest('tr').removeClass('active');
+                }
+            });
+        });
+
+        table.on('change', 'tbody tr .checkbox', function () {
+            $(this).parents('tr').toggleClass('active');
+            var checkable = $('input[class=checkable]');
+            var groupcheck = $('input[class=group-checkable]');
+            if (checkable.not(':checked').length > 0) {
+                groupcheck.prop('checked', false);
+            } else {
+                groupcheck.prop('checked', true);
+            }
+        });
+
+        //delete modal
+        $('#deleteModal').on('show.bs.modal', function (e) {
+            //get data-id attribute of the clicked element
+            var user_id = $(e.relatedTarget).data('user_id');
+            var user_name = $(e.relatedTarget).data('user_name');
+
+            //populate the textbox
+            $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete this command ' + user_name + ' ?');
+            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + command_id/+"destroy");
+        });
+
+        //delete multi modal
+        $('#deleteMultiModal').on('show.bs.modal', function (e) {
+            $(e.currentTarget).find('#deleteMultiSubmit').click(function (eclick) {
+                eclick.preventDefault();
+                $('#deleteMultiForm').submit();
+            });
+        });
+
+
+
+        $('#kt_select2_1').select2();
+        $('#kt_select2_2').select2();
+
+
+    </script>
+@endsection
+
+@section('content')
+    <div class="container">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <div class="card-header flex-wrap py-3">
+                <div class="card-title">
+                    <h3 class="card-label">Monthly Data<span class="d-block text-muted pt-2 font-size-sm">Be careful</span>
+                    </h3>
+                </div>
+                <div class="card-toolbar">
+                    <!--begin::Dropdown-->
+                    @canany(['delete-command','list-command'])
+                        <div class="dropdown dropdown-inline mr-2">
+                            <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="svg-icon svg-icon-md">
+                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
+                                                fill="#000000"
+                                                opacity="0.3"
+                                            ></path>
+                                            <path
+                                                d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
+                                                fill="#000000"
+                                            ></path>
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
+                                Actions
+                            </button>
+                            <!--begin::Dropdown Menu-->
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                <!--begin::Navigation-->
+                                <ul class="navi flex-column navi-hover py-2">
+                                    <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">
+                                        Choose an action:
+                                    </li>
+                                    @can('delete-user')
+                                        <li class="navi-item">
+                                            <a href="#" data-toggle="modal" data-target="#deleteMultiModal"
+                                               class="navi-link">
+                                                <span class="navi-icon">
+                                                    <i class="la la-trash"></i>
+                                                </span>
+                                                <span class="navi-text">Delete</span>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                    @can('list-user')
+                                        <li class="navi-item">
+                                            <a href="dash/commands/export" class="navi-link">
+                                                <span class="navi-icon">
+                                                    <i class="la la-file-excel"></i>
+                                                </span>
+                                                <span class="navi-text">Export</span>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                                <!--end::Navigation-->
+                            </div>
+                            <!--end::Dropdown Menu-->
+                        </div>
+                    @endcanany
+                    <!--end::Dropdown-->
+                    <!--begin::Button-->
+                    @can('create-user')
+                        <a href="dash/monthlyProfit/create" class="btn btn-primary font-weight-bolder">
+                            <span class="svg-icon svg-icon-md">
+                                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"></rect>
+                                        <circle fill="#000000" cx="9" cy="15" r="6"></circle>
+                                        <path
+                                            d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
+                                            fill="#000000"
+                                            opacity="0.3"
+                                        ></path>
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                            Create
+                        </a>
+                    @endcan
+                    <!--end::Button-->
+                </div>
+            </div>
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-sm-4 col-md-4">
+                        <label>Choose a Client : </label>
+                        <select class="form-control " id="kt_select2_1" name="client_id" autocomplete="responsible" aria-hidden="true" tabindex="-1" data-select2-id="responsible_select">
+                            @foreach($clients  as $client)
+                                <option value="{{$client->id}}">{{$client->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-4 col-md-4">
+                        <label>Choose Month : </label>
+                        <select class="form-control" id="kt_select2_2" name="type">
+                            @for($i=0;$i<12; $i++)
+                                <option value="{{$i+1}}">{{$months[$i]}}</option>
+                            @endfor
+                        </select>
+                    </div>
+
+                </div>
+                <form id="deleteMultiForm" action="dash/commands/delete-multi" method="post">
+                @csrf
+                <!--begin: Datatable-->
+                    <table class="table table-bordered table-checkable" id="kt_datatable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID</th>
+                            <th>Month</th>
+                            <th>year</th>
+                            <th>Profit</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!--end: Datatable-->
+                </form>
+                <div class="card-footer">
+                    <div class="card-toolbar" style="float:right">
+                        <!--begin::Dropdown-->
+
+                    <!--end::Dropdown-->
+                        <!--begin::Button-->
+                        <button  class="btn btn-secondary font-weight-bolder text-grey" >
+                            <span class="svg-icon svg-icon-md">
+                                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"></rect>
+                                        <circle fill="#000000" cx="9" cy="15" r="6"></circle>
+                                        <path
+                                                d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
+                                                fill="#000000"
+                                                opacity="0.3"
+                                        ></path>
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                            Cancel
+                        </button>
+                            <button  class="btn btn-primary font-weight-bolder" id="saveData">
+                            <span class="svg-icon svg-icon-md">
+                                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"></rect>
+                                        <circle fill="#000000" cx="9" cy="15" r="6"></circle>
+                                        <path
+                                                d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
+                                                fill="#000000"
+                                                opacity="0.3"
+                                        ></path>
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                               Save
+                            </button>
+
+
+
+                    <!--end::Button-->
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <!--end::Card-->
+        <!-- start::delete modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <form id="deleteForm" action="dash/commands/{id}" method="post">
+                    @csrf
+                    @method('delete')
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to delete this user
+                                ?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-danger font-weight-bold">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- end::delete modal -->
+        <!-- start::delete multi modal -->
+        <div class="modal fade" id="deleteMultiModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to delete these commands
+                            ?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button id="deleteMultiSubmit" type="submit" class="btn btn-danger font-weight-bold">Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end::delete multi modal -->
+    </div>
+@endsection

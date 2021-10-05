@@ -1,12 +1,10 @@
 @extends('layouts.dashboard')
 
 @section('page_meta')
-    <title>Create Command For</title>
+    <title>Commands</title>
     <meta name="keywords" content="Rozaric"/>
     <meta name="description" content="Rozaric">
     <meta name="author" content="Rozaric">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
 @endsection
 
 @section('styles')
@@ -18,16 +16,121 @@
     <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
     <script>
         var table = $('#kt_datatable');
-        var products =  JSON.parse('{!!  json_encode($products)!!}');
-        var added_products = [];
 
-        $('#kt_datatable').DataTable({
-            "createdRow": function (row, data, dataIndex) {
-                var rowID = "row_" + data[1];
-                $(row).attr('id', rowID);
-            }
-        });
         // begin table
+        table.DataTable({
+            responsive: true,
+
+            // DOM Layout settings
+            dom: `<'row'<'col-sm-12'tr>>
+			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+
+            lengthMenu: [5, 10, 25, 50],
+
+            pageLength: 10,
+
+            language: {
+                'lengthMenu': 'Display _MENU_',
+            },
+
+            data: {!! $commands !!},
+
+            // Order settings
+            order: [[1, 'asc']],
+
+            headerCallback: function (thead, data, start, end, display) {
+                thead.getElementsByTagName('th')[0].innerHTML = `
+                    <label class="checkbox checkbox-single">
+                        <input type="checkbox" value="" class="group-checkable"/>
+                        <span></span>
+                    </label>`;
+            },
+
+            columns: [
+                {
+                    data: null,
+                    width: '30px',
+                    className: 'dt-left',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `
+                        <label class="checkbox checkbox-single">
+                            <input type="checkbox" name="ids[]" value="` + row.id + `" class="checkable"/>
+                            <span></span>
+                        </label>`;
+                    },
+                },
+                {
+                    data: "id",
+                    width: '30px',
+                },
+                {
+                    data: 'client.name',
+                },
+                {
+                    data: 'amount',
+                },
+                {
+                    data: 'date',
+                },
+                {
+                    data: null,
+                    title: 'Actions',
+                    orderable: false,
+                    width: '175px',
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        return '\
+                        \<a href="dash/commands/' + row.id + '/pdf" class="btn btn-sm btn-clean btn-icon" title="PDF">\
+                            <i class="far fa-file-pdf">\
+                            </i>\
+                        </a>\
+                        @canany(['edit-command','delete-command'])
+                                @can('edit-command')
+                            <a href="dash/commands/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
+                                    <span class="svg-icon svg-icon-md">\
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                                <rect x="0" y="0" width="24" height="24"/>\
+                                                <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero"\ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>\
+                                                <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>\
+                                            </g>\
+                                        </svg>\
+                                    </span>\
+                                </a>\
+                            @endcan
+                            @can('edit-command')
+                            <a href="dash/commands/' + row.id + '/viewInvoice" class="btn btn-sm btn-clean btn-icon mr-2" title="print">\
+                                   <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Devices/Printer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                        <rect x="0" y="0" width="24" height="24"/>\
+                                        <path d="M16,17 L16,21 C16,21.5522847 15.5522847,22 15,22 L9,22 C8.44771525,22 8,21.5522847 8,21 L8,17 L5,17 C3.8954305,17 3,16.1045695 3,15 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,15 C21,16.1045695 20.1045695,17 19,17 L16,17 Z M17.5,11 C18.3284271,11 19,10.3284271 19,9.5 C19,8.67157288 18.3284271,8 17.5,8 C16.6715729,8 16,8.67157288 16,9.5 C16,10.3284271 16.6715729,11 17.5,11 Z M10,14 L10,20 L14,20 L14,14 L10,14 Z" fill="#000000"/>\
+                                        <rect fill="#000000" opacity="0.3" x="8" y="2" width="8" height="2" rx="1"/>\
+                                    </g>\
+                                </svg><!--end::Svg Icon--></span>\
+                                </a>\
+                            @endcan
+                            @can('delete-command')
+                                <a href="#" data-toggle="modal"  data-target="#deleteModal" data-user_id="' + row.id + '" data-user_name="' + row.name + '" class="btn btn-sm btn-clean btn-icon" title="Delete">\
+                                    <span class="svg-icon svg-icon-md">\
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                                <rect x="0" y="0" width="24" height="24"/>\
+                                                <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"/>\
+                                                <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>\
+                                            </g>\
+                                        </svg>\
+                                    </span>\
+                                </a>\
+                            @endcan
+                        @else
+                                <i>No Actions Available </i>\
+                        @endcanany
+                        ';
+                    },
+                },
+            ],
+        });
 
         table.on('change', '.group-checkable', function () {
             var set = $(this).closest('table').find('td:first-child .checkable');
@@ -62,8 +165,8 @@
             var user_name = $(e.relatedTarget).data('user_name');
 
             //populate the textbox
-            $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete the user ' + user_name + ' ?');
-            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + user_id);
+            $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete this command ' + user_name + ' ?');
+            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + command_id/+"destroy");
         });
 
         //delete multi modal
@@ -73,129 +176,6 @@
                 $('#deleteMultiForm').submit();
             });
         });
-
-        function productExists(product){
-            for (let i = 0; i <Object.keys(added_products).length ; i++) {
-                if(added_products[i]['id'] == product['id'])
-                    return true;
-            }
-            return false;
-        }
-
-        $('#addProduct').on('show.bs.modal', function (e) {
-            if(products.length > 0){
-                findProduct(products[0].id);
-                $('#product_price').val(product['price']);
-                $('#product_quantity').val(product['quantity']);
-            }
-
-
-
-        });
-        var product ;
-        var price = 0;
-        var quantity = 0;
-        function findProduct(product_id){
-            for (let i = 0; i <Object.keys(products).length; i++) {
-                if(products[i].id == product_id){
-                    product = products[i];
-                }
-            }
-        }
-        function onProductSelected(){
-            var product_id = $('#kt_select2_product :selected').val();
-            findProduct(product_id);
-            $('#product_price').val(product['price']);
-            $('#product_quantity').val(product['quantity']);
-
-        }
-        function deleteRow(rowID){
-
-
-            table.DataTable().row('#row_'+rowID).remove().draw();
-            added_products.splice(getProductID(rowID), 1);
-            console.log(rowID);
-        }
-        var id = 1;
-        function addProduct(){
-
-            if(!productExists(product)){
-
-
-                price = $('#product_price').val();
-                quantity = $('#product_quantity').val();
-
-                var montant = price * quantity;
-
-                product['price'] = price;
-                product['quantity'] = quantity;
-                product['amount']  = montant;
-                added_products.push(product);
-                $('#kt_datatable').DataTable().row.add([
-                    ' <label class="checkbox checkbox-single">' +
-                    '                            <input type="checkbox" name="ids[]" value="' + product['id']+ '" class="checkable"/>' +
-                    '                            <span></span>' +
-                    '                        </label>',
-                    id,
-                    product['name'],
-                    price,
-                    quantity,
-                    montant,
-                    '<span onclick="deleteRow('+product.id+')" class="btn btn-sm btn-clean btn-icon" title="Delete">'+
-                    '<span class="svg-icon svg-icon-md">'+
-                    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'+
-                    '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'+
-                    '<rect x="0" y="0" width="24" height="24"/>'+
-                    '<path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"/>'+
-                    '<path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>'+
-                    '</g>'+
-                    '</svg>'+
-                    '</span>'+
-                    '</span>'
-                    ,
-
-                ]).draw();
-                id++;
-                console.log("clicked");
-
-            }
-            $("#addProduct").modal('toggle');
-
-        }
-
-        $('#saveCommand').on('click',function () {
-            KTApp.blockPage({
-                overlayColor: '#000000',
-                opacity: 0.1,
-                size: 'lg',
-                state: 'danger',
-                message: 'please wait...'
-            });
-            var token = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: "POST",
-                url: "dash/commands/store",
-                header:{
-                    'X-CSRF-TOKEN': token
-                },
-                data: {
-                    products: added_products,
-                    client_id: '{{$client->id}}'
-                },
-                dataType: "json",
-                success: function (data) {
-                    window.location.href = "{{URL('dash/commands')}}";
-                }
-            });
-
-        });
-
     </script>
 @endsection
 
@@ -205,7 +185,7 @@
         <div class="card card-custom gutter-b">
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
-                    <h3 class="card-label">Commands <span class="d-block text-muted pt-2 font-size-sm">Be careful</span>
+                    <h3 class="card-label">commands <span class="d-block text-muted pt-2 font-size-sm">Be careful</span>
                     </h3>
                 </div>
                 <div class="card-toolbar">
@@ -271,8 +251,8 @@
                     @endcanany
                     <!--end::Dropdown-->
                     <!--begin::Button-->
-                    @can('create-command')
-                        <button id="new_product" data-toggle="modal"  data-target="#addProduct" class="btn btn-primary font-weight-bolder">
+                    @can('create-user')
+                        <a href="dash/commands/create" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -289,8 +269,8 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            New Product
-                        </button>
+                            New command
+                        </a>
                     @endcan
                     <!--end::Button-->
                 </div>
@@ -302,14 +282,15 @@
                     <table class="table table-bordered table-checkable" id="kt_datatable">
                         <thead>
                         <tr>
+                            <th>ID</th>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Operation</th>
 
-                            <th>ID</th>
-                            <th>ID</th>
-                            <th>Produit</th>
-                            <th>Prix Unitaire</th>
-                            <th>Quantité</th>
-                            <th>Montant</th>
-                            <th>Opreation</th>
+
+
 
                         </tr>
                         </thead>
@@ -319,44 +300,8 @@
                     <!--end: Datatable-->
                 </form>
             </div>
-
-            <div class="container mb-5" style="margin-right: -8%;">
-
-                <div class="col-lg-2 col-md-2 col-xs-2 float-right" >
-                    <button id="cancel_command" data-toggle="modal"  data-target="#cancel_command" class="btn btn-light-primary font-weight-bolder ">
-
-                        Cancel
-                    </button>
-                </div>
-
-                <div class="col-lg-1 col-md-1 col-xs-1 float-right" >
-                    <button id="save_command" data-toggle="modal"  data-target="#saveModal" class="btn btn-primary font-weight-bolder ">
-
-                        Save
-                    </button>
-                </div>
-            </div>
-
         </div>
         <!--end::Card-->
-        <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
-             aria-hidden="true" style="display: none;">
-            <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalFormTitle">Are you sure you want to save this command
-                                ?</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
-                                Close
-                            </button>
-                            <button id="saveCommand" class="btn btn-primary font-weight-bold">Save</button>
-                        </div>
-                    </div>
-            </div>
-        </div>
-
         <!-- start::delete modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
              aria-hidden="true" style="display: none;">
@@ -377,51 +322,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-        <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalFormTitle"
-             aria-hidden="true" style="display: none;">
-            <div class="modal-dialog" role="document">
-
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to delete this user
-                                ?</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group col-sm-12 col-md-12">
-                                <label>Product* :</label>
-                                <select class="form-control" id="kt_select2_product" name="product" onchange="onProductSelected()">
-                                    @foreach($products as $product)
-                                        <option value="{{$product->id}}" >{{$product->name}}</option>
-                                    @endforeach
-                                </select>
-                                <span class="form-text text-muted">Please enter the Product</span>
-                            </div>
-                            <div class="form-group col-sm-12 col-md-12">
-                                <label>Price* :</label>
-                                <input type="text" id="product_price" name="price" value="{{old('price')}}" autocomplete="given-name"
-                                       class="form-control form-control-solid" placeholder="Enter the Price"
-                                />
-                                <span class="form-text text-muted">Please enter the Price</span>
-                            </div>
-
-                            <div class="form-group col-sm-12 col-md-12">
-                                <label>Quantity* :</label>
-                                <input type="text" id="product_quantity" name="quantity" value="{{old('quantity')}}" autocomplete="given-name"
-                                       class="form-control form-control-solid" placeholder="Enter the Quantity"
-                                />
-                                <span class="form-text text-muted">Please enter the Quantity</span>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
-                                Close
-                            </button>
-                            <button class="btn btn-bg-primary font-weight-bolder text-white " onclick="addProduct()">Add</button>
-                        </div>
-                    </div>
-
             </div>
         </div>
         <!-- end::delete modal -->

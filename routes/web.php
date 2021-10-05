@@ -13,6 +13,8 @@ use \App\Http\Controllers\ProductController;
 use \App\Http\Controllers\SupplierController;
 use \App\Http\Controllers\ClientController;
 use \App\Http\Controllers\CommandController;
+use \App\Http\Controllers\MonthlyProfitController;
+use \App\Http\Controllers\CommandMPController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +88,8 @@ Route::get('dash/commands/{id}/edit', [CommandController::class, 'edit']);
 Route::post('dash/commands/{id}/update', [CommandController::class, 'update']);
 Route::post('dash/commands/{id}/destroy', [CommandController::class, 'destroy']);
 Route::get('dash/commands/{id}/viewInvoice', [CommandController::class, 'viewInvoice']);
+Route::post('dash/monthlyProfit/{client}/{month}/{year}/store', [MonthlyProfitController::class, 'store']);
+Route::get('dash/monthlyProfit/{id}/show', [MonthlyProfitController::class, 'show']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,
@@ -96,6 +100,8 @@ Route::resources([
     'dash/suppliers' => SupplierController::class,
     'dash/clients' => ClientController::class,
     'dash/commands' => CommandController::class,
+    'dash/CommandsMP' => CommandMPController::class,
+    'dash/monthlyProfit' => MonthlyProfitController::class,
 ]);
 
 /********************* Dashboard routes :: End **************************************/
