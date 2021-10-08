@@ -55,7 +55,7 @@ class CommandMPSeeder extends Seeder
         $product_index = new Menu();
         $product_index->menu_id = $product->id;
         $product_index->name = 'Commands MP';
-        $product_index->url = 'dash/CommandsMP';
+        $product_index->url = 'dash/commandsMP';
         $product_index->order = 3;
         $product_index->icon = 'flaticon-layers';
         $product_index->isSection = false;
@@ -65,7 +65,7 @@ class CommandMPSeeder extends Seeder
         $product_create = new Menu();
         $product_create->menu_id = $product->id;
         $product_create->name = 'Add Commands MP';
-        $product_create->url = 'dash/CommandsMP/create';
+        $product_create->url = 'dash/commandsMP/create';
         $product_create->order = 2;
         $product_create->icon = 'flaticon-layers';
         $product_create->isSection = false;
@@ -75,7 +75,7 @@ class CommandMPSeeder extends Seeder
         $product_edit = new Menu();
         $product_edit->menu_id = $product->id;
         $product_edit->name = 'Edit Commands MP';
-        $product_edit->url = 'dash/CommandsMP/*/edit';
+        $product_edit->url = 'dash/commandsMP/*/edit';
         $product_edit->order = 3;
         $product_edit->icon = 'flaticon-layers';
         $product_edit->isHidden = true;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\ChiffreEnLettre;
+
 use App\Models\Command;
 use App\Models\CommandProduct;
 use App\Models\product;
@@ -118,23 +119,28 @@ class CommandController extends Controller
     }
     public function viewInvoice($command_id){
         $command = Command::find($command_id);
-        $lettre =new ChiffreEnLettre();
 
         $commandProducts = CommandProduct::where('command_id',$command_id)->get();
-        $amountTax = $command->amount*1.19;
-        if($this->isDecimal($amountTax)){
-            list($int, $float) = explode('.',  $amountTax);
-            $amountLetter =  $lettre->Conversion($int)." Dinar(s)";
+
+         $amountLetterTTC = $this->ChifferToLetter($command->amount*1.19);
+         $amountLetter = $this->ChifferToLetter($command->amount);
+
+         return view('dashboard.commandsMP.invoice1')->with((["amountLetter"=>$amountLetter,"amountLetterTTC"=>$amountLetterTTC,"commandProducts"=>$commandProducts, "command"=>$command]));
+    }
+    public function ChifferToLetter($amount){
+        $lettre =new ChiffreEnLettre();
+        if($this->isDecimal($amount)){
+            list($int, $float) = explode('.',  $amount);
+            $amountLetter =  $lettre->Conversion($int)." Dinar(s) ";
             $centime = "";
             if($float>0){
                 $centime =  $lettre->Conversion($float)." Cts";
             }
-            $amountLetter .= $amountLetter.$centime;
+            $amountLetter .= "et".$amountLetter.$centime;
         }else{
-            $amountLetter =  $lettre->Conversion($amountTax)."Dinar(s)";
-
+            $amountLetter =  $lettre->Conversion($amount)."Dinar(s)";
         }
-         return view('invoice')->with((["amountLetter"=>$amountLetter,"commandProducts"=>$commandProducts, "command"=>$command]));
+        return $amountLetter;
     }
 
 }

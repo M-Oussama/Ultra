@@ -90,6 +90,7 @@ Route::post('dash/commands/{id}/destroy', [CommandController::class, 'destroy'])
 Route::get('dash/commands/{id}/viewInvoice', [CommandController::class, 'viewInvoice']);
 Route::post('dash/monthlyProfit/{client}/{month}/{year}/store', [MonthlyProfitController::class, 'store']);
 Route::get('dash/monthlyProfit/{id}/show', [MonthlyProfitController::class, 'show']);
+Route::get('dash/commandsMP/{commandID}/viewInvoice', [CommandController::class, 'viewInvoice']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,
@@ -100,7 +101,7 @@ Route::resources([
     'dash/suppliers' => SupplierController::class,
     'dash/clients' => ClientController::class,
     'dash/commands' => CommandController::class,
-    'dash/CommandsMP' => CommandMPController::class,
+    'dash/commandsMP' => CommandMPController::class,
     'dash/monthlyProfit' => MonthlyProfitController::class,
 ]);
 

@@ -22,6 +22,12 @@
         var added_products = [];
 
         $('#kt_datatable').DataTable({
+            responsive: true,
+            dom: `<'row'<'col-sm-12'tr>>
+			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10,
+
             "createdRow": function (row, data, dataIndex) {
                 var rowID = "row_" + data[1];
                 $(row).attr('id', rowID);
@@ -164,6 +170,7 @@
         }
 
         $('#saveCommand').on('click',function () {
+            $("#saveModal").modal('toggle');
             KTApp.blockPage({
                 overlayColor: '#000000',
                 opacity: 0.1,
@@ -186,7 +193,8 @@
                 },
                 data: {
                     products: added_products,
-                    client_id: '{{$client->id}}'
+                    client_id: $('#kt_select2_product').val()
+
                 },
                 dataType: "json",
                 success: function (data) {
@@ -296,9 +304,29 @@
                 </div>
             </div>
             <div class="card-body">
+                <div class="form-raw">
+                    <div class="col-md-12 d-flex">
+                        <div class="col-md-4">
+                            <div class="input-icon">
+                                <input type="text" class="form-control" placeholder="بحث..." id="search">
+                                <span>
+                                        <i class="flaticon2-search-1 text-muted"></i>
+                                    </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="kt_select2_product" name="product" onchange="onProductSelected()">
+                                @foreach($clients as $client)
+                                    <option value="{{$client->id}}" >{{$client->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <form id="deleteMultiForm" action="dash/commands/delete-multi" method="post">
                 @csrf
                 <!--begin: Datatable-->
+
                     <table class="table table-bordered table-checkable" id="kt_datatable">
                         <thead>
                         <tr>

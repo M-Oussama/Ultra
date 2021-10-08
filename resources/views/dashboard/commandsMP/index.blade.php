@@ -81,13 +81,9 @@
                     className: 'text-center',
                     render: function (data, type, row) {
                         return '\
-                        \<a href="dash/commands/' + row.id + '/pdf" class="btn btn-sm btn-clean btn-icon" title="PDF">\
-                            <i class="far fa-file-pdf">\
-                            </i>\
-                        </a>\
                         @canany(['edit-command','delete-command'])
-                                @can('edit-command')
-                            <a href="dash/commands/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
+                            @can('edit-command')
+                            <a href="dash/commandsMP/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
                                     <span class="svg-icon svg-icon-md">\
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -99,19 +95,8 @@
                                     </span>\
                                 </a>\
                             @endcan
-                            @can('edit-command')
-                            <a href="dash/commands/' + row.id + '/viewInvoice" class="btn btn-sm btn-clean btn-icon mr-2" title="print">\
-                                   <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Devices/Printer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
-                                        <rect x="0" y="0" width="24" height="24"/>\
-                                        <path d="M16,17 L16,21 C16,21.5522847 15.5522847,22 15,22 L9,22 C8.44771525,22 8,21.5522847 8,21 L8,17 L5,17 C3.8954305,17 3,16.1045695 3,15 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,15 C21,16.1045695 20.1045695,17 19,17 L16,17 Z M17.5,11 C18.3284271,11 19,10.3284271 19,9.5 C19,8.67157288 18.3284271,8 17.5,8 C16.6715729,8 16,8.67157288 16,9.5 C16,10.3284271 16.6715729,11 17.5,11 Z M10,14 L10,20 L14,20 L14,14 L10,14 Z" fill="#000000"/>\
-                                        <rect fill="#000000" opacity="0.3" x="8" y="2" width="8" height="2" rx="1"/>\
-                                    </g>\
-                                </svg><!--end::Svg Icon--></span>\
-                                </a>\
-                            @endcan
-                            @can('delete-command')
-                                <a href="#" data-toggle="modal"  data-target="#deleteModal" data-user_id="' + row.id + '" data-user_name="' + row.name + '" class="btn btn-sm btn-clean btn-icon" title="Delete">\
+                                @can('delete-command')
+                            <a href="#" data-toggle="modal"  data-target="#deleteModal" data-user_id="' + row.id + '" data-user_name="' + row.name + '" class="btn btn-sm btn-clean btn-icon" title="Delete">\
                                     <span class="svg-icon svg-icon-md">\
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -121,6 +106,17 @@
                                             </g>\
                                         </svg>\
                                     </span>\
+                                </a>\
+                            @endcan
+                            @can('edit-commandMP')
+                            <a href="dash/commandsMP/' + row.id + '/viewInvoice" class="btn btn-sm btn-clean btn-icon mr-2" title="print">\
+                                   <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Devices/Printer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                        <rect x="0" y="0" width="24" height="24"/>\
+                                        <path d="M16,17 L16,21 C16,21.5522847 15.5522847,22 15,22 L9,22 C8.44771525,22 8,21.5522847 8,21 L8,17 L5,17 C3.8954305,17 3,16.1045695 3,15 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,15 C21,16.1045695 20.1045695,17 19,17 L16,17 Z M17.5,11 C18.3284271,11 19,10.3284271 19,9.5 C19,8.67157288 18.3284271,8 17.5,8 C16.6715729,8 16,8.67157288 16,9.5 C16,10.3284271 16.6715729,11 17.5,11 Z M10,14 L10,20 L14,20 L14,14 L10,14 Z" fill="#000000"/>\
+                                        <rect fill="#000000" opacity="0.3" x="8" y="2" width="8" height="2" rx="1"/>\
+                                    </g>\
+                                </svg><!--end::Svg Icon--></span>\
                                 </a>\
                             @endcan
                         @else
@@ -166,7 +162,7 @@
 
             //populate the textbox
             $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete this command ' + user_name + ' ?');
-            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + command_id/+"destroy");
+            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/CommandsMP/' + command_id/+"destroy");
         });
 
         //delete multi modal
@@ -235,7 +231,7 @@
                                     @endcan
                                     @can('list-user')
                                         <li class="navi-item">
-                                            <a href="dash/commands/export" class="navi-link">
+                                            <a href="dash/CommandsMP/export" class="navi-link">
                                                 <span class="navi-icon">
                                                     <i class="la la-file-excel"></i>
                                                 </span>
@@ -252,7 +248,7 @@
                     <!--end::Dropdown-->
                     <!--begin::Button-->
                     @can('create-user')
-                        <a href="dash/commands/create" class="btn btn-primary font-weight-bolder">
+                        <a href="dash/CommandsMP/create" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -276,7 +272,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form id="deleteMultiForm" action="dash/commands/delete-multi" method="post">
+                <form id="deleteMultiForm" action="dash/CommandsMP/delete-multi" method="post">
                 @csrf
                 <!--begin: Datatable-->
                     <table class="table table-bordered table-checkable" id="kt_datatable">
@@ -306,7 +302,7 @@
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
              aria-hidden="true" style="display: none;">
             <div class="modal-dialog" role="document">
-                <form id="deleteForm" action="dash/commands/{id}" method="post">
+                <form id="deleteForm" action="dash/CommandsMP/{id}" method="post">
                     @csrf
                     @method('delete')
                     <div class="modal-content">
