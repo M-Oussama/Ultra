@@ -214,10 +214,13 @@
     <div class="invoice overflow-auto" id="invoice_body">
         <div style="min-width: 600px">
             <header>
-                <div class="row">
+                <div class="row " >
+                    <img src="{{asset('assets/media/header.png')}}" style="width:100%" data-holder-rendered="true" width="200" height="200" />
+                </div>
+                <div class="row pl-5">
                     <div class="col">
                         <a  >
-                            <img src="{{asset('assets/media/logo.png')}}" data-holder-rendered="true" />
+                            <img src="{{asset('assets/media/logo.png')}}" data-holder-rendered="true"  width="200" height="200"  />
                         </a>
                         <div>SARL MULTI GLOBALE LOGISTIQUE</div>
                         <div>Villa N 32 Cooperatif Djable Falaoucen BMR</div>

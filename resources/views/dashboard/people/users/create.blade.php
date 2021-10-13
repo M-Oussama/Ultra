@@ -34,7 +34,7 @@
         var avatar = new KTImageInput('kt_avatar');
 
         //Select2
-                $('#kt_select2_1').select2();
+        $('#kt_select2_1').select2();
 
     </script>
 @endsection

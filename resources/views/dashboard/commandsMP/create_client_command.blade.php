@@ -17,6 +17,8 @@
     <!-- Page scripts -->
     <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
     <script>
+
+        $('#kt_select2_product2').select2();
         var table = $('#kt_datatable');
         var products =  JSON.parse('{!!  json_encode($products)!!}');
         var added_products = [];
@@ -109,7 +111,7 @@
             }
         }
         function onProductSelected(){
-            var product_id = $('#kt_select2_product :selected').val();
+            var product_id = $('#kt_select2_product2 :selected').val();
             findProduct(product_id);
             $('#product_price').val(product['price']);
             $('#product_quantity').val(product['quantity']);
@@ -413,17 +415,20 @@
 
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to delete this user
+                            <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to add this Product
                                 ?</h5>
                         </div>
                         <div class="modal-body">
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>Product* :</label>
-                                <select class="form-control" id="kt_select2_product" name="product" onchange="onProductSelected()">
-                                    @foreach($products as $product)
-                                        <option value="{{$product->id}}" >{{$product->name}}</option>
-                                    @endforeach
-                                </select>
+                                <div>
+                                    <select class="form-control" id="kt_select2_product2" name="product" onchange="onProductSelected()">
+                                        @foreach($products as $product)
+                                            <option value="{{$product->id}}" >{{$product->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <span class="form-text text-muted">Please enter the Product</span>
                             </div>
                             <div class="form-group col-sm-12 col-md-12">
