@@ -17,30 +17,27 @@
             color: #0071fd !important;
             font-size: 41px !important;
         }
+        .background-image{
+            background-color:green;
+            -webkit-print-color-adjust: exact !important;
+
+        }
+        *{ color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact; }
         @media print{
 
-            .table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
-                background-color: #B4C6E7 !important;
-                color: #fff !important;
+
+            body{
                 -webkit-print-color-adjust: exact;
             }
-            .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-
-                color: black !important;
-            }
-            .table-header{
-                background-color: #6b7ae0 !important;
-                color: #fff !important;
-
+            @page{
+                margin:0px;
             }
 
-           @page  {
 
-               margin: 0px;
-
-           }
             #print {
-                background-color:white;
+                background-color:green !important;
                 height: 100%;
                 width: auto;
                 border:none;
@@ -58,16 +55,10 @@
                 height:100% !important;
                 border:none;
             }
-
-            @page{
-                margin:0
-            }
             .print-section{
                 display:none !important;
             }
-            .table-striped tbody tr:nth-of-type(odd){
-                background-color: blue !important;
-            }
+
             #Generaldata{
                 margin-top:50px;
             }
@@ -87,18 +78,78 @@
 
             margin-top:15px
         }
-        .table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
-            background-color: #B4C6E7 !important;
-            color: #fff !important;
+        .background-image{
+            background-image: url('');
         }
-        .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
 
-            color: grey;
+        body{ padding: 30px; background-color: #D9D9D9; }
+
+        .pl-table{
+            border: 1px solid #dee2e6;
         }
-        .table-header{
-            background-color: #6b7ae0 !important;
-            color: #fff !important;
+        .pl-table .row {
+            margin: 5px 0;
+            padding: 0 20px;
+
+            align-items: center;
         }
+        .border-r{
+            border-right: 1px solid #dee2e6;
+        }
+        .border-b{
+            border-bottom: 1px solid #dee2e6;
+        }
+        .pl-table .col {
+            padding: .70rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            align-items: center;
+
+            text-align: center;
+            align-self: stretch;
+        }
+        .pl-table .pl-thead {
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 11px;
+            margin: 15px 0;
+        }
+        .pl-table .pl-thead.tall {
+            background-color: #0077f7;
+            margin: 0;
+            padding: 5px 0;
+            color: white;
+            text-transform: initial;
+        }
+        .pl-table .pl-thead.tall .col {
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            align-self: stretch;
+
+        }
+        .pl-table .pl-thead.tall .col:last-child {
+            border: none;
+        }
+        .pl-table .pl-thead.tall .col .large {
+            font-size: 21px;
+            color: #ffffff;
+        }
+        .pl-table .pl-tbody .row {
+            background-color: #ffffff;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            color: #979797;
+            font-size: 11px;
+        }
+        .pl-table .pl-tbody.scroll {
+            max-height: 100px;
+            overflow-x: scroll;
+        }
+        .col b{
+            font-size:16px;
+        }
+
     </style>
 @endsection
 
@@ -290,72 +341,63 @@
                     <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0 ml-10 mr-10">
                         <div class="col-md-12">
                             <div class="table-responsive ">
-                                <table class="table table-bordered ">
-                                    <thead>
-                                    <tr class="table-header">
-                                        <th class="text-center font-weight-bold text-uppercase">Paramètres D’analyse</th>
-                                        <th class="text-center font-weight-bold text-uppercase">Résultats</th>
-                                        <th class="text-center font-weight-bold text-uppercase">Méthodes</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="font-weight-boldest font-size-lg">
 
-                                        <td class="pt-7 text-center">Degré chlorométrique ch°</td>
-                                        <td class="pt-7 text-center">51.35</td>
-                                        <td class="pt-7 text-center">Titrimétrie</td>
+                                <div class="pl-table">
+                                <div class="pl-thead tall">
+                                    <div class="row ">
+                                        <div class="col"><b>Paramètres D’analyse</b></div>
+                                        <div class="col"><b>Résultats</b></div>
+                                        <div class="col"><b>Méthodes</b></div>
 
-                                    </tr>
+                                    </div>
+                                </div>
+                                <div class="pl-tbody">
+                                    <div class="row border-b">
+                                        <div class="col border-r"><b>Degré chlorométrique ch°</b></div>
+                                        <div class="col border-r"><b>51.35</b></div>
+                                        <div class="col"><b>Titrimétrie</b></div>
 
-                                    <tr class="font-weight-boldest font-size-lg">
+                                    </div>
+                                    <div class="row border-b">
+                                        <div class="col border-r"><b>Excès de soude NaOH</b></div>
+                                        <div class="col border-r"><b>08</b></div>
+                                        <div class="col"><b>Titrimétrie</b></div>
 
-                                        <td class="pt-7 text-center">Excès de soude NaOH</td>
-                                        <td class="pt-7 text-center">08</td>
-                                        <td class="pt-7 text-center">Titrimétrie</td>
+                                    </div>
+                                    <div class="row border-b">
+                                        <div class="col border-r"><b>Chlore actif</b></div>
+                                        <div class="col border-r"><b>160.5</b></div>
+                                        <div class="col"><b>Titrimétrie</b></div>
 
-                                    </tr>
-                                    <tr class="font-weight-boldest font-size-lg">
+                                    </div>
+                                    <div class="row border-b">
+                                        <div class="col border-r"><b>Fer (Fe) ppm</b></div>
+                                        <div class="col border-r"><b><0.02</b></div>
+                                        <div class="col"><b>Titrimétrie</b></div>
 
-                                        <td class="pt-7 text-center">Chlore actif</td>
-                                        <td class="pt-7 text-center">160.5</td>
-                                        <td class="pt-7 text-center">Titrimétrie</td>
+                                    </div>
+                                    <div class="row border-b">
+                                        <div class="col border-r"><b>Densité</b></div>
+                                        <div class="col border-r"><b>1.221</b></div>
+                                        <div class="col"><b>Densimètre</b></div>
 
-                                    </tr>
-                                    <tr class="font-weight-boldest font-size-lg">
+                                    </div>
+                                    <div class="row border-b">
+                                        <div class="col border-r"><b>Odeur</b></div>
+                                        <div class="col border-r"><b>Chlore</b></div>
+                                        <div class="col"></div>
 
-                                        <td class="pt-7 text-center">Fer (Fe) ppm</td>
-                                        <td class="pt-7 text-center"><0.02</td>
-                                        <td class="pt-7 text-center">Titrimétrie</td>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col border-r"><b>Aspect</b></div>
+                                        <div class="col border-r"><b>Jaunâtre</b></div>
+                                        <div class="col"><b>Inspection visuelle</b></div>
 
-                                    </tr>
-                                    <tr class="font-weight-boldest font-size-lg">
-
-                                        <td class="pt-7 text-center">Densité</td>
-                                        <td class="pt-7 text-center">1.221</td>
-                                        <td class="pt-7 text-center">Densimètre </td>
-
-                                    </tr>
-                                    <tr class="font-weight-boldest font-size-lg">
-
-                                        <td class="pt-7 text-center">Odeur</td>
-                                        <td class="pt-7 text-center">Chlore</td>
-                                        <td class="pt-7 text-center"></td>
-
-                                    </tr>
-                                    <tr class="font-weight-boldest font-size-lg">
-
-                                        <td class="pt-7 text-center">Aspect</td>
-                                        <td class="pt-7 text-center">Jaunâtre</td>
-                                        <td class="pt-7 text-center">Inspection visuelle</td>
-
-                                    </tr>
+                                    </div>
+                                </div>
+                            </div>
 
 
-
-
-
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
