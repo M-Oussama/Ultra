@@ -180,6 +180,8 @@
 
                 ]).draw();
                 id++;
+                calculateAmount(montant);
+                updateAmount();
                 console.log("clicked");
 
             }
@@ -222,6 +224,7 @@
 
                 ]).draw();
                 id++;
+
                 console.log("clicked");
 
             }
@@ -266,6 +269,23 @@
 
         });
 
+        var montant_ht = 0;
+        var tva = 0;
+        var montant_ttc = 0;
+        $('#ht').text(montant_ht);
+        $('#tva').text(tva);
+        $('#ttc').text(montant_ttc);
+
+        function calculateAmount(amount){
+            montant_ht+= amount;
+            tva = montant_ht*0.19;
+            montant_ttc = montant_ht*1.19;
+        }
+        function updateAmount(){
+            $('#ht').text(montant_ht);
+            $('#tva').text(tva);
+            $('#ttc').text(montant_ttc);
+        }
     </script>
 @endsection
 
@@ -388,6 +408,41 @@
                     </table>
                     <!--end: Datatable-->
                 </form>
+            </div>
+
+            <div class="row justify-content-center  py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-right flex-column flex-md-row font-size-lg" style="float:right">
+
+                        <div class="table-responsive ">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td class="text-center font-weight-bold  text-uppercase">MONTANT HT</td>
+                                    <td id="ht" class="text-center font-weight-bold  text-uppercase">{{number_format($command->amount, 2, ',', ' ')}} DA </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center font-weight-bold  text-uppercase">TVA 19%</td>
+                                    <td id="tva" class="text-center font-weight-bold  text-uppercase">{{number_format($command->amount*0.19, 2, ',', ' ')}} DA </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center font-weight-bold  text-uppercase">MONTANT TTC</td>
+                                    <td id="ttc" class="text-center font-weight-bold  text-uppercase">{{number_format($command->amount*1.19, 2, ',', ' ')}} DA </td>
+
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+                            <span class="text-center">La Facture est arrêté à : {{$amountLetterTTC}}</span>
+
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="container mb-5" style="margin-right: -8%;">

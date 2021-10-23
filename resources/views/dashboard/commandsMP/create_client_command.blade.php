@@ -117,19 +117,25 @@
             $('#product_quantity').val(product['quantity']);
 
         }
-        function deleteRow(rowID){
+        function getProductIndex(id){
+            $.each(added_products, function (value,index) {
+                if(id === value.id)
+                    return index;
+            });
+        }
+        function deleteRow(id){
 
+          table.DataTable().row('#row_'+id).remove().draw();
+            added_products.splice(getProductIndex(id),1);
 
-            table.DataTable().row('#row_'+rowID).remove().draw();
-            added_products.splice(getProductID(rowID), 1);
-            console.log(rowID);
+            calculateAmount();
+            updateAmount();
+
         }
         var id = 1;
         function addProduct(){
 
             if(!productExists(product)){
-
-
                 price = $('#product_price').val();
                 quantity = $('#product_quantity').val();
 
@@ -164,6 +170,8 @@
 
                 ]).draw();
                 id++;
+                calculateAmount();
+                updateAmount();
                 console.log("clicked");
 
             }
@@ -205,7 +213,26 @@
             });
 
         });
+        var montant_ht = 0;
+        var tva = 0;
+        var montant_ttc = 0;
+        updateAmount();
 
+        function calculateAmount(){
+            montant_ht = 0;
+            $('#ht').text(montant_ht.toFixed(2)+ " DA");
+            $.each(added_products, function(index, value){
+                console.log(montant_ht);
+                montant_ht+=  value.price * value.quantity
+            });
+            tva = montant_ht*0.19;
+            montant_ttc = montant_ht*1.19;
+        }
+        function updateAmount(){
+            $('#ht').text(montant_ht.toFixed(2)+ " DA");
+            $('#tva').text(tva.toFixed(2)+ " DA");
+            $('#ttc').text(montant_ttc.toFixed(2)+ " DA");
+        }
     </script>
 @endsection
 
@@ -349,7 +376,40 @@
                     <!--end: Datatable-->
                 </form>
             </div>
+            <div class="row justify-content-center  py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-right flex-column flex-md-row font-size-lg" >
 
+                        <div class="table-responsive ">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td class="text-center font-weight-bold  text-uppercase">MONTANT HT</td>
+                                    <td id="ht" class="text-center font-weight-bold  text-uppercase"></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center font-weight-bold  text-uppercase">TVA 19%</td>
+                                    <td id="tva" class="text-center font-weight-bold  text-uppercase">{ </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center font-weight-bold  text-uppercase">MONTANT TTC</td>
+                                    <td id="ttc" class="text-center font-weight-bold  text-uppercase"> </td>
+
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container mb-5" style="margin-right: -8%;">
 
                 <div class="col-lg-2 col-md-2 col-xs-2 float-right" >
