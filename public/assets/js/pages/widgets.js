@@ -62,7 +62,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 45, 32, 70, 40]
             }],
             chart: {
@@ -193,7 +193,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 45, 32, 70, 40]
             }],
             chart: {
@@ -324,7 +324,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 45, 32, 70, 40]
             }],
             chart: {
@@ -457,7 +457,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [40, 40, 30, 30, 35, 35, 50]
             }],
             chart: {
@@ -593,7 +593,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [40, 40, 30, 30, 35, 35, 50]
             }],
             chart: {
@@ -729,7 +729,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [40, 40, 30, 30, 35, 35, 50]
             }],
             chart: {
@@ -863,7 +863,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [44, 55, 57, 56, 61, 58]
             }, {
                 name: 'Revenue',
@@ -979,7 +979,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [44, 55, 57, 56, 61, 58]
             }, {
                 name: 'Revenue',
@@ -1095,7 +1095,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 40, 40, 90, 90, 70, 70]
             }],
             chart: {
@@ -1229,7 +1229,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [60, 50, 80, 40, 100, 60]
             }, {
                 name: 'Revenue',
@@ -1360,7 +1360,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [40, 50, 65, 70, 50, 30]
             }, {
                 name: 'Revenue',
@@ -1479,7 +1479,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 type: 'bar',
                 stacked: true,
                 data: [40, 50, 65, 70, 50, 30]
@@ -1612,7 +1612,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 30, 50, 50, 35, 35]
             }, {
                 name: 'Revenue',
@@ -1758,7 +1758,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 30, 50, 50, 35, 35]
             }, {
                 name: 'Revenue',
@@ -1920,7 +1920,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [20, 30, 45, 35, 25]
             }, {
                 name: 'Revenue',
@@ -2048,7 +2048,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 45, 32, 70, 40, 40, 40]
             }],
             chart: {
@@ -2187,7 +2187,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 45, 32, 70, 40, 40, 40]
             }],
             chart: {
@@ -2335,7 +2335,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 45, 32, 70, 40, 40, 40]
             }],
             chart: {
@@ -2481,7 +2481,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [35, 65, 75, 55, 45, 60, 55]
             }, {
                 name: 'Revenue',
@@ -2611,7 +2611,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [35, 65, 75, 55, 45, 60, 55]
             }, {
                 name: 'Revenue',
@@ -2741,7 +2741,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [35, 65, 75, 55, 45, 60, 55]
             }, {
                 name: 'Revenue',
@@ -2871,7 +2871,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 25, 45, 30, 55, 55]
             }],
             chart: {
@@ -3059,7 +3059,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 30, 60, 25, 25, 40]
             }],
             chart: {
@@ -3270,7 +3270,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [30, 25, 45, 30, 55, 55]
             }],
             chart: {
@@ -3464,7 +3464,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [20, 22, 30, 28, 25, 26, 30, 28, 22, 24, 25, 35]
             }],
             chart: {
@@ -3616,7 +3616,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [10, 10, 20, 20, 12, 12]
             }],
             chart: {
@@ -3746,7 +3746,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [10, 15, 18, 14]
             }, {
                 name: 'Revenue',
@@ -3848,7 +3848,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [20, 20, 30, 15, 40, 30]
             }],
             chart: {
@@ -3984,7 +3984,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [10, 20, 20, 8]
             }],
             chart: {
@@ -4172,7 +4172,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [20, 20, 30, 15, 30, 30]
             }],
             chart: {
@@ -4307,7 +4307,7 @@ var KTWidgets = function () {
 
         var options = {
             series: [{
-                name: 'Net Profit',
+                name: 'Net profit',
                 data: [15, 25, 15, 40, 20, 50]
             }],
             chart: {

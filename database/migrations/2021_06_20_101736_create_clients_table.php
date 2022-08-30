@@ -25,6 +25,7 @@ class CreateClientsTable extends Migration
             $table->string('NIS')->nullable();
             $table->string('sold')->nullable();
             $table->string('type_id')->nullable();
+            $table->boolean('depositor')->default(0)->nullable();
             $table->timestamps();
         });
     }

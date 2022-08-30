@@ -117,7 +117,7 @@ var KTApexChartsDemo = function () {
 		const apexChart = "#chart_3";
 		var options = {
 			series: [{
-				name: 'Net Profit',
+				name: 'Net profit',
 				data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
 			}, {
 				name: 'Revenue',
