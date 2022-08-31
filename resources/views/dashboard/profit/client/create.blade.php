@@ -21,7 +21,8 @@
         var avatar = new KTImageInput('kt_avatar');
 
         //Select2
-                $('#kt_select2_1').select2();
+        $('#kt_select2_1').select2();
+        $('#kt_select2_2').select2();
         var Mprofit = 45;
 
         function calculateProfit(profit,quantity){
@@ -30,6 +31,23 @@
             $('#'+profit).val($('#'+quantity).val()*Mprofit);
         }
 
+
+        $('#kt_select2_1').change(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var client_id =  $('#kt_select2_2').val();
+            var month =  $('#kt_select2_1').val();
+            $.ajax({
+                url:'dash/profit/client/'+client_id+'/month/'+month,
+                type:'GET',
+                success:function (response) {
+                    console.log(response);  
+                }
+            });
+        });
     </script>
 @endsection
 
@@ -56,7 +74,7 @@
 
                         <div class="form-group col-sm-12 col-md-6">
                             <label>Choose a Client : </label>
-                            <select class="form-control" id="kt_select2_1" name="month">
+                            <select class="form-control" id="kt_select2_2" name="client">
                                @foreach($clients as $client)
                                     <option value="{{$client->id}}">{{$client->name}}</option>
                                 @endforeach

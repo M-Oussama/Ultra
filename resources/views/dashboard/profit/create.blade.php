@@ -47,6 +47,10 @@
                             </select>
                         </div>
 
+                        <div class="col-sm-12 col-md-12 row" style="margin-left: 34%;margin-bottom: 5%;">
+                            <h1 class="text-center">Dépositeur* :</h1>
+
+                        </div>
                         <div class="col-sm-12 col-md-12 row">
 
                             @foreach($products as $product)
@@ -58,13 +62,33 @@
                                 </div>
                                 <div class="form-group col-sm-12 col-md-6">
                                     <label>Profit* :</label>
-                                    <input type="text" name="profit_{{$product->id}}" value="{{old('profit')}}" autocomplete="given-name"
+                                    <input type="text" name="profit_depo_{{$product->id}}" value="{{old('profit')}}" autocomplete="given-name"
                                            class="form-control form-control-solid" placeholder="Enter Profit"
                                            required/>
                                     <span class="form-text text-muted">Please enter the Profit of the product</span>
                                 </div>
 
                             @endforeach
+                                <div class="col-sm-12 col-md-12 row" style="margin-left: 34%;margin-bottom: 5%;">
+                                    <h1 class="text-center">Camion* :</h1>
+
+                                </div>
+                            @foreach($products as $product)
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>Name* :</label>
+                                        <input type="text" name="product_id_{{$product->id}}" value="{{$product->name}}" autocomplete="family-name"
+                                               class="form-control form-control-solid" placeholder="Enter product's name" required disabled/>
+                                        <span class="form-text text-muted">Please enter the product's name</span>
+                                    </div>
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>Profit* :</label>
+                                        <input type="text" name="profit_camion_{{$product->id}}" value="{{old('profit')}}" autocomplete="given-name"
+                                               class="form-control form-control-solid" placeholder="Enter Profit"
+                                               required/>
+                                        <span class="form-text text-muted">Please enter the Profit of the product</span>
+                                    </div>
+
+                                @endforeach
 
 
 {{--                            <div class="form-group col-sm-12 col-md-12">--}}

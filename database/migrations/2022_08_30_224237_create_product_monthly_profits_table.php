@@ -18,6 +18,7 @@ class CreateProductMonthlyProfitsTable extends Migration
             $table->unsignedInteger('month')->nullable();
             $table->unsignedInteger('product_id')->nullable();
             $table->double('profit')->nullable();
+            $table->boolean('depositor')->default(0)->nullable();
             $table->timestamps();
         });
     }

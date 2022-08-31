@@ -89,6 +89,7 @@ Route::post('dash/commands/{id}/update', [CommandController::class, 'update']);
 Route::post('dash/commands/{id}/destroy', [CommandController::class, 'destroy']);
 Route::get('dash/commands/{id}/viewInvoice', [CommandController::class, 'viewInvoice']);
 Route::get('dash/profit/client/create', [ProfitController::class, 'createClientProfit']);
+Route::get('dash/profit/client/{client_id}/month/{month}', [ProfitController::class, 'getMonthlyProfit']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

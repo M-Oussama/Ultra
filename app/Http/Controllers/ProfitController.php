@@ -6,12 +6,14 @@ use App\Models\Client;
 use App\Models\MonthlyClientProfit;
 use App\Models\product;
 use App\Models\ProductMonthlyProfit;
+use App\Models\Profit;
 use Illuminate\Http\Request;
 
 class ProfitController extends Controller
 {
     public function index(){
-        return view('dashboard.profit.create');
+        $profits = Profit::all();
+        return view('dashboard.profit.index')->with('profits',$profits);
     }
     public function create(){
         $products = product::all();
@@ -22,16 +24,25 @@ class ProfitController extends Controller
         $products = product::all();
 
         foreach ($products as $product){
-           // return $request->input('product_id_'.$product->id);
             $object = new ProductMonthlyProfit();
-            $object->month = 1;
+            $object->month = $request->input('month');
             $object->product_id = $product->id;
-            $object->profit = $request->input('profit_'.$product->id);
+            $object->depositor = true;
+            $object->profit = $request->input('profit_depo_'.$product->id);
+            $object->save();
+        }
+
+        foreach ($products as $product){
+            $object = new ProductMonthlyProfit();
+            $object->month = $request->input('month');
+            $object->product_id = $product->id;
+            $object->depositor = false;
+            $object->profit = $request->input('profit_camion_'.$product->id);
             $object->save();
         }
 
 
-        return view('dashboard.profit.create')->with('products',$products);
+        return redirect('/dash/profit');
     }
 
     public function createClientProfit(){
@@ -55,6 +66,12 @@ class ProfitController extends Controller
             $object->profit = $request->input('quantity_'.$product->id);
             $object->save();
         }
-        return view('dashboard.profit.client.create');
+        return redirect('/dash/profit');
+    }
+
+    public function getMonthlyProfit($client_id,$month){
+        $client = Client::find($client_id);
+        $profits = ProductMonthlyProfit::where('depositor',$client->depositor)->where('month',$month)->get();
+        return response()->json(["data"=>$profits]);
     }
 }
