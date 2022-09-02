@@ -276,6 +276,7 @@
                             <th>Name</th>
                             <th>price</th>
                             <th>Quantity</th>
+                            <th>Actions</th>
 
 
                         </tr>

@@ -65,9 +65,26 @@
                     width: '30px',
                 },
                 {
-                    data: 'name',
+                    data: 'product.name',
                 },
+                {
+                    data: null,
+                    title: 'Month',
+                    orderable: false,
+                    width: '175px',
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        var months = [ "January","February","March","April","May","June","July ","August","September","October","November","December"];
 
+                        return months[data.month-1];
+                    }
+                },
+                {
+                    data: 'depositor',
+                },
+                {
+                    data: 'camion',
+                },
                 {
                     data: null,
                     title: 'Actions',
@@ -269,6 +286,10 @@
                             <th>ID</th>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Month</th>
+                            <th>Dépositeur</th>
+                            <th>Camion</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>

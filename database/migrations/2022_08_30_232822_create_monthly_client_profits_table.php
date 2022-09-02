@@ -17,6 +17,7 @@ class CreateMonthlyClientProfitsTable extends Migration
             $table->id();
             $table->unsignedInteger('month')->nullable();
             $table->unsignedInteger('product_id')->nullable();
+            $table->unsignedInteger('client_id')->nullable();
             $table->double('quantity')->nullable();
             $table->double('profit')->nullable();
             $table->timestamps();

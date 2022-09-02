@@ -287,8 +287,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Sold</th>
-
-
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>

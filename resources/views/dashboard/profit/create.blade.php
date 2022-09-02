@@ -47,10 +47,12 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-12 col-md-12 row" style="margin-left: 34%;margin-bottom: 5%;">
-                            <h1 class="text-center">Dépositeur* :</h1>
+                        @if(count($products)>0)
+                            <div class="form-group col-sm-12 col-md-12 " style="margin-bottom: 5%;">
+                                <h1 class="text-center">Dépositeur* :</h1>
 
-                        </div>
+                            </div>
+                        @endif
                         <div class="col-sm-12 col-md-12 row">
 
                             @foreach($products as $product)
@@ -69,10 +71,13 @@
                                 </div>
 
                             @endforeach
-                                <div class="col-sm-12 col-md-12 row" style="margin-left: 34%;margin-bottom: 5%;">
+
+                            @if(count($products)>0)
+                                <div class="form-group col-sm-12 col-md-12 " style="margin-bottom: 5%;">
                                     <h1 class="text-center">Camion* :</h1>
 
                                 </div>
+                            @endif
                             @foreach($products as $product)
                                     <div class="form-group col-sm-12 col-md-6">
                                         <label>Name* :</label>
