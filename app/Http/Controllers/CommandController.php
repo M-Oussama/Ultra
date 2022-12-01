@@ -25,14 +25,14 @@ class CommandController extends Controller
         return view('dashboard.commands.index')->with('commands',$commands);
     }
 
-    public function create($client_id)
+    public function create()
     {
         $commands = Command::all();
         $products = product::all();
-        $client = Client::find($client_id);
+        $clients = Client::all();
         return view('dashboard.commands.create_client_command')
             ->with('commands',$commands)
-            ->with('client',$client)
+            ->with('clients',$clients)
             ->with('products',$products);
     }
 

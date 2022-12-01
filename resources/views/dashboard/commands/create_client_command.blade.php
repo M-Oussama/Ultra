@@ -16,19 +16,83 @@
 @section('scripts')
     <!-- Page scripts -->
     <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src=""></script>
     <script>
         var table = $('#kt_datatable');
         var products =  JSON.parse('{!!  json_encode($products)!!}');
         var added_products = [];
+        var montant_ht = 0;
+        var tva = montant_ht *0.19;
+        var montant_ttc = montant_ht*1.19;
 
-        $('#kt_datatable').DataTable({
+        table.DataTable({
             "createdRow": function (row, data, dataIndex) {
                 var rowID = "row_" + data[1];
                 $(row).attr('id', rowID);
-            }
+            },
+            columns: [
+                {
+                    data: null,
+
+                    render:function (row, data, dataIndex) {
+                        return    ' <label class="checkbox checkbox-single">' +
+                       '                            <input type="checkbox" name="ids[]" value="' + data['id']+ '" class="checkable"/>' +
+                       '                            <span></span>' +
+                       '                        </label>';
+
+                    }
+                },
+                {
+                    "data": "id"
+                },
+                {
+                    "data": "name",
+
+                },
+                {
+                    "data": null,
+                    render: function (data, row, dataIndex)  {
+
+                        return '<div class="form-outline">\n' +
+                            '  <input type="number" id="price_'+data['id']+'" class="form-control" onchange="calculateRowAmount('+data['id']+')"  value="'+ data['price']+'" />\n' +
+                            '</div>'
+                    }
+                },
+                {
+                    "data": null,
+                    render: function (data, row, dataIndex)  {
+
+                        return '<div class="form-outline">\n' +
+                            '  <input type="number" id="quantity_'+data['id']+'" class="form-control" onchange="calculateRowAmount('+data['id']+')"  value="'+ data['quantity']+'" />\n' +
+                            '</div>'
+                    }
+                },
+                {
+                    "data": null,
+                    render: function (data, row, dataIndex)  {
+
+                        return '<p class="font-weight-bold" id="amount_'+data['id']+'">'+ data['amount']+' DA</p>'
+                    }
+                },
+                {
+                    "data": "actions",
+                    render : function (row, data, dataIndex)  {
+                        return  '<span onclick="deleteRow('+data.id+')" class="btn btn-sm btn-clean btn-icon" title="Delete">'+
+                            '<span class="svg-icon svg-icon-md">'+
+                            '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'+
+                            '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'+
+                            '<rect x="0" y="0" width="24" height="24"/>'+
+                            '<path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"/>'+
+                            '<path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>'+
+                            '</g>'+
+                            '</svg>'+
+                            '</span>'+
+                            '</span>';
+                    }
+                }
+            ],
         });
         // begin table
-
         table.on('change', '.group-checkable', function () {
             var set = $(this).closest('table').find('td:first-child .checkable');
             var checked = $(this).is(':checked');
@@ -74,6 +138,27 @@
             });
         });
 
+        function calculateRowAmount(id) {
+
+                var quantity = parseFloat($('#quantity_'+id).val());
+                // price
+                var price = parseFloat($('#price_'+id).val());
+
+                var amount = quantity * price;
+                 $('#amount_'+id).html(amount.toFixed(2)+ " DA");
+
+            for (let i = 0; i <added_products.length ; i++) {
+                if(added_products[i]['id'] === id){
+                    added_products[i]['price'] = price;
+                    added_products[i]['quantity'] = quantity;
+                    added_products[i]['amount'] = amount;
+
+                }
+            }
+            calculateTotal();
+
+        }
+
         function productExists(product){
             for (let i = 0; i <Object.keys(added_products).length ; i++) {
                 if(added_products[i]['id'] == product['id'])
@@ -82,12 +167,31 @@
             return false;
         }
 
+        function calculateTotal(){
+
+            montant_ht = 0;
+            tva = 0;
+            montant_ttc = 0;
+            for (let i = 0; i <added_products.length ; i++) {
+
+                montant_ht += added_products[i]['amount'];
+            }
+              tva = montant_ht * 0.19;
+             montant_ttc = montant_ht + tva;
+
+
+            $('#ht').html(montant_ht.toFixed(2) + " DA");
+            $('#tva').html(tva.toFixed(2) + " DA");
+            $('#ttc').html(montant_ttc.toFixed(2) + " DA");
+        }
+
         $('#addProduct').on('show.bs.modal', function (e) {
             if(products.length > 0){
                 findProduct(products[0].id);
                 $('#product_price').val(product['price']);
-                $('#product_quantity').val(product['quantity']);
+                $('#product_quantity').val(0);
             }
+
 
 
 
@@ -107,9 +211,6 @@
             findProduct(product_id);
             $('#product_price').val(product['price']);
             $('#product_quantity').val(product['quantity']);
-
-
-
 
         }
         function deleteRow(rowID){
@@ -134,33 +235,12 @@
                 product['quantity'] = quantity;
                 product['amount']  = montant;
                 added_products.push(product);
-                $('#kt_datatable').DataTable().row.add([
-                    ' <label class="checkbox checkbox-single">' +
-                    '                            <input type="checkbox" name="ids[]" value="' + product['id']+ '" class="checkable"/>' +
-                    '                            <span></span>' +
-                    '                        </label>',
-                    id,
-                    product['name'],
-                    price,
-                    quantity,
-                    montant,
-                    '<span onclick="deleteRow('+product.id+')" class="btn btn-sm btn-clean btn-icon" title="Delete">'+
-                    '<span class="svg-icon svg-icon-md">'+
-                    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'+
-                    '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'+
-                    '<rect x="0" y="0" width="24" height="24"/>'+
-                    '<path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"/>'+
-                    '<path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>'+
-                    '</g>'+
-                    '</svg>'+
-                    '</span>'+
-                    '</span>'
-                    ,
-
-                ]).draw();
+                var rowNew = {"id": id ,"name": product['name'], "price": parseFloat(price).toFixed(2), "quantity": parseFloat(quantity).toFixed(2), "amount": parseFloat(montant).toFixed(2), "actions": product};
+                $('#kt_datatable').DataTable().row.add(
+                  rowNew
+                  ).draw();
                 id++;
-                console.log("clicked");
-
+                calculateTotal();
             }
             $("#addProduct").modal('toggle');
 
@@ -188,8 +268,9 @@
                     'X-CSRF-TOKEN': token
                 },
                 data: {
+                    client_id : $('#client_id').val(),
                     products: added_products,
-                    client_id: '{{$client->id}}'
+
                 },
                 dataType: "json",
                 success: function (data) {
@@ -201,6 +282,13 @@
 
         });
 
+        $('.datepicker').datepicker();
+
+        $('#fac_date').on('change',function () {
+
+            var date = $('#fac_date').val();
+            console.log(date);
+        });
     </script>
 @endsection
 
@@ -298,9 +386,39 @@
                         </button>
                     @endcan
                     <!--end::Button-->
+
+
                 </div>
+
+
             </div>
             <div class="card-body">
+                <div class="form-group row col-sm-12 col-md-12 row">
+                    <div class="form-group col-sm-6 col-md-4">
+                        <label>Facture Identification: </label>
+                        <div class="form-outline">
+                            <input type="text"  class="form-control" value="FAJ/{{date("Y")}}/{{sprintf("%02d", count($commands)+1)}}" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4">
+                        <label>Date: </label>
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" class="form-control" id="fac_date">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4">
+                        <label>Choose a client : </label>
+                        <select class="form-control" id="client_id" name="param">
+                            @foreach($clients as $client)
+                                <option value="{{$client->id}}">{{$client->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <form id="deleteMultiForm" action="dash/commands/delete-multi" method="post">
                 @csrf
                 <!--begin: Datatable-->
@@ -325,6 +443,35 @@
                 </form>
             </div>
 
+            <div class="container">
+                <div class="form-group col-sm-12 col-md-8 float-right">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>MONTANT HT</th>
+                            <th id="ht">0 DA</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>TVA 19%</td>
+                            <td id="tva">0 DA</td>
+
+                        </tr>
+                        <tr>
+                            <td>MONTANT TTC</td>
+                            <td id="ttc">0 DA</td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
             <div class="container mb-5" style="margin-right: -8%;">
 
                 <div class="col-lg-2 col-md-2 col-xs-2 float-right" >
