@@ -78,10 +78,12 @@ class CommandController extends Controller
     public function edit($command_id){
         $commands = Command::find($command_id);
         $products = product::all();
+        $clients = Client::all();
         $command_products = CommandProduct::where('command_id',$command_id)->get();
        // return response()->json(["data"=>$command_products]);
-        return view('dashboard.commands.edit_client_command')
+        return view('dashboard.commands.edit_client_command2')
             ->with('commands',$commands)
+            ->with('clients',$clients)
             ->with('command_products',$command_products)
             ->with('products',$products);
 

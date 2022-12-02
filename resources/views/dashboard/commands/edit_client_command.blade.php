@@ -35,7 +35,6 @@
         fillTable();
 
         function fillTable(){
-            console.log(command_products);
             $.each(command_products, function(key,value) {
                 _addProduct(value);
             });
