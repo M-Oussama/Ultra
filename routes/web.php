@@ -91,6 +91,7 @@ Route::get('dash/commands/{id}/viewInvoice', [CommandController::class, 'viewInv
 Route::get('dash/profit/client/create', [ProfitController::class, 'createClientProfit']);
 Route::get('dash/profit/client/month/{id}/create', [ProfitController::class, 'getMonthlyProfit']);
 Route::post('dash/profit/monthly/create', [ProfitController::class, 'StoreClientProfit']);
+Route::get('dash/commands/getLastYearID/{YEAR}', [CommandController::class, 'getLastYearID']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

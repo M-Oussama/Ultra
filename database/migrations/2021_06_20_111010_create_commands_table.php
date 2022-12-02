@@ -15,11 +15,13 @@ class CreateCommandsTable extends Migration
     {
         Schema::create('commands', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
+            $table->unsignedBigInteger('fac_id')->default(0);
+            $table->date('date');
             $table->unsignedBigInteger('client_id')->nullable();
-            $table->unsignedBigInteger('amount')->nullable();
+            $table->double('amount')->nullable();
             $table->string('payment_type')->nullable();
             $table->timestamps();
+
         });
     }
 

@@ -8,6 +8,7 @@ use App\Models\CommandProduct;
 use App\Models\product;
 use App\Models\Client;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -30,10 +31,18 @@ class CommandController extends Controller
         $commands = Command::all();
         $products = product::all();
         $clients = Client::all();
+
+        $last_id = 0;
+        if(count($commands) >0)
+            $last_id = Command::whereBetween('date', [
+                Carbon::now()->startOfYear(),
+                Carbon::now()->endOfYear(),
+            ])->orderBy('fac_id')->get()->last();
         return view('dashboard.commands.create_client_command')
             ->with('commands',$commands)
             ->with('clients',$clients)
-            ->with('products',$products);
+            ->with('products',$products)
+            ->with('last_id',$last_id);
     }
 
     public function store(Request $request)
@@ -41,12 +50,10 @@ class CommandController extends Controller
 
         $products = $request->products;
         $fac_id = $request->fac_id;
-        $fac_date = $request->fac_date;
-
+        $fac_date = date('Y-m-d',strtotime($request->fac_date));
         $client = Client::find($request->client_id);
-
         $command = new Command();
-        $command->id = $fac_id;
+        $command->fac_id = $fac_id;
         $command->date = $fac_date;
         $command->client_id = $client->id;
         $command->payment_type = $request->payment_type;
@@ -139,7 +146,7 @@ class CommandController extends Controller
             $amountLetter =  $lettre->Conversion($amountTax)."Dinar(s)";
 
         }
-         return view('invoice')->with((["amountLetter"=>$amountLetter,"commandProducts"=>$commandProducts, "command"=>$command]));
+         return view('ultra_invoice')->with((["amountLetter"=>$amountLetter,"commandProducts"=>$commandProducts, "command"=>$command]));
     }
 
 
@@ -223,6 +230,16 @@ class CommandController extends Controller
         else if ($a<1000000000){
             return $this->int2str((int)($a/1000000)).' '.$this->int2str(1000000).' '.$this->int2str($a%1000000);
         }
+    }
+
+    function getLastYearID($year){
+
+        $last_id = Command::whereYear('date',$year)->orderBy('fac_id')->get()->last();
+          if($last_id == null)
+               $last_id = 0;
+          else
+              $last_id = $last_id->fac_id;
+        return \response()->json(["ID"=>$last_id]);
     }
 
 }
