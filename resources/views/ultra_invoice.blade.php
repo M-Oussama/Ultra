@@ -283,7 +283,7 @@
 
                         </h6>
                         <br/>
-                        <h6><b>Patient:</b> {{$command->client->name}}</h6>
+                        <h6><b>Patient:</b> {{$command->client->name}} {{$command->client->surname}}</h6>
                         <br/>
                         <h6><b>address:</b> {{$command->client->address}}</h6>
                         <br/>
