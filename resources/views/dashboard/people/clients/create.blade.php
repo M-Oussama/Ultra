@@ -79,6 +79,13 @@
                                        required/>
                                 <span class="form-text text-muted">Please enter the clients's surname</span>
                             </div>
+                            <div class="form-group col-sm-12 col-md-12">
+                                <label>address* :</label>
+                                <input type="text" name="address" value="{{old('address')}}" autocomplete="given-name"
+                                       class="form-control form-control-solid" placeholder="Enter the address of the client"
+                                       required/>
+                                <span class="form-text text-muted">Please enter the Old Sold of the Clients</span>
+                            </div>
 
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>Email* :</label>

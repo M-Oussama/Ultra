@@ -82,6 +82,13 @@
                             </div>
 
                             <div class="form-group col-sm-12 col-md-12">
+                                <label>address* :</label>
+                                <input type="text" name="address" value="{{old('address',$client->address)}}" autocomplete="given-name"
+                                       class="form-control form-control-solid" placeholder="Enter the address of the client"
+                                       required/>
+                                <span class="form-text text-muted">Please enter the Old Sold of the Clients</span>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-12">
                                 <label>Email* :</label>
                                 <input type="email" name="email" autocomplete="email" value="{{old('email',$client->email)}}"
                                        class="form-control form-control-solid @error('email') is-invalid @enderror"

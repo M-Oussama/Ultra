@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AccountType;
+use App\Models\Address;
 use App\Models\Client;
 use App\Models\product;
 use Illuminate\Http\Request;
@@ -52,11 +53,13 @@ class ClientController extends Controller
             return redirect('dash/products');
         }else{
 
+
             $client = new Client();
             $client->name = $request->name;
             $client->surname = $request->surname;
             $client->email = $request->email;
             $client->sold = $request->sold;
+            $client->address = $request->address;
             $client->type_id = 1;
             $client->NRC = $request->nrc;
             $client->NIF = $request->nif;
@@ -114,6 +117,7 @@ class ClientController extends Controller
             $client->surname = $request->surname;
             $client->email = $request->email;
             $client->sold = $request->sold;
+            $client->address = $request->address;
             $client->type_id = 1;
             $client->NRC = $request->nrc;
             $client->NIF = $request->nif;
