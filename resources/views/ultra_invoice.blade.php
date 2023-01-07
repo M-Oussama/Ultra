@@ -366,7 +366,7 @@
                 </table>
 
                 <div >
-                    <span>Arrêtée la présente facture a la somme de : {{$amountLetter}} </span>
+                    <span style="font-size: 23px;"><b>Arrêtée la présente facture a la somme de : {{$amountLetter}} </b></span>
 
                 </div>
                 </br>

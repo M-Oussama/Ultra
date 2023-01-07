@@ -141,7 +141,7 @@ class CommandController extends Controller
             $amountLetter =  $lettre->Conversion($int)." Dinar(s)";
             $centime = "";
             if($float>0){
-                $centime =  $lettre->Conversion($float)." Cts";
+                $centime =  $lettre->Conversion($float)." Centimes";
             }
             $amountLetter .= $amountLetter.$centime;
         }else{
