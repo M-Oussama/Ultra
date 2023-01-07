@@ -232,7 +232,7 @@
             <header>
                 <div class="row">
                     <div class=" row" STYLE="width: 100%">
-                        <div   style="width: 15%" >
+                        <div   style="width: 20%" >
                             <img src="{{asset('assets/media/logo.png')}}" data-holder-rendered="true" width="200" height="150"/>
                         </div>
                         <div class="col" style="width:40%;">
