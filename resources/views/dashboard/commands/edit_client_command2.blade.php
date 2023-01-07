@@ -65,7 +65,7 @@
 
 
                         return '<div class="form-outline">\n' +
-                            '  <input type="number" id="price_'+data.actions['id']+'" class="form-control" onchange="calculateRowAmount('+data['id']+')"  value="'+ data['price']+'" />\n' +
+                            '  <input type="number" id="price_'+data['actions']['id']+'" class="form-control" onchange="calculateRowAmount('+data['actions']['id']+')"  value="'+ data['price']+'" />\n' +
                             '</div>'
                     }
                 },
@@ -74,7 +74,7 @@
                     render: function (data, row, dataIndex)  {
 
                         return '<div class="form-outline">\n' +
-                            '  <input type="number" id="quantity_'+data['id']+'" class="form-control" onchange="calculateRowAmount('+data['id']+')"  value="'+ data['quantity']+'" />\n' +
+                            '  <input type="number" id="quantity_'+data['actions']['id']+'" class="form-control" onchange="calculateRowAmount('+data['actions']['id']+')"  value="'+ data['quantity']+'" />\n' +
                             '</div>'
                     }
                 },
@@ -82,7 +82,7 @@
                     "data": null,
                     render: function (data, row, dataIndex)  {
 
-                        return '<p class="font-weight-bold" id="amount_'+data['id']+'">'+ data['amount']+' DA</p>'
+                        return '<p class="font-weight-bold" id="amount_'+data['actions']['id']+'">'+ data['amount']+' DA</p>'
                     }
                 },
                 {
@@ -162,6 +162,7 @@
         });
 
         function calculateRowAmount(id) {
+            console.log("calculate "+id);
 
             var quantity = parseFloat($('#quantity_'+id).val());
             // price
@@ -178,7 +179,7 @@
 
                 }
             }
-            calculateTotal();
+            _calculateTotal();
 
         }
 
@@ -219,8 +220,11 @@
             for (let i = 0; i <added_products.length ; i++) {
 
                 montant_ht += added_products[i]['amount'] ;
-
+                console.log("totale : "+added_products[0]);
+                console.log("totale : "+added_products[1]);
+                console.log("totale : "+added_products[2]);
             }
+
             tva = montant_ht * 0.19;
             montant_ttc = montant_ht + tva;
 
@@ -331,9 +335,10 @@
                     'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                 }
             });
+
             $.ajax({
                 type: "POST",
-                url: "dash/commands/store",
+                url: "dash/commands/"+$('#command_id').val()+"/update",
                 header:{
                     'X-CSRF-TOKEN': token
                 },
@@ -417,6 +422,7 @@
 @section('content')
     <div class="container">
         <!--begin::Card-->
+        <input id="command_id" class="hidden" value="{{$commands->id}}" style="display: none"/>
         <div class="card card-custom gutter-b">
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
