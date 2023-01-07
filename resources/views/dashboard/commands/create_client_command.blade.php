@@ -335,7 +335,7 @@
                        success: function (data) {
                            console.log(data.ID);
                            var id = data.ID +1;
-                           $('#fac_id').val(('0' + (id)).slice(-2));
+                           $('#fac_id').val(id);
                            KTApp.unblockPage();
                        }
                    });
