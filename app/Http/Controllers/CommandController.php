@@ -242,6 +242,7 @@ class CommandController extends Controller
     function getLastYearID($year){
 
         $last_id = Command::whereYear('date',$year)->orderBy('fac_id')->get()->last();
+
           if($last_id == null)
                $last_id = 0;
           else

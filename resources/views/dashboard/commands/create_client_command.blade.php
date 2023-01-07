@@ -334,7 +334,8 @@
                        dataType: "json",
                        success: function (data) {
                            console.log(data.ID);
-                           $('#fac_id').val(('0' + (data.ID+1)).slice(-2));
+                           var id = data.ID +1;
+                           $('#fac_id').val(('0' + (id)).slice(-2));
                            KTApp.unblockPage();
                        }
                    });
