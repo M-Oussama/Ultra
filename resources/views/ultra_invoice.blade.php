@@ -249,18 +249,18 @@
                         </div>
                         <div class="col right-col"  style="    align-self: center;">
                             <div style="border: 1px solid black; padding: 10px">
-                                @if($command->client->NRC)
+
                                     <h6>N°AI: 19521701120</h6>
-                                @endif
-                                @if($command->client->NIF)
+
+
                                     <h6>N°RC: 19/00-0090505B13</h6>
-                                @endif
-                                @if($command->client->NART)
+
+
                                     <h6>N°IS: 001319010024074</h6>
-                                @endif
-                                @if($command->client->NIS)
+
+
                                     <h6>N°IF: 001319009050557</h6>
-                                @endif
+
                             </div>
 
 
