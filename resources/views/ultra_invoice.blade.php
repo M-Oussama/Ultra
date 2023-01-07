@@ -373,7 +373,7 @@
 
                 <div CLASS="text-center">
                     </br>   </br>   </br>
-                    <span CLASS="text-center">Cacher et Signature </span>
+                    <span CLASS="text-center" style="font-size: 23px;font-weight: bold;">Cacher et Signature </span>
 
                 </div>
 
