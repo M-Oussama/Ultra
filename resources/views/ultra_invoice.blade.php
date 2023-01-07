@@ -117,7 +117,7 @@
 
         .invoice table .no {
             color: #000000;
-            font-size: 1.6em;
+            font-size: 1.2em;
             background: #fff
         }
 
@@ -313,7 +313,7 @@
                 <table border="0" cellspacing="0" cellpadding="0">
                     <thead>
                     <tr>
-                        <th>Réference</th>
+                        <th>ID</th>
                         <th class="text-center">Description</th>
                         <th class="text-center">Quantité</th>
                         <th class="text-center">Prix unitaire</th>
