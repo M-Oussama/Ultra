@@ -101,6 +101,7 @@ class CommandController extends Controller
         $amount = 0;
         $command = Command::find($command_id);
 
+
        foreach ($commandProducts as $commandProduct)
             $commandProduct->delete();
 
@@ -115,7 +116,9 @@ class CommandController extends Controller
         $amount += $product['price']*$product['quantity'];
         }
         $command->amount = $amount;
+        $command->client_id = $request->client_id;
         $command->save();
+
 
 
         return response()->json(["success"=>true]);

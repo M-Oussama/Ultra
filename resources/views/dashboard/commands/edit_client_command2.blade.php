@@ -556,7 +556,7 @@
                         <label>Choose a client : </label>
                         <select class="form-control" id="client_id" name="param">
                             @foreach($clients as $client)
-                                <option value="{{$client->id}}">{{$client->name}}</option>
+                                <option value="{{$client->id}}" {{$client->id == $commands->client_id ? 'selected' : ""}}>{{$client->name}}</option>
                             @endforeach
                         </select>
                     </div>
