@@ -4,7 +4,7 @@
 <!------ Include the above in your HEAD tag ---------->
 <head>
     <title>
-        Facture
+        {{$command->client->name}} {{$command->client->surname}}
     </title>
     <style>
         #invoice{
