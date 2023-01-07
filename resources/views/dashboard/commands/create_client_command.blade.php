@@ -55,7 +55,7 @@
                     render: function (data, row, dataIndex)  {
 
                         return '<div class="form-outline">\n' +
-                            '  <input type="number" id="price_'+data['id']+'" class="form-control" onchange="calculateRowAmount('+data['id']+')"  value="'+ data['price']+'" />\n' +
+                            '  <input type="number" id="price_'+data['actions']['id']+'" class="form-control" onchange="calculateRowAmount('+data['actions']['id']+')"  value="'+ data['price']+'" />\n' +
                             '</div>'
                     }
                 },
@@ -63,8 +63,9 @@
                     "data": null,
                     render: function (data, row, dataIndex)  {
 
+                        console.log(data);
                         return '<div class="form-outline">\n' +
-                            '  <input type="number" id="quantity_'+data['id']+'" class="form-control" onchange="calculateRowAmount('+data['id']+')"  value="'+ data['quantity']+'" />\n' +
+                            '  <input type="number" id="quantity_'+data['actions']['id']+'" class="form-control" onchange="calculateRowAmount('+data['actions']['id']+')"  value="'+ data['quantity']+'" />\n' +
                             '</div>'
                     }
                 },
@@ -72,7 +73,7 @@
                     "data": null,
                     render: function (data, row, dataIndex)  {
 
-                        return '<p class="font-weight-bold" id="amount_'+data['id']+'">'+ data['amount']+' DA</p>'
+                        return '<p class="font-weight-bold" id="amount_'+data['actions']['id']+'">'+ data['amount']+' DA</p>'
                     }
                 },
                 {
@@ -141,6 +142,7 @@
 
         function calculateRowAmount(id) {
 
+
                 var quantity = parseFloat($('#quantity_'+id).val());
                 // price
                 var price = parseFloat($('#price_'+id).val());
@@ -149,7 +151,10 @@
                  $('#amount_'+id).html(amount.toFixed(2)+ " DA");
 
             for (let i = 0; i <added_products.length ; i++) {
+                console.log("ID "+id+ " PRODUCT "+added_products[i]['id']);
+                console.log(added_products);
                 if(added_products[i]['id'] === id){
+                    console.log("called");
                     added_products[i]['price'] = price;
                     added_products[i]['quantity'] = quantity;
                     added_products[i]['amount'] = amount;
