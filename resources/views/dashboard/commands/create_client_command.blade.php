@@ -334,7 +334,7 @@
                        dataType: "json",
                        success: function (data) {
                            console.log(data.ID);
-                           var id = data.ID +1;
+                           var id = parseInt(data.ID) +1;
                            $('#fac_id').val(id);
                            KTApp.unblockPage();
                        }
