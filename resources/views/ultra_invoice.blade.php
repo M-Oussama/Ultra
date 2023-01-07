@@ -165,6 +165,9 @@
             border-top: 1px solid #aaa;
             padding: 8px 0
         }
+        .right-col{
+            max-width: 31% !important;
+        }
 
         @media print {
             #invoice_body {
@@ -229,36 +232,54 @@
             <header>
                 <div class="row">
                     <div class=" row" STYLE="width: 100%">
-                        <div  class="" style="width: 20%" >
+                        <div   style="width: 15%" >
                             <img src="{{asset('assets/media/logo.png')}}" data-holder-rendered="true" width="200" height="150"/>
                         </div>
-                        <div class="col" style="width:86%;">
-                            <h4>EURL SETIFIS DETERGENTS</h4>
+                        <div class="col" style="width:40%;">
+                            <h5>EURL SETIFIS DETERGENTS</h5>
                             <br/>
-                            <h4>Lot N° 34 Section 6 Groupe 51 KASR EL ABTAL</h4>
+                            <h5>Lot N° 34 Section 6 Groupe 51 KASR EL ABTAL</h5>
                             <br/>
-                            <h4>Capital Social: 1 000 000 DA</h4>
+                            <h5>Capital Social: 1 000 000 DA</h5>
                             <br/>
-                            <h4>Tel/Fax: 0790.15.92.60</h4>
+                            <h5>Tel/Fax: 0790.15.92.60</h5>
                             <br/>
-                            <h4>Email: ultranew19@gmail.com</h4>
+                            <h5>Email: ultranew19@gmail.com</h5>
                             <br/>
                         </div>
+                        <div class="col right-col"  style="    align-self: center;">
+                            <div style="border: 1px solid black; padding: 10px">
+                                @if($command->client->NRC)
+                                    <h6>N°AI: 19521701120</h6>
+                                @endif
+                                @if($command->client->NIF)
+                                    <h6>N°RC: 19/00-0090505B13</h6>
+                                @endif
+                                @if($command->client->NART)
+                                    <h6>N°IS: 001319010024074</h6>
+                                @endif
+                                @if($command->client->NIS)
+                                    <h6>N°IF: 001319009050557</h6>
+                                @endif
+                            </div>
 
-                    </div>
-                    <div class="col company-details">
 
+
+
+                        </div>
                     </div>
+
+
                 </div>
             </header>
             <main>
                 <div class="row contacts">
                     <div class="col invoice-to">
-                        <h6><b>Facture :</b> FAJ/{{date('Y')}}/{{sprintf("%02d", $command->fac_id)}}
+                        <h6><b>Facture :</b> FAJ/{{date('Y', strtotime($command->date))}}/{{sprintf("%02d", $command->fac_id)}}
                         </h6>
                         <h6>
                             </br>
-                            <h6><b>Mode de paiement:</b>  Cheque ou versement Banquer</h6>
+                            <h6><b>Mode de paiement:</b>  versement Banquer</h6>
 
                         </h6>
                         <br/>
@@ -269,19 +290,19 @@
                         <h6><b>Sétif le: </b>{{date("d/m/Y", strtotime($command->date))}}</h6>
 
                     </div>
-                    <div class="col " >
+                    <div class="col right-col" style="    align-self: center;">
                         <div style="border: 1px solid black; padding: 10px">
                             @if($command->client->NRC)
-                                <h6>NRC: {{$command->client->NRC}}</h6>
+                                <h6>N°RC: {{$command->client->NRC}}</h6>
                             @endif
                             @if($command->client->NIF)
-                                <h6>NIF: {{$command->client->NIF}}</h6>
+                                <h6>N°IF: {{$command->client->NIF}}</h6>
                             @endif
                             @if($command->client->NART)
-                                <h6>NART: {{$command->client->NART}}</h6>
+                                <h6>N°ART: {{$command->client->NART}}</h6>
                             @endif
                             @if($command->client->NIS)
-                                <h6>NIS: {{$command->client->NIS}}</h6>
+                                <h6>N°IS: {{$command->client->NIS}}</h6>
                             @endif
                         </div>
 
@@ -357,11 +378,11 @@
                 </div>
 
             </main>
-            <footer>
+            {{--<footer>
                 EURL au capital 100.000,00 DA  Siere Social: Lot N° 34 Section 6 Groupe 51 KASR EL ABTAL
                 </br>
                 R.C: 19/00-0490545B14 B19 - A.I: 14421701120 - NIF: 004319015024474
-            </footer>
+            </footer>--}}
         </div>
         <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
         <div></div>

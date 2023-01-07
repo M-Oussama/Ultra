@@ -37,7 +37,7 @@ class CommandController extends Controller
             $last_id = Command::whereBetween('date', [
                 Carbon::now()->startOfYear(),
                 Carbon::now()->endOfYear(),
-            ])->orderBy('fac_id')->get()->last();
+            ])->orderBy('fac_id')->get()->last()->fac_id;
         return view('dashboard.commands.create_client_command')
             ->with('commands',$commands)
             ->with('clients',$clients)
