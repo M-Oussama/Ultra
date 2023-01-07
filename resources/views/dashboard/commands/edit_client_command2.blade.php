@@ -73,6 +73,8 @@
                     "data": null,
                     render: function (data, row, dataIndex)  {
 
+                        console.log("data");
+                        console.log(data);
                         return '<div class="form-outline">\n' +
                             '  <input type="number" id="quantity_'+data['actions']['id']+'" class="form-control" onchange="calculateRowAmount('+data['actions']['id']+')"  value="'+ data['quantity']+'" />\n' +
                             '</div>'
@@ -107,12 +109,25 @@
 
 
 
+        var first = true;
 
         function fillTable(){
-            $.each(command_products, function(key,value) {
-                console.log("===>"+value);
-                _addProduct(value.product);
-            });
+            if(first){
+                $.each(command_products, function(key,value) {
+                    console.log("===>"+value);
+
+                        value.product['price'] = value['price'];
+                        value.product['quantity'] = value['quantity'];
+                        first = false;
+
+                    _addProduct(value.product);
+                });
+            }else{
+                $.each(command_products, function(key,value) {
+
+                    _addProduct(value.product);
+                });
+            }
         }
         fillTable();
         // begin table

@@ -110,9 +110,9 @@ class CommandController extends Controller
         $command_product->product_id = $product['id'];
         $command_product->price = $product['price'];
         $command_product->quantity = $product['quantity'];
-        $command_product->amount = $product['amount'];
+        $command_product->amount = $product['price']*$product['quantity'];
         $command_product->save();
-        $amount += $product['amount'];
+        $amount += $product['price']*$product['quantity'];
         }
         $command->amount = $amount;
         $command->save();
