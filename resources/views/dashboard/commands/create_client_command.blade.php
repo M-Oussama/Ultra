@@ -24,7 +24,28 @@
         var added_products = [];
         var montant_ht = 0;
         var tva = montant_ht *0.19;
-        var montant_ttc = montant_ht*1.19;
+        var timber = 0.01;
+        var timber_full = 1.01;
+        var timber_amount = 0;
+        var timber_1 = (montant_ht + tva)*timber;
+        var montant_ttc = montant_ht*1.20;
+
+        var val = 1;
+
+         $('#payment_type').on('change',function(){
+         val = $('#payment_type').val();
+           if(val== 1){
+            $('#timber_row').show();
+             timber = 0.01;
+             timber_full = 1.01;
+           }else{
+                $('#timber_row').hide();
+
+             timber = 1;
+             timber_full = 1;
+           }
+            calculateTotal();
+         });
 
         table.DataTable({
             "createdRow": function (row, data, dataIndex) {
@@ -183,12 +204,22 @@
                 montant_ht += added_products[i]['amount'];
             }
               tva = montant_ht * 0.19;
-             montant_ttc = montant_ht + tva;
+
+              if(val == 1){
+
+                  timber_amount = (montant_ht + tva)*timber;
+                  montant_ttc = montant_ht + tva+timber_amount;
+                    console.log("val "+timber_amount);
+              } else{
+                timber_amount = 0;
+                montant_ttc = montant_ht + tva;
+              }
 
 
             $('#ht').html(montant_ht.toFixed(2) + " DA");
             $('#tva').html(tva.toFixed(2) + " DA");
             $('#ttc').html(montant_ttc.toFixed(2) + " DA");
+            $('#timber_amount').html(timber_amount.toFixed(2) + " DA");
 
             $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(montant_ttc.toFixed(2)));
         }
@@ -303,9 +334,9 @@
             onSelect: function(dateText) {
                 console.log("Selected date: " + dateText + "; input's current value: " + this.value);
                 $(this).change();
-                
+
             },
-            
+
         }).on('change',function () {
 
 
@@ -461,13 +492,13 @@
             </div>
             <div class="card-body">
                 <div class="form-group row col-sm-12 col-md-12 row">
-                    <div class="form-group col-sm-6 col-md-4">
+                    <div class="form-group col-sm-6 col-md-6">
                         <label>Facture Identification: </label>
                         <div class="form-outline">
                             <input type="text" id="fac_id" class="form-control" value="{{sprintf("%02d", $last_id+1)}}" />
                         </div>
                     </div>
-                    <div class="form-group col-sm-6 col-md-4">
+                    <div class="form-group col-sm-6 col-md-6">
                         <label>Date: </label>
                         <div class="input-group date" data-provide="datepicker">
                             <input type="text" class="form-control" id="fac_date">
@@ -476,7 +507,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-6 col-md-4">
+                   <div class="form-group col-sm-6 col-md-6">
+                                        <label>Payment Type : </label>
+                                        <select class="form-control" id="payment_type" name="payment_type" >
+                                            @foreach($payment_types as $payment_type)
+                                                <option value="{{$payment_type->id}}">{{$payment_type->id}}-{{$payment_type->type}}</option>
+                                            @endforeach
+                                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-6">
                         <label>Choose a client : </label>
                         <select class="form-control" id="client_id" name="param">
                             @foreach($clients as $client)
@@ -528,6 +567,11 @@
                             <td id="tva">0 DA</td>
 
                         </tr>
+                          <tr id="timber_row">
+                                                    <td>Timbre 1 %</td>
+                                                    <td id="timber_amount">0 DA</td>
+
+                          </tr>
                         <tr>
                             <td>MONTANT TTC</td>
                             <td id="ttc">0 DA</td>

@@ -7,6 +7,7 @@ use App\Models\Command;
 use App\Models\CommandProduct;
 use App\Models\product;
 use App\Models\Client;
+use App\Models\PaymentTypes;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,7 +24,10 @@ class CommandController extends Controller
     {
         $commands = Command::with('client')->get();
 
-        return view('dashboard.commands.index')->with('commands',$commands);
+
+        return view('dashboard.commands.index')
+
+        ->with('commands',$commands);
     }
 
     public function create()
@@ -31,7 +35,7 @@ class CommandController extends Controller
         $commands = Command::all();
         $products = product::all();
         $clients = Client::all();
-
+        $payment_types = PaymentTypes::all();
         $last_id = 0;
         if(count($commands) >0){
             $last_id = Command::whereBetween('date', [
@@ -46,6 +50,7 @@ class CommandController extends Controller
         return view('dashboard.commands.create_client_command')
             ->with('commands',$commands)
             ->with('clients',$clients)
+             ->with('payment_types',$payment_types)
             ->with('products',$products)
             ->with('last_id',$last_id);
     }
