@@ -26,7 +26,22 @@
         var montant_ht = 0;
         var tva = montant_ht *0.19;
         var montant_ttc = montant_ht*1.19;
+        var val = 1;
+         val = $('#payment_type').val();
 
+
+
+            $('#payment_type').on('change',function(){
+                  val = $('#payment_type').val();
+                    if(val== 1){
+                     $('#timber_row').show();
+
+                    }else{
+                         $('#timber_row').hide();
+
+                    }
+                     _calculateTotal();
+                  });
         table.DataTable({
             "createdRow": function (row, data, dataIndex) {
                 var rowID = "row_" + data[1];
@@ -48,6 +63,7 @@
                 {
                     data: null,
                     render: function (data, row, dataIndex)  {
+
 
 
 
@@ -211,18 +227,31 @@
             montant_ht = 0;
             tva = 0;
             montant_ttc = 0;
+            timber_amount = 0;
             for (let i = 0; i <added_products.length ; i++) {
 
                 montant_ht += (parseFloat(added_products[i]['price']) *parseFloat(added_products[i]['quantity'])) ;
 
             }
-            tva = montant_ht * 0.19;
+             tva = montant_ht * 0.19;
+            if(val == 1){
+              timber_amount = (montant_ht + tva) * 0.01;
+              montant_ttc = montant_ht + tva + timber_amount;
+
+
+            }else{
+            timber_amount = 0;
             montant_ttc = montant_ht + tva;
+               $('#timber_row').hide();
+            }
+
+
 
 
             $('#ht').html(montant_ht.toFixed(2) + " DA");
             $('#tva').html(tva.toFixed(2) + " DA");
             $('#ttc').html(montant_ttc.toFixed(2) + " DA");
+            $('#timber_amount').html(timber_amount.toFixed(2) + " DA");
 
             $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(montant_ttc.toFixed(2)));
         }
@@ -361,6 +390,7 @@
                     client_id : $('#client_id').val(),
                     fac_date : $('#fac_date').val(),
                     fac_id : $('#fac_id').val(),
+                    payment_type : $('#payment_type').val(),
                     products: added_products,
 
                 },
@@ -537,13 +567,13 @@
             </div>
             <div class="card-body">
                 <div class="form-group row col-sm-12 col-md-12 row">
-                    <div class="form-group col-sm-6 col-md-4">
+                    <div class="form-group col-sm-6 col-md-6">
                         <label>Facture Identification: </label>
                         <div class="form-outline">
                             <input type="text" id="fac_id" class="form-control" value="{{sprintf("%02d", $commands->fac_id)}}" />
                         </div>
                     </div>
-                    <div class="form-group col-sm-6 col-md-4">
+                    <div class="form-group col-sm-6 col-md-6">
                         <label>Date: </label>
                         <div class="input-group date" data-provide="datepicker">
                             <input type="text" class="form-control" id="fac_date" value="{{date('m/d/Y',strtotime($commands->date))}}">
@@ -552,7 +582,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-6 col-md-4">
+                     <div class="form-group col-sm-6 col-md-6">
+                                                            <label>Payment Type : </label>
+                                                            <select class="form-control" id="payment_type" name="payment_type" >
+                                                                @foreach($payment_types as $payment_type)
+                                                                    <option value="{{$payment_type->id}}"  {{$payment_type->id == $commands->payment_type ? 'selected' : ""}}>{{$payment_type->id}}-{{$payment_type->type}}</option>
+                                                                @endforeach
+                                                            </select>
+                                        </div>
+                    <div class="form-group col-sm-6 col-md-6">
                         <label>Choose a client : </label>
                         <select class="form-control" id="client_id" name="param">
                             @foreach($clients as $client)
@@ -604,6 +642,11 @@
                             <td id="tva">0 DA</td>
 
                         </tr>
+                         <tr id="timber_row">
+                            <td>Timbre 1 %</td>
+                            <td id="timber_amount">0 DA</td>
+
+                          </tr>
                         <tr>
                             <td>MONTANT TTC</td>
                             <td id="ttc">0 DA</td>

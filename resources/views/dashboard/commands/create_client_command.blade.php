@@ -317,6 +317,7 @@
                     client_id : $('#client_id').val(),
                     fac_date : $('#fac_date').val(),
                     fac_id : $('#fac_id').val(),
+                    payment_type : $('#payment_type').val(),
                     products: added_products,
 
                 },

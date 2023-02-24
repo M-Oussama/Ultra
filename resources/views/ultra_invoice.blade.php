@@ -279,7 +279,9 @@
                         </h6>
                         <h6>
                             </br>
-                            <h6><b>Mode de paiement:</b>  versement Banquer</h6>
+
+                          <!-- <h6><b>Mode de paiement:</b>  versement Banquer</h6>-->
+                            <h6><b>Mode de paiement:</b>  {{$command->payment->type}}</h6>
 
                         </h6>
                         <br/>
@@ -357,11 +359,22 @@
                             <td >TVA 19%</td>
                             <td>{{sprintf('%0.2f',$command->amount*0.19)}} DA</td>
                         </tr>
-                        <tr>
 
-                            <td >Montant TTC</td>
-                            <td>{{sprintf('%0.2f',$command->amount*1.19)}} DA</td>
+                        @if($command->payment_type == 1)
+                          <tr>
+                         <td >Timbre 1%</td>
+                                                    <td>{{sprintf('%0.2f',$command->amount*1.01)}} DA</td>
                         </tr>
+                         <tr>
+                         <td >Montant TTC</td>
+                            <td>{{sprintf('%0.2f',$command->amount*1.20)}} DA</td>
+                        </tr>
+                        @else
+                        <tr>
+                         <td >Montant TTC</td>
+                                                    <td>{{sprintf('%0.2f',$command->amount*1.19)}} DA</td>
+                        </tr>
+                        @endif
                     </thead>
                 </table>
 

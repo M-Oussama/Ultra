@@ -68,7 +68,15 @@
                     data: 'client.name',
                 },
                 {
-                    data: 'amount',
+                    data: null,
+
+                     title: 'amount',
+                    orderable: false,
+                    render : function (data, type, row){
+                        if(data.payment_type == 1)
+                            return (data.amount*1.20).toFixed(2)+ " DA";
+                        return (data.amount*1.19).toFixed(2)+ " DA";
+                    }
                 },
                 {
                     data: 'date',
@@ -80,12 +88,7 @@
                     width: '175px',
                     className: 'text-center',
                     render: function (data, type, row) {
-                        return '\
-                        \<a href="dash/commands/' + row.id + '/pdf" class="btn btn-sm btn-clean btn-icon" title="PDF">\
-                            <i class="far fa-file-pdf">\
-                            </i>\
-                        </a>\
-                        @canany(['edit-command','delete-command'])
+                        return '@canany(['edit-command','delete-command'])
                                 @can('edit-command')
                             <a href="dash/commands/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
                                     <span class="svg-icon svg-icon-md">\
