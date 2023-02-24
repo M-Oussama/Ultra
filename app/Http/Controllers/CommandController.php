@@ -8,6 +8,7 @@ use App\Models\CommandProduct;
 use App\Models\product;
 use App\Models\Client;
 use App\Models\PaymentTypes;
+use App\Models\CompanyProfile;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -148,6 +149,7 @@ class CommandController extends Controller
     }
     public function viewInvoice($command_id){
         $command = Command::find($command_id);
+        $company = CompanyProfile::find(1);
         $lettre =new ChiffreEnLettre();
 
         $commandProducts = CommandProduct::where('command_id',$command_id)->get();
@@ -164,7 +166,7 @@ class CommandController extends Controller
             $amountLetter =  $lettre->Conversion($amountTax)."Dinar(s)";
 
         }
-         return view('ultra_invoice')->with((["amountLetter"=>$amountLetter,"commandProducts"=>$commandProducts, "command"=>$command]));
+         return view('ultra_invoice')->with((["amountLetter"=>$amountLetter,"company"=>$company,"commandProducts"=>$commandProducts, "command"=>$command]));
     }
 
 

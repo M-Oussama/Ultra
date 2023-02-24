@@ -15,6 +15,7 @@ use \App\Http\Controllers\ClientController;
 use \App\Http\Controllers\CommandController;
 use \App\Models\ProductMonthlyProfit;
 use \App\Http\Controllers\ProfitController;
+use \App\Http\Controllers\CompanyProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +93,8 @@ Route::get('dash/profit/client/create', [ProfitController::class, 'createClientP
 Route::get('dash/profit/client/month/{id}/create', [ProfitController::class, 'getMonthlyProfit']);
 Route::post('dash/profit/monthly/create', [ProfitController::class, 'StoreClientProfit']);
 Route::get('dash/commands/getLastYearID/{YEAR}', [CommandController::class, 'getLastYearID']);
+Route::get('dash/companyProfile', [CompanyProfileController::class, 'edit']);
+Route::put('dash/company/update', [CompanyProfileController::class, 'update']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

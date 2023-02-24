@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             CommandSeeder::class,
             ProfitSeeder::class,
             PaymentTypesSeeder::class,
+            CompanyProfileSeeder::class,
         ]);
     }
 }

@@ -233,33 +233,34 @@
                 <div class="row">
                     <div class=" row" STYLE="width: 100%">
                         <div   style="width: 20%" >
-                            <img src="{{asset('assets/media/logo.png')}}" data-holder-rendered="true" width="200" height="150"/>
+
+                            <img src="{{$company->getFirstMedia('avatars')->getURL()}}" data-holder-rendered="true" width="200" height="150"/>
                         </div>
                         <div class="col" style="width:40%;">
-                            <h5>EURL SETIFIS DETERGENTS</h5>
+                            <h5>{{$company->name}}</h5>
                             <br/>
-                            <h5>Lot N° 34 Section 6 Groupe 51 KASR EL ABTAL</h5>
+                            <h5>{{$company->address}}</h5>
                             <br/>
-                            <h5>Capital Social: 1 000 000 DA</h5>
+                            <h5>Capital Social: {{$company->capital}}</h5>
                             <br/>
-                            <h5>Tel/Fax: 0790.15.92.60</h5>
+                            <h5>Tel/Fax: {{$company->phone}}</h5>
                             <br/>
-                            <h5>Email: ultranew19@gmail.com</h5>
+                            <h5>Email: {{$company->email}}</h5>
                             <br/>
                         </div>
                         <div class="col right-col"  style="    align-self: center;">
                             <div style="border: 1px solid black; padding: 10px">
 
-                                    <h6>N°AI: 19521701120</h6>
+                                    <h6>N°AI: {{$company->NART}}</h6>
 
 
-                                    <h6>N°RC: 19/00-0090505B13</h6>
+                                    <h6>N°RC: {{$company->NRC}}</h6>
 
 
-                                    <h6>N°IS: 001319010024074</h6>
+                                    <h6>N°IS: {{$company->NIS}}</h6>
 
 
-                                    <h6>N°IF: 001319009050557</h6>
+                                    <h6>N°IF: {{$company->NIF}}</h6>
 
                             </div>
 

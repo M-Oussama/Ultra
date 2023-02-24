@@ -24,13 +24,13 @@
 <div class="navi navi-spacer-x-0 pt-5">
 
     <!--begin::Item-->
-    <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item px-8">
+    <a href="{{URL('dash/companyProfile')}}" class="navi-item px-8">
         <div class="navi-link">
             <div class="navi-icon mr-2">
                 <i class="flaticon2-calendar-3 text-success"></i>
             </div>
             <div class="navi-text">
-                <div class="font-weight-bold">My Profile</div>
+                <div class="font-weight-bold">My Company</div>
                 <div class="text-muted">Account settings and more
                     <span class="label label-light-danger label-inline font-weight-bold">update</span>
                 </div>
@@ -41,47 +41,17 @@
     <!--end::Item-->
 
     <!--begin::Item-->
-    <a href="custom/apps/user/profile-3.html" class="navi-item px-8">
-        <div class="navi-link">
-            <div class="navi-icon mr-2">
-                <i class="flaticon2-mail text-warning"></i>
-            </div>
-            <div class="navi-text">
-                <div class="font-weight-bold">My Messages</div>
-                <div class="text-muted">Inbox and tasks</div>
-            </div>
-        </div>
-    </a>
+
 
     <!--end::Item-->
 
     <!--begin::Item-->
-    <a href="custom/apps/user/profile-2.html" class="navi-item px-8">
-        <div class="navi-link">
-            <div class="navi-icon mr-2">
-                <i class="flaticon2-rocket-1 text-danger"></i>
-            </div>
-            <div class="navi-text">
-                <div class="font-weight-bold">My Activities</div>
-                <div class="text-muted">Logs and notifications</div>
-            </div>
-        </div>
-    </a>
+
 
     <!--end::Item-->
 
     <!--begin::Item-->
-    <a href="custom/apps/userprofile-1/overview.html" class="navi-item px-8">
-        <div class="navi-link">
-            <div class="navi-icon mr-2">
-                <i class="flaticon2-hourglass text-primary"></i>
-            </div>
-            <div class="navi-text">
-                <div class="font-weight-bold">My Tasks</div>
-                <div class="text-muted">latest tasks and projects</div>
-            </div>
-        </div>
-    </a>
+
 
     <!--end::Item-->
 
