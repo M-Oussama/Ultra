@@ -72,7 +72,14 @@
                },
 
                 {
-                    data: 'client.name',
+                    data: null,
+
+                  title: 'Client',
+                 orderable: false,
+                 render : function (data, type, row){
+
+                     return  data.client.name + " "+ data.client.surname;
+                 }
                 },
                 {
                     data: null,
