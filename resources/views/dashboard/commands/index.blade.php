@@ -61,9 +61,16 @@
                     },
                 },
                 {
-                    data: "id",
-                    width: '30px',
-                },
+                   data: null,
+
+                    title: 'id',
+                   orderable: false,
+                   render : function (data, type, row){
+
+                       return  "FAJ/"+new Date(data.date).getFullYear()+"/"+data.fac_id.toString().padStart(2, '0');;
+                   }
+               },
+
                 {
                     data: 'client.name',
                 },
