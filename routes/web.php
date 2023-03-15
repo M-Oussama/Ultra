@@ -95,6 +95,7 @@ Route::post('dash/profit/monthly/create', [ProfitController::class, 'StoreClient
 Route::get('dash/commands/getLastYearID/{YEAR}', [CommandController::class, 'getLastYearID']);
 Route::get('dash/companyProfile', [CompanyProfileController::class, 'edit']);
 Route::put('dash/company/update', [CompanyProfileController::class, 'update']);
+Route::post('dash/commands/invoice/export', [CommandController::class, 'exportInvoice']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

@@ -171,6 +171,36 @@ class CommandController extends Controller
     }
 
 
+    public function exportInvoice(Request $request){
+      $command_ids = $request->input('ids');
+      $invoices = [];
+      foreach($command_ids as $command_id){
+
+       $command = Command::find($command_id);
+              $company = CompanyProfile::find(1);
+              $lettre =new ChiffreEnLettre();
+
+              $commandProducts = CommandProduct::where('command_id',$command_id)->get();
+              $amountTax = $command->amount*1.19;
+              if($this->isDecimal($amountTax)){
+                  list($int, $float) = explode('.',  $amountTax);
+                  $amountLetter =  $lettre->Conversion($int)." Dinar(s)";
+                  $centime = "";
+                  if($float>0){
+                      $centime =  $lettre->Conversion($float)." Centimes";
+                  }
+                  $amountLetter = $amountLetter.$centime;
+              }else{
+                  $amountLetter =  $lettre->Conversion($amountTax)."Dinar(s)";
+
+              }
+              array_push($invoices,["amountLetter"=>$amountLetter,"company"=>$company,"commandProducts"=>$commandProducts, "command"=>$command]);
+      }
+     return view('ultra_invoice_multi')->with(["invoices"=>$invoices]);
+
+    }
+
+
     function int2str($a)
     {
         $convert = explode('.',$a);

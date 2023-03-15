@@ -186,6 +186,18 @@
             $(e.currentTarget).find('#deleteForm').attr('action', 'dash/commands/' + command_id/+"destroy");
         });
 
+          $('#exportMultiModal').on('show.bs.modal', function (e) {
+
+                 $(e.currentTarget).find('#exportMultiSubmit').click(function (eclick) {
+
+                                eclick.preventDefault();
+                                          $(e.currentTarget).find('#deleteMultiForm').attr('action', 'dash/commands/invoice/export');
+
+                                $('#deleteMultiForm').submit();
+                            });
+
+                });
+
         //delete multi modal
         $('#deleteMultiModal').on('show.bs.modal', function (e) {
             $(e.currentTarget).find('#deleteMultiSubmit').click(function (eclick) {
@@ -260,6 +272,19 @@
                                             </a>
                                         </li>
                                     @endcan
+
+
+                                     <li class="navi-item">
+                                         <a href="#" data-toggle="modal" data-target="#exportMultiModal"
+                                            class="navi-link">
+                                             <span class="navi-icon">
+                                                 <i class="la la-file"></i>
+                                             </span>
+                                             <span class="navi-text">Export Invoice</span>
+                                         </a>
+                                     </li>
+
+
                                 </ul>
                                 <!--end::Navigation-->
                             </div>
@@ -362,5 +387,25 @@
             </div>
         </div>
         <!-- end::delete multi modal -->
+
+
+         <div class="modal fade" id="exportMultiModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
+                     aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to export these commands
+                                    ?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
+                                    Close
+                                </button>
+                                <button id="exportMultiSubmit" type="submit" class="btn btn-danger font-weight-bold">yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
     </div>
 @endsection
