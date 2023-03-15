@@ -126,6 +126,7 @@ class CommandController extends Controller
         $command->amount = $amount;
         $command->payment_type = $request->payment_type;
         $command->client_id = $request->client_id;
+        $command->fac_id = $request->fac_id;
         $command->save();
 
 
