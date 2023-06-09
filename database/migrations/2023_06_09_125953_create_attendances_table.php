@@ -15,12 +15,10 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->integer('uid')->unsigned()->default(0);
-            $table->integer('employee_id')->unsigned();
-            $table->time('attendance_time')->default(date("H:i:s"));;
-            $table->date('attendance_date')->default(date("Y-m-d"));;
+            $table->integer('employee_id')->unsigned()->nullable();
+            $table->time('attendance_time')->default(date("H:i:s"))->nullable();
+            $table->date('attendance_date')->default(date("Y-m-d"))->nullable();
             $table->boolean('status')->default(1);
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->timestamps();
         });
     }
