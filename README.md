@@ -26,3 +26,7 @@ This is a starter template for our projects.
 - php artisan storage:link //make a symlink to storage
 - php artisan migrate --seed //create database tables and populate them with the seed files
 - php artisan serv //to run your dev server
+
+
+- php artisan migrate
+- php artisan db:seed --class=EmployeeSeeder

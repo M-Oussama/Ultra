@@ -16,6 +16,8 @@ use \App\Http\Controllers\CommandController;
 use \App\Models\ProductMonthlyProfit;
 use \App\Http\Controllers\ProfitController;
 use \App\Http\Controllers\CompanyProfileController;
+use \App\Http\Controllers\EmployeeController;
+use \App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +98,7 @@ Route::get('dash/commands/getLastYearID/{YEAR}', [CommandController::class, 'get
 Route::get('dash/companyProfile', [CompanyProfileController::class, 'edit']);
 Route::put('dash/company/update', [CompanyProfileController::class, 'update']);
 Route::post('dash/commands/invoice/export', [CommandController::class, 'exportInvoice']);
+Route::post('dash/employees/delete-multi', [EmployeeController::class, 'deleteMulti']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,
@@ -107,6 +110,8 @@ Route::resources([
     'dash/clients' => ClientController::class,
     'dash/commands' => CommandController::class,
     'dash/profit' => ProfitController::class,
+    'dash/employees' => EmployeeController::class,
+    'dash/attendances' => AttendanceController::class,
 ]);
 
 /********************* Dashboard routes :: End **************************************/
