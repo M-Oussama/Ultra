@@ -18,7 +18,7 @@ class CreateAttendancesTable extends Migration
             $table->integer('employee_id')->unsigned()->nullable();
             $table->time('attendance_time')->default(date("H:i:s"))->nullable();
             $table->date('attendance_date')->default(date("Y-m-d"))->nullable();
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

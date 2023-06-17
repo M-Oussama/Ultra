@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('page_meta')
-    <title>employees</title>
+    <title>Monthly Attendance</title>
     <meta name="keywords" content="Rozaric"/>
     <meta name="description" content="Rozaric">
     <meta name="author" content="Rozaric">
@@ -33,7 +33,7 @@
                 'lengthMenu': 'Display _MENU_',
             },
 
-            data: {!! $employees !!},
+            data: {!! $attendances !!},
 
             // Order settings
             order: [[1, 'asc']],
@@ -65,18 +65,24 @@
                     width: '30px',
                 },
                 {
-                    data: null,
-                    render: function (data, type, row) {
-                        return data.name +" "+data.surname;
+                    data: 'month',
+                    render: function (data, type, row){
+                        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+                        return months[data-1];
                     }
+                },
+                {
+                    data: 'year'
+                },
+                {
+                    data: 'payroll',
 
                 },
                 {
-                    data: 'address',
+                    data: 'cnas_contributions',
                 },
-                {
-                    data: 'birthdate',
-                },
+
                 {
                     data: null,
                     title: 'Actions',
@@ -84,46 +90,14 @@
                     width: '175px',
                     className: 'text-center',
                     render: function (data, type, row) {
-                        var employee_return = "";
-                        var employee_leave = "";
-                        if(data.leave_applications.length !=0){
-                            employee_leave = '<a href="/dash/employees/' + row.id + '/leave"  class="btn btn-sm btn-clean btn-icon" title="LEAVE">\
-                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Navigation/Sign-out.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
-                            <rect x="0" y="0" width="24" height="24"/>\
-                            <path d="M14.0069431,7.00607258 C13.4546584,7.00607258 13.0069431,6.55855153 13.0069431,6.00650634 C13.0069431,5.45446114 13.4546584,5.00694009 14.0069431,5.00694009 L15.0069431,5.00694009 C17.2160821,5.00694009 19.0069431,6.7970243 19.0069431,9.00520507 L19.0069431,15.001735 C19.0069431,17.2099158 17.2160821,19 15.0069431,19 L3.00694311,19 C0.797804106,19 -0.993056895,17.2099158 -0.993056895,15.001735 L-0.993056895,8.99826498 C-0.993056895,6.7900842 0.797804106,5 3.00694311,5 L4.00694793,5 C4.55923268,5 5.00694793,5.44752105 5.00694793,5.99956624 C5.00694793,6.55161144 4.55923268,6.99913249 4.00694793,6.99913249 L3.00694311,6.99913249 C1.90237361,6.99913249 1.00694311,7.89417459 1.00694311,8.99826498 L1.00694311,15.001735 C1.00694311,16.1058254 1.90237361,17.0008675 3.00694311,17.0008675 L15.0069431,17.0008675 C16.1115126,17.0008675 17.0069431,16.1058254 17.0069431,15.001735 L17.0069431,9.00520507 C17.0069431,7.90111468 16.1115126,7.00607258 15.0069431,7.00607258 L14.0069431,7.00607258 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.006943, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-9.006943, -12.000000) "/>\
-                            <rect fill="#000000" opacity="0.3" transform="translate(14.000000, 12.000000) rotate(-270.000000) translate(-14.000000, -12.000000) " x="13" y="6" width="2" height="12" rx="1"/>\
-                            <path d="M21.7928932,9.79289322 C22.1834175,9.40236893 22.8165825,9.40236893 23.2071068,9.79289322 C23.5976311,10.1834175 23.5976311,10.8165825 23.2071068,11.2071068 L20.2071068,14.2071068 C19.8165825,14.5976311 19.1834175,14.5976311 18.7928932,14.2071068 L15.7928932,11.2071068 C15.4023689,10.8165825 15.4023689,10.1834175 15.7928932,9.79289322 C16.1834175,9.40236893 16.8165825,9.40236893 17.2071068,9.79289322 L19.5,12.0857864 L21.7928932,9.79289322 Z" fill="#000000" fill-rule="nonzero" transform="translate(19.500000, 12.000000) rotate(-90.000000) translate(-19.500000, -12.000000) "/>\
-                             </g>\
-                                </svg>\
-                            </span>\
-                                </a>';
-                        }else{
-                            employee_return = '\
-                            \<a href="/dash/employees/' + row.id + '/return" class="btn btn-sm btn-clean btn-icon" title="RETURN">\
-                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Communication/Add-user.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
-                                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
-                                <polygon points="0 0 24 0 24 24 0 24"/>\
-                                <path d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>\
-                                <path d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero"/>\
-                                </g>\
-                                </svg>\
-                                </span>\
-                                </span>\
-                                </a>';
-                        }
-
-
-
-
                         return '\
-                        \<a href="dash/employees/' + row.id + '/pdf" class="btn btn-sm btn-clean btn-icon" title="PDF">\
+                        \<a href="dash/attendances/' + row.id + '/pdf" class="btn btn-sm btn-clean btn-icon" title="PDF">\
                             <i class="far fa-file-pdf">\
                             </i>\
                         </a>\
                         @canany(['edit-employee','delete-employee'])
                             @can('edit-employee')
-                            <a href="dash/employees/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
+                            <a href="dash/attendances/' + data.month + '/'+ data.year+'" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
                                     <span class="svg-icon svg-icon-md">\
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -136,7 +110,7 @@
                                 </a>\
                             @endcan
                             @can('delete-employee')
-                                <a href="#" data-toggle="modal"  data-target="#deleteModal" data-employee_id="' + row.id + '" data-employee_name="' + row.name + '" class="btn btn-sm btn-clean btn-icon" title="Delete">\
+                            <a href="#" data-toggle="modal"  data-target="#deleteModal" data-employee_id="' + row.id + '" data-employee_name="' + row.name + '" class="btn btn-sm btn-clean btn-icon" title="Delete">\
                                     <span class="svg-icon svg-icon-md">\
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -148,16 +122,10 @@
                                     </span>\
                                 </a>\
                             @endcan
-                            @can('delete-employee')
-                            '+employee_return+'\
-                            @endcan
-                            @can('delete-employee')
-                            '+employee_leave+'\
-                            @endcan
-                        @else
-                                <i>No Actions Available </i>\
-                        @endcanany
-                        ';
+                            @else
+                            <i>No Actions Available </i>\
+@endcanany
+                            ';
                     },
                 },
             ],
@@ -197,7 +165,20 @@
 
             //populate the textbox
             $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete the employee ' + employee_name + ' ?');
-            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/employees/' + employee_id);
+            $(e.currentTarget).find('#deleteForm').attr('action', 'dash/attendances/' + employee_id);
+        });
+
+        $('#createModal').on('show.bs.modal', function (e) {
+            //get data-id attribute of the clicked element
+
+            $(e.currentTarget).find('#submitmonthly').click(function (eclick) {
+                var month = $('#month_select').val();
+                var year = $('#year_select').val();
+                eclick.preventDefault();
+                window.location = "/dash/attendances/"+month+"/"+year;
+            })
+            //populate the textbox
+
         });
 
         //delete multi modal
@@ -216,7 +197,7 @@
         <div class="card card-custom gutter-b">
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
-                    <h3 class="card-label">employees <span class="d-block text-muted pt-2 font-size-sm">Be careful</span>
+                    <h3 class="card-label">Monthly Attendance <span class="d-block text-muted pt-2 font-size-sm">Be careful</span>
                     </h3>
                 </div>
                 <div class="card-toolbar">
@@ -266,7 +247,7 @@
                                     @endcan
                                     @can('list-employee')
                                         <li class="navi-item">
-                                            <a href="dash/employees/export" class="navi-link">
+                                            <a href="dash/attendances/export" class="navi-link">
                                                 <span class="navi-icon">
                                                     <i class="la la-file-excel"></i>
                                                 </span>
@@ -283,7 +264,7 @@
                     <!--end::Dropdown-->
                     <!--begin::Button-->
                     @can('create-employee')
-                        <a href="dash/employees/create" class="btn btn-primary font-weight-bolder">
+                        <a href="#"  data-toggle="modal"  data-target="#createModal" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -300,25 +281,27 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            New employee
+                            New Attendance
                         </a>
                     @endcan
                     <!--end::Button-->
                 </div>
             </div>
             <div class="card-body">
-                <form id="deleteMultiForm" action="dash/employees/delete-multi" method="post">
-                @csrf
-                <!--begin: Datatable-->
+                <form id="deleteMultiForm" action="dash/attendances/delete-multi" method="post">
+                    @csrf
+                    <!--begin: Datatable-->
                     <table class="table table-bordered table-checkable" id="kt_datatable">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>ID</th>
-                            <th>FULL NAME</th>
-                            <th>ADDRESS</th>
-                            <th>Birthdate</th>
+                            <th>MONTH</th>
+                            <th>YEAR</th>
+                            <th>PAYROLL</th>
+                            <th>CNAS</th>
                             <th>Actions</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -333,7 +316,7 @@
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
              aria-hidden="true" style="display: none;">
             <div class="modal-dialog" role="document">
-                <form id="deleteForm" action="dash/employees/{id}" method="post">
+                <form id="deleteForm" action="dash/attendances/{id}" method="post">
                     @csrf
                     @method('delete')
                     <div class="modal-content">
@@ -358,7 +341,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to delete these employees
+                        <h5 class="modal-title" id="exampleModalFormTitle">Do you really want to delete these attendances
                             ?</h5>
                     </div>
                     <div class="modal-footer">
@@ -366,6 +349,46 @@
                             Close
                         </button>
                         <button id="deleteMultiSubmit" type="submit" class="btn btn-danger font-weight-bold">Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalFormTitle">Select Month and Year
+                            ?</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group col-sm-12 col-md-12">
+                            <label>Choose a month : </label>
+                            <select class="form-control" id="month_select" name="month">
+                                @php $i = 1; @endphp
+                                @foreach($months as $month)
+                                    <option value="{{$i}}">{{$month}}</option>
+                                    @php $i++ @endphp
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-12">
+                            <label>Choose a year : </label>
+                            <select class="form-control" id="year_select" name="year">
+                                @foreach($years as $year)
+                                    <option value="{{$year}}">{{$year}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button id="submitmonthly" type="submit" class="btn btn-danger font-weight-bold">Submit
                         </button>
                     </div>
                 </div>

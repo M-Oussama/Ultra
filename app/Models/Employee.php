@@ -13,8 +13,14 @@ class Employee extends Model implements HasMedia
 {
     use HasFactory, Notifiable, HasRoles, InteractsWithMedia;
 
+
+
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function leaveApplications(){
+        return $this->hasMany(LeaveApplications::class);
     }
 }

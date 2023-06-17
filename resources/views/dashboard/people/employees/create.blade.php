@@ -68,20 +68,20 @@
                         <div class="col-sm-12 col-md-6 row">
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>Name* :</label>
-                                <input type="text" name="name" value="{{old('name')}}" autocomplete="family-name"
+                                <input type="text" name="name" value="{{old('name',$employee->name)}}" autocomplete="family-name"
                                        class="form-control form-control-solid" placeholder="Enter user name" required/>
                                 <span class="form-text text-muted">Please enter the employees's name</span>
                             </div>
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>Surname* :</label>
-                                <input type="text" name="surname" value="{{old('surname')}}" autocomplete="given-name"
+                                <input type="text" name="surname" value="{{old('surname',$employee->surname)}}" autocomplete="given-name"
                                        class="form-control form-control-solid" placeholder="Enter user surname"
                                        required/>
                                 <span class="form-text text-muted">Please enter the employees's surname</span>
                             </div>
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>address* :</label>
-                                <input type="text" name="address" value="{{old('address')}}" autocomplete="given-name"
+                                <input type="text" name="address" value="{{old('address',$employee->address)}}"  autocomplete="given-name"
                                        class="form-control form-control-solid" placeholder="Enter the address of the employee"
                                        required/>
                                 <span class="form-text text-muted">Please enter the address of the employees</span>
@@ -90,14 +90,14 @@
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>Birthdate* :</label>
                                 <input type="date" id="birthdate" name="birthdate"
-                                       class="form-control form-control-solid"
+                                       class="form-control form-control-solid"  value="{{old('birthdate',$employee->birthdate)}}"
                                        placeholder="Please enter Birthdate" required/>
                                 <span class="form-text text-muted">Please enter Birthdate</span>
                             </div>
 
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>Birth Place* :</label>
-                                <input type="text" name="birthplace" value="{{old('birthplace')}}"
+                                <input type="text" name="birthplace" value="{{old('birthplace',$employee->birthplace)}}"
                                        class="form-control form-control-solid" placeholder="Enter Birth Place"
                                        required/>
                                 <span class="form-text text-muted">Please enter Birth Place</span>
@@ -109,14 +109,14 @@
 
                             <div class="form-group col-sm-6 col-md-6">
                                 <label>Nationale Card Number* :</label>
-                                <input type="text" name="NCN" value="{{old('NCN')}}" autocomplete="given-name"
+                                <input type="text" name="NCN" value="{{old('NCN',$employee->NCN)}}" autocomplete="given-name"
                                        class="form-control form-control-solid" placeholder="Enter Nationale Card Number"
                                         />
                                 <span class="form-text text-muted">Please enter the employees's Nationale Card Number</span>
                             </div>
                             <div class="form-group col-sm-6 col-md-6">
                                 <label>National identification number* :</label>
-                                <input type="text" name="NIN" value="{{old('NIN')}}" autocomplete="given-name"
+                                <input type="text" name="NIN" value="{{old('NIN',$employee->NIN)}}" autocomplete="given-name"
                                        class="form-control form-control-solid" placeholder="Enter National identification number"
                                         />
                                 <span class="form-text text-muted">Please enter the employees's National identification number</span>
@@ -125,16 +125,40 @@
                             <div class="form-group col-sm-12 col-md-6">
                                 <label>National Card Issue date* :</label>
                                 <input type="date" id="card_issue_date" name="card_issue_date"
-                                       class="form-control form-control-solid"
+                                       class="form-control form-control-solid" value="{{old('card_issue_date',$employee->card_issue_date)}}"
                                        placeholder="Please enter National Card Issue date" required/>
                                 <span class="form-text text-muted">Please enter National Card Issue date</span>
                             </div>
                             <div class="form-group col-sm-6 col-md-6">
                                 <label>National Card issue Place* :</label>
-                                <input type="text" name="card_issue_place" value="{{old('card_issue_place')}}"
+                                <input type="text" name="card_issue_place" value="{{old('card_issue_place',$employee->card_issue_place)}}"
                                        class="form-control form-control-solid" placeholder="Enter National Card issue Place"
                                 />
                                 <span class="form-text text-muted">Please enter National Card issue Place</span>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-6">
+                                <label>CNAS NUMBER* :</label>
+                                <input type="text" name="CNAS" value="{{old('CNAS',$employee->CNAS)}}"
+                                       class="form-control form-control-solid" placeholder="Enter CNAS NUMBER" required
+                                />
+                                <span class="form-text text-muted">Please enter CNAS NUMBER</span>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6">
+                                <label>Start Date* :</label>
+                                <input type="date" id="card_start_date" name="start_date"
+                                       class="form-control form-control-solid" value="{{old('start_date',$employee->start_date)}}"
+                                       placeholder="Please enter Start Date" required/>
+                                <span class="form-text text-muted">Please enter Start Date</span>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6">
+                                <label>CNAS Start Date* :</label>
+                                <input type="date" id="card_cnas_start_date" name="cnas_start_date"
+                                       class="form-control form-control-solid" value="{{old('cnas_start_date',$employee->cnas_start_date)}}"
+                                       placeholder="Please enter CNAS Start Date" />
+                                <span class="form-text text-muted">Please enter CNAS Start Date</span>
                             </div>
 
 

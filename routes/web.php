@@ -100,6 +100,9 @@ Route::put('dash/company/update', [CompanyProfileController::class, 'update']);
 Route::post('dash/commands/invoice/export', [CommandController::class, 'exportInvoice']);
 Route::post('dash/employees/delete-multi', [EmployeeController::class, 'deleteMulti']);
 Route::put('dash/attendances/validate', [AttendanceController::class, 'updateAttendance']);
+Route::get('dash/attendances/{month}/{year}', [AttendanceController::class, 'getMonthlyAttendance']);
+Route::get('dash/employees/{id}/leave', [EmployeeController::class, 'leave']);
+Route::get('dash/employees/{id}/return', [EmployeeController::class, 'return']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

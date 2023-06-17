@@ -21,6 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->string('address')->nullable();
             $table->string('NIN')->nullable();
             $table->string('NCN')->nullable();
+            $table->string('CNAS')->nullable();
             $table->date('card_issue_date')->nullable();
             $table->string('card_issue_place')->nullable();
             $table->string('birthplace')->nullable();
