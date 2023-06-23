@@ -86,8 +86,9 @@
                     render: function (data, type, row) {
                         var employee_return = "";
                         var employee_leave = "";
-                        if(data.leave_applications.length !=0){
-                            employee_leave = '<a href="/dash/employees/' + row.id + '/leave"  class="btn btn-sm btn-clean btn-icon" title="LEAVE">\
+
+                        if(data.leave_applications[0].end_date === null){
+                            employee_leave = '<a href="#"  data-toggle="modal"  data-start_date="' + data.leave_applications[0].start_date + '" data-target="#leaveModal" data-employee_id="' + row.id + '" class="btn btn-sm btn-clean btn-icon" title="LEAVE">\
                                     <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Navigation/Sign-out.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
                             <rect x="0" y="0" width="24" height="24"/>\
@@ -100,7 +101,7 @@
                                 </a>';
                         }else{
                             employee_return = '\
-                            \<a href="/dash/employees/' + row.id + '/return" class="btn btn-sm btn-clean btn-icon" title="RETURN">\
+                            \<a href="#" data-toggle="modal"  data-target="#returnModal"  data-end_date="' + data.leave_applications[0].end_date + '" data-employee_id="' + row.id + '" class="btn btn-sm btn-clean btn-icon" title="RETURN">\
                                     <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Communication/Add-user.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
                                 <polygon points="0 0 24 0 24 24 0 24"/>\
@@ -198,6 +199,42 @@
             //populate the textbox
             $(e.currentTarget).find('#exampleModalFormTitle').text('Do you really want to delete the employee ' + employee_name + ' ?');
             $(e.currentTarget).find('#deleteForm').attr('action', 'dash/employees/' + employee_id);
+        });
+        $('#leaveModal').on('show.bs.modal', function (e) {
+            //get data-id attribute of the clicked element
+            var employee_id = $(e.relatedTarget).data('employee_id');
+            var start_date = $(e.relatedTarget).data('start_date');
+
+            console.log(start_date);
+            $('#leave_employee_id').val(employee_id);
+            $('#end_date').attr('min' , start_date);
+
+            //populate the textbox
+
+        });
+        $('#returnModal').on('show.bs.modal', function (e) {
+            //get data-id attribute of the clicked element
+            var employee_id = $(e.relatedTarget).data('employee_id');
+            var start_date = $(e.relatedTarget).data('end_date');
+
+
+
+            var date = new Date(start_date);
+
+// Add one day to the date
+            date.setDate(date.getDate() + 1);
+
+// Convert the modified date back to a string in the desired format
+            var modifiedDateString = date.toISOString().split('T')[0];
+
+
+
+
+           // var end_date = $(e.relatedTarget).data('end_date');
+            $('#return_employee_id').val(employee_id);
+           $('#start_date').attr('min' , modifiedDateString);
+            //populate the textbox
+
         });
 
         //delete multi modal
@@ -372,5 +409,80 @@
             </div>
         </div>
         <!-- end::delete multi modal -->
+
+
+
+        <div class="modal fade" id="leaveModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <form id="leaveForm" action="dash/employees/leave" method="post">
+                    @csrf
+                    @method('put')
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalFormTitle">Enter Leave Date
+                                ?</h5>
+                        </div>
+                        <div class="modal-body">
+                            <input type="number" id="leave_employee_id" name="employee_id" hidden/>
+                            <div class="col-sm-12 col-md-12 row">
+                                <div class="form-group col-sm-12 col-md-12">
+                                    <label>Leave Date* :</label>
+                                    <input type="date"  id="end_date" name="end_date"
+                                           class="form-control form-control-solid"
+                                           placeholder="Please enter leave date" required/>
+                                    <span class="form-text text-muted">Please enter leave date</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-danger font-weight-bold">Leave</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="exampleModalFormTitle"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <form id="returnForm" action="dash/employees/return" method="post">
+                    @csrf
+                    @method('put')
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalFormTitle">Enter return Date
+                                ?</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-sm-12 col-md-12 ">
+                                <div class="form-group col-sm-12 col-md-12">
+                                    <input type="number" id="return_employee_id" name="employee_id" hidden/>
+
+                                    <label>return Date* :</label>
+                                    <input type="date"  id="start_date" name="start_date"
+                                           class="form-control form-control-solid"
+                                           placeholder="Please enter leave date" required/>
+                                    <span class="form-text text-muted">Please enter return date</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-success font-weight-bold">Return</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
     </div>
 @endsection

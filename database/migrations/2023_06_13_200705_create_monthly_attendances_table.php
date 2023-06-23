@@ -18,7 +18,7 @@ class CreateMonthlyAttendancesTable extends Migration
             $table->unsignedInteger('month')->nullable();
             $table->unsignedInteger('year')->nullable();
             $table->double('payroll')->nullable();
-            $table->double('cnas_contributions')->nullable();
+            $table->double('cnas_contributions')->default(0);
             $table->timestamps();
         });
     }

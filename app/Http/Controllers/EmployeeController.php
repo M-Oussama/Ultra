@@ -26,7 +26,7 @@ class EmployeeController extends Controller
     {
         $currentDate = date('Y-m-d'); // Get the current date
 
-        $employees = Employee::with(['leaveApplications' => function ($query) use ($currentDate) {
+  /*     $employees = Employee::with(['leaveApplications' => function ($query) use ($currentDate) {
             $query->where('start_date', '<=', $currentDate)
                 ->where(function ($query) use ($currentDate) {
                     $query->where('end_date', '>=', $currentDate)
@@ -38,7 +38,10 @@ class EmployeeController extends Controller
                 $employee->isWorking = !$employee->leaveApplications->isEmpty() || $employee->leaveApplications->max('end_date') < $currentDate;
                 return $employee;
             });
-
+*/
+        $employees = Employee::with(['leaveApplications' => function ($query) {
+            $query->orderBy('start_date', 'desc');
+        }])->get();
 
 
         return view('dashboard.people.employees.index')->with('employees',$employees);
@@ -211,13 +214,39 @@ class EmployeeController extends Controller
         return redirect()->back();
     }
 
-    public function leave($id){
-        $employee = Employee::find($id);
-        return view('dashboard.people.employees.leave')->with('employee',$employee);
+    public function leave(Request $request){
+        $employee = Employee::find($request->employee_id);
+        $leave_record = LeaveApplications::where('employee_id',$employee->id)->where('end_date',null)->get()->first();
+
+        $leave_record->end_date = $request->end_date;
+        $leave_record->cnas_end_date = $request->end_date;
+        $leave_record->save();
+
+        session()->flash('type', 'success');
+        session()->flash('message', 'Employee left successfully.');
+        return redirect()->back();
     }
 
-    public function return($id){
-        $employee = Employee::find($id);
-        return view('dashboard.people.employees.return')->with('employee',$employee);
+    public function return(Request $request){
+        $employee = Employee::find($request->employee_id);
+
+
+        $leave_app = new LeaveApplications();
+        $leave_app->start_date = $request->start_date;
+        $leave_app->employee_id = $request->employee_id;
+        $leave_app->cnas_start_date = $request->start_date;
+        $leave_app->save();
+
+        session()->flash('type', 'success');
+        session()->flash('message', 'Employee returned successfully.');
+        return redirect()->back();
     }
+
+
+
+
+
+
 }
+
+

@@ -101,8 +101,10 @@ Route::post('dash/commands/invoice/export', [CommandController::class, 'exportIn
 Route::post('dash/employees/delete-multi', [EmployeeController::class, 'deleteMulti']);
 Route::put('dash/attendances/validate', [AttendanceController::class, 'updateAttendance']);
 Route::get('dash/attendances/{month}/{year}', [AttendanceController::class, 'getMonthlyAttendance']);
-Route::get('dash/employees/{id}/leave', [EmployeeController::class, 'leave']);
-Route::get('dash/employees/{id}/return', [EmployeeController::class, 'return']);
+Route::put('dash/employees/leave', [EmployeeController::class, 'leave']);
+Route::put('dash/employees/return', [EmployeeController::class, 'return']);
+Route::get('dash/salary/{id}', [AttendanceController::class, 'getSalaryPage']);
+Route::put('dash/monthly/salary', [AttendanceController::class, 'submitSalary']);
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

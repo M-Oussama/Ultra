@@ -23,4 +23,7 @@ class Employee extends Model implements HasMedia
     public function leaveApplications(){
         return $this->hasMany(LeaveApplications::class);
     }
+    public function monthlyPayroll(){
+        return $this->hasMany(EmployeeMonthlyPayroll::class);
+    }
 }
