@@ -137,17 +137,31 @@ class AttendanceController extends Controller
     public function updateAttendance(Request $request){
         $month = $request->month;
         $year = $request->year;
+        $attendance = MonthlyAttendance::where('month',$month)->where('year',$year)->get()->first();
+        $id = $attendance->id;
         $employees_attendances =   Employee::with(['attendances' => function ($query) use ($year, $month) {
             $query->whereYear('attendance_date', $year)
                 ->whereMonth('attendance_date', $month);
+        }])->with(['monthlyPayroll' => function ($query) use ($id){
+            $query->where('monthly_attendances_id', $id);
+
         }])->get();
 
 
+
         foreach ($employees_attendances as $employee){
+            $working_days = 0;
             foreach ($employee->attendances as $attendance){
                 $attendance->status = $request->has('attendance'.$attendance->id) ? 1 : 0;;
                 $attendance->save();
+                if($attendance->status == 1)
+                    $working_days++;
             }
+            $salary = $employee->monthlyPayroll->first()->salary;
+            $cal_salary = ($salary/30) * $working_days;
+            $employee->monthlyPayroll->first()->cal_salary = $cal_salary;
+            $employee->monthlyPayroll->first()->working_days = $working_days;
+            $employee->monthlyPayroll->first()->save();
         }
 
 
@@ -231,6 +245,25 @@ class AttendanceController extends Controller
         session()->flash('type', 'success');
         session()->flash('message', 'Monthly Salary Updated successfully.');
         return redirect("dash/attendances");
+
+    }
+
+    public function showMonthlyCal($id){
+        $attendance = MonthlyAttendance::find($id);
+        $year = $attendance->year;
+        $month = $attendance->month;
+
+        $employees = Employee::with(['attendances' => function ($query) use ($year, $month) {
+            $query->whereYear('attendance_date', $year)
+                ->whereMonth('attendance_date', $month);
+        }])->with(['monthlyPayroll' => function ($query) use ($id){
+            $query->where('monthly_attendances_id', $id);
+
+        }])->get();
+
+
+        return view('dashboard.people.employees.attendances.monthly_salary')->with('employees',$employees);
+
 
     }
 }
