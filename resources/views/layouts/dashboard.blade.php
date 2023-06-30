@@ -6,6 +6,15 @@
         <base href="/">
         <meta charset="utf-8" />
 
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/media/logos/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/media/logos/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="assets/media/logos/favicon-16x16.png">
+        <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+        <meta name="theme-color" content="#1e1e2d"/>
+        <link rel="manifest" href="{{ asset('/manifest.json') }}">
+        <meta name="keywords" content="SPI, Intervention" />
+        <meta name="description" content="SPI - Intervention">
+        <meta name="author" content="YouceTech">
         @yield('page_meta')
 
         <!-- Mobile Metas -->

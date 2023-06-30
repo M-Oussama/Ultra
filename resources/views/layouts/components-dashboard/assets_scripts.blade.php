@@ -66,7 +66,14 @@
 <script src="assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="assets/js/scripts.bundle.js"></script>
 <!--end::Global Theme Bundle-->
-
+<script src="{{ asset('/sw.js') }}"></script>
+<script>
+    if (!navigator.serviceWorker.controller) {
+        navigator.serviceWorker.register("/sw.js").then(function (reg) {
+            console.log("Service worker has been registered for scope: " + reg.scope);
+        });
+    }
+</script>
 @if(session('message'))
     <script>
         var toaster = $('#toaster');

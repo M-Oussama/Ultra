@@ -1,0 +1,23 @@
+{
+    "name": "ULTRA - MANAGEMENT",
+    "short_name": "ULTRA",
+    "start_url": "/",
+    "background_color": "#6777ef",
+    "description": "SPI - Intervention",
+    "display": "fullscreen",
+    "theme_color": "#1e1e2d",
+    "icons": [
+        {
+            "src": "assets/media/logos/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/media/logos/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

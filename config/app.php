@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        Ladumor\LaravelPwa\PWAServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'LaravelPwa' => Ladumor\LaravelPwa\LaravelPwa::class,
     ],
 
 ];
