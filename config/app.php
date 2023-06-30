@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
-        Ladumor\LaravelPwa\PWAServiceProvider::class,
+        
 
     ],
 
