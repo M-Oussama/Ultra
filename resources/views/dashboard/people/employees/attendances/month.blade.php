@@ -116,7 +116,7 @@
                             </g>\
                     </svg><!--end::Svg Icon--></span>\
                         </a>\
-                         \<a href="dash/attendances/' + row.id + '/pdf" class="btn btn-sm btn-clean btn-icon" title="PDF">\
+                         \<a href="dash/monthlyAttendance/' + row.id + '/report" class="btn btn-sm btn-clean btn-icon" title="PDF">\
                             <i class="far fa-file-pdf">\
                             </i>\
                         </a>\

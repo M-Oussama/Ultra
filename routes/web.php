@@ -106,6 +106,8 @@ Route::put('dash/employees/return', [EmployeeController::class, 'return']);
 Route::get('dash/salary/{id}', [AttendanceController::class, 'getSalaryPage']);
 Route::put('dash/monthly/salary', [AttendanceController::class, 'submitSalary']);
 Route::get('dash/salary/employees/{id}', [AttendanceController::class, 'showMonthlyCal']);
+Route::get('dash/monthlyAttendance/{id}/report', [AttendanceController::class, 'exportMonthlyReport']);
+
 // resources routes
 Route::resources([
     'dash/permissions' => PermissionController::class,

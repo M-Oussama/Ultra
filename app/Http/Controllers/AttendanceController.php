@@ -77,7 +77,7 @@ class AttendanceController extends Controller
             $startDate = $startDate->modify('+1 day');
         }
 
-        $leave_apps = LeaveApplications::with('employee')->whereDate('start_date','<=',$endDate)->whereDate('end_date','<=',$endDate)->get();
+        $leave_apps = LeaveApplications::with('employee')->whereDate('start_date','<=',$endDate)->whereDate('end_date','<=',$endDate)->orWhere('end_date',null)->get();
 
 
         foreach ($leave_apps as $leave_app){
@@ -104,6 +104,8 @@ class AttendanceController extends Controller
 
         $startDate = Carbon::create($year, $month, 1);
         $endDate = $startDate->copy()->lastOfMonth();
+
+        $monthly_attendance = MonthlyAttendance::where('month',$month)->where('year',$year)->get();
         $daysInMonth = $endDate->diffInDays($startDate) + 1;
 
         $dates = [];
@@ -121,14 +123,19 @@ class AttendanceController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
 
-        $attendances = Employee::whereHas('attendances', function ($query) use ($startDate,$endDate) {
-            $query->whereDate('attendance_date', '>=', $startDate)
-                ->whereDate('attendance_date', '<=', $endDate);
-        })
-            ->with(['attendances' => function ($query) use ($startDate, $endDate) {
-                $query->whereDate('attendance_date', '>=', $startDate)
-                    ->whereDate('attendance_date', '<=', $endDate);
-            }])->get();
+        $id = $monthly_attendance->first()->id;
+
+
+        $attendances = Employee::with(['attendances' => function ($query) use ($year, $month) {
+            $query->whereYear('attendance_date', $year)
+                ->whereMonth('attendance_date', $month);
+        }])
+
+            ->whereHas('monthlyPayroll', function ($query) use ($id) {
+                $query->where('monthly_attendances_id', $id);
+
+            })->get();
+
 
 
         return view('dashboard.people.employees.attendances.index')->with('attendances',$attendances)->with('dates',$dates)->with('month',$month)->with('year',$year);
@@ -260,10 +267,56 @@ class AttendanceController extends Controller
             $query->where('monthly_attendances_id', $id);
 
         }])->get();
-
-
         return view('dashboard.people.employees.attendances.monthly_salary')->with('employees',$employees);
+    }
+
+    public function exportMonthlyReport($id){
+
+        $attendance = MonthlyAttendance::find($id);
+        $year = $attendance->year;
+        $month = $attendance->month;
+        $employees = Employee::with(['attendances' => function ($query) use ($year, $month) {
+            $query->whereYear('attendance_date', $year)
+                ->whereMonth('attendance_date', $month);
+        }])->with(['monthlyPayroll' => function ($query) use ($id) {
+            $query->where('monthly_attendances_id', $id);
+        }])
+            ->with(['leaveApplications' => function ($query) {
+                $query->orderBy('start_date', 'desc')->take(1);
+            }])
+            ->select('employees.*')
+            ->selectRaw('(SELECT COUNT(*) FROM attendances
+                  WHERE employee_id = employees.id
+                  AND WEEKDAY(attendance_date) NOT IN (3, 4)
+                  AND attendance_date NOT IN (
+                      SELECT attendance_date FROM attendances
+                      WHERE employee_id = employees.id
+                      AND status = "absent"
+                  )) +
+                  CASE
+                      WHEN (SELECT COUNT(*) FROM attendances
+                            WHERE employee_id = employees.id
+                            AND WEEKDAY(attendance_date) IN (3, 4)) >= 10
+                      THEN 2
+                      ELSE 0
+                  END AS total')
+            ->get();
 
 
+        $months = [
+            1 => 'Janvier',
+            2 => 'Février',
+            3 => 'Mars',
+            4 => 'Avril',
+            5 => 'Mai',
+            6 => 'Juin',
+            7 => 'Juillet',
+            8 => 'Août',
+            9 => 'Septembre',
+            10 => 'Octobre',
+            11 => 'Novembre',
+            12 => 'Décembre',
+        ];
+        return view('pdf.monthly_report')->with('employees',$employees)->with('month',$months[$month])->with('year',$year);
     }
 }

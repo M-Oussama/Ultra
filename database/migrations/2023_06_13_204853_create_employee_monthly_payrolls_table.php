@@ -17,7 +17,7 @@ class CreateEmployeeMonthlyPayrollsTable extends Migration
             $table->id();
             $table->unsignedInteger('employee_id')->nullable();
             $table->double('salary')->default(0);
-            $table->double('cal_salary')->nullable(0);
+            $table->double('cal_salary')->default(0);
             $table->double('working_days')->default(0);
             $table->double('cnas')->default(0);
             $table->unsignedInteger('monthly_attendances_id')->nullable();

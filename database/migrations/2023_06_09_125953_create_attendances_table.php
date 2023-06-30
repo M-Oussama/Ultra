@@ -16,6 +16,7 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->integer('employee_id')->unsigned()->nullable();
+            $table->integer('monthly_attendance_id')->unsigned()->nullable();
             $table->time('attendance_time')->default(date("H:i:s"))->nullable();
             $table->date('attendance_date')->default(date("Y-m-d"))->nullable();
             $table->boolean('status')->default(0);
