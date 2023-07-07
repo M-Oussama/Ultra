@@ -159,7 +159,8 @@ class AttendanceController extends Controller
         foreach ($employees_attendances as $employee){
             $working_days = 0;
             foreach ($employee->attendances as $attendance){
-                $attendance->status = $request->has('attendance'.$attendance->id) ? 1 : 0;;
+
+                $attendance->status = $request->input('attendance'.$attendance->id) == "on" ? 1 : 0;;
                 $attendance->save();
                 if($attendance->status == 1)
                     $working_days++;
@@ -231,16 +232,14 @@ class AttendanceController extends Controller
         $year = $attendance->year;
         $month = $attendance->month;
 
-
-
-
         $employees = Employee::with(['attendances' => function ($query) use ($year, $month) {
             $query->whereYear('attendance_date', $year)
                 ->whereMonth('attendance_date', $month);
         }])->with(['monthlyPayroll' => function ($query) use ($id){
             $query->where('monthly_attendances_id', $id);
-
         }])->get();
+
+
         foreach ($employees as $employee){
             $employee->monthlyPayroll->first()->salary = $request->input('salary'.$employee->id);
             $employee->monthlyPayroll->first()->save();
@@ -275,32 +274,36 @@ class AttendanceController extends Controller
         $attendance = MonthlyAttendance::find($id);
         $year = $attendance->year;
         $month = $attendance->month;
+        $x = Employee::with(['attendances' => function ($query) use ($year, $month) {
+            $query->whereYear('attendance_date', $year)
+                ->whereMonth('attendance_date', $month);
+        }])->get();
+
         $employees = Employee::with(['attendances' => function ($query) use ($year, $month) {
             $query->whereYear('attendance_date', $year)
                 ->whereMonth('attendance_date', $month);
-        }])->with(['monthlyPayroll' => function ($query) use ($id) {
-            $query->where('monthly_attendances_id', $id);
         }])
             ->with(['leaveApplications' => function ($query) {
-                $query->orderBy('start_date', 'desc')->take(1);
+                $query->orderBy('start_date', 'desc');
             }])
             ->select('employees.*')
             ->selectRaw('(SELECT COUNT(*) FROM attendances
+              WHERE employee_id = employees.id
+              AND MONTH(attendance_date) = '.$month.'
+              AND YEAR(attendance_date) = '.$year.'
+              AND DAYOFWEEK(attendance_date) NOT IN (3, 4)
+              AND attendance_date  IN (
+                  SELECT attendance_date FROM attendances
                   WHERE employee_id = employees.id
-                  AND WEEKDAY(attendance_date) NOT IN (3, 4)
-                  AND attendance_date NOT IN (
-                      SELECT attendance_date FROM attendances
-                      WHERE employee_id = employees.id
-                      AND status = "absent"
-                  )) +
-                  CASE
-                      WHEN (SELECT COUNT(*) FROM attendances
-                            WHERE employee_id = employees.id
-                            AND WEEKDAY(attendance_date) IN (3, 4)) >= 10
-                      THEN 2
-                      ELSE 0
-                  END AS total')
-            ->get();
+                  AND status = 1
+              )) AS working_days')->get();
+
+
+
+
+
+
+
 
 
         $months = [

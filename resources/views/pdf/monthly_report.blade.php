@@ -97,10 +97,11 @@
                             @if(count($employees[$i]->leaveApplications)>0)
                                 <td class="reverse-content">{{date('d/m/Y', strtotime($employees[$i]->leaveApplications[0]->start_date))}}</td>
                             @else
-                                <td></td>
+                                <td>{{$employees[$i]->leaveApplications}}</td>
                             @endif
                             <td>JOUR</td>
-                            <td>{{$employees[$i]->total}}</td>
+
+                            <td>{{$employees[$i]->working_days}}</td>
                             <td>0</td>
                         </tr>
                     @endfor

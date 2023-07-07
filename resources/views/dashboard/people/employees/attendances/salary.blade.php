@@ -27,13 +27,15 @@
 
             lengthMenu: [5, 10, 25, 50],
 
-            pageLength: 10,
+            pageLength: {{count($employees)}},
 
             language: {
                 'lengthMenu': 'Display _MENU_',
             },
 
             data: {!! $employees !!},
+
+
 
             // Order settings
             order: [[1, 'asc']],
