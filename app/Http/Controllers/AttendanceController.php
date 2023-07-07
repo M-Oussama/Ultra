@@ -28,12 +28,16 @@ class AttendanceController extends Controller
         $current_month = Carbon::now()->format('m');
         $current_year = Carbon::now()->format('Y');
 
-        $attendances_monthly_exists = MonthlyAttendance::where('month',$current_month)->where('year',$current_year)->get();
+        $attendances_monthly_exists = MonthlyAttendance::where('month',$current_month)->where('year',$current_year)
+            ->get();
+
 
         if($attendances_monthly_exists->isEmpty())
                  $this->createMonthlyAttendance($current_month,$current_year);
 
-        $attendances = MonthlyAttendance::all();
+        $attendances = MonthlyAttendance::orderBy('year', 'desc')
+            ->orderBy('month', 'desc')->get();
+
 
         /**  years since 2010 till now */
         $currentYear = date('Y');
@@ -145,6 +149,7 @@ class AttendanceController extends Controller
         $month = $request->month;
         $year = $request->year;
         $attendance = MonthlyAttendance::where('month',$month)->where('year',$year)->get()->first();
+        $monthly_attendance = MonthlyAttendance::where('month',$month)->where('year',$year)->get()->first();
         $id = $attendance->id;
         $employees_attendances =   Employee::with(['attendances' => function ($query) use ($year, $month) {
             $query->whereYear('attendance_date', $year)
@@ -171,6 +176,12 @@ class AttendanceController extends Controller
             $employee->monthlyPayroll->first()->working_days = $working_days;
             $employee->monthlyPayroll->first()->save();
         }
+
+
+        $payroll = EmployeeMonthlyPayroll::where('monthly_attendances_id',$id)->sum('cal_salary');
+        $monthly_attendance->payroll = $payroll;
+        $monthly_attendance->save();
+
 
 
 
@@ -242,6 +253,8 @@ class AttendanceController extends Controller
 
         foreach ($employees as $employee){
             $employee->monthlyPayroll->first()->salary = $request->input('salary'.$employee->id);
+            $cal_salary = ($request->input('salary'.$employee->id)/30) * $employee->monthlyPayroll->first()->working_days;
+            $employee->monthlyPayroll->first()->cal_salary = $cal_salary;
             $employee->monthlyPayroll->first()->save();
         }
 

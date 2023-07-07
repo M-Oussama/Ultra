@@ -36,7 +36,7 @@
             data: {!! $attendances !!},
 
             // Order settings
-            order: [[1, 'asc']],
+
 
             headerCallback: function (thead, data, start, end, display) {
                 thead.getElementsByTagName('th')[0].innerHTML = `
@@ -53,6 +53,7 @@
                     className: 'dt-left',
                     orderable: false,
                     render: function (data, type, row) {
+
                         return `
                         <label class="checkbox checkbox-single">
                             <input type="checkbox" name="ids[]" value="` + row.id + `" class="checkable"/>
@@ -61,8 +62,12 @@
                     },
                 },
                 {
-                    data: "id",
+                    data: null,
                     width: '30px',
+                    render: function (data, type, row, meta) {
+                        var rowIndex = meta.row + meta.settings._iDisplayStart + 1; // Calculate the row index
+                        return rowIndex;
+                    },
                 },
                 {
                     data: 'month',
