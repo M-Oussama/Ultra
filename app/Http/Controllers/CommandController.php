@@ -86,6 +86,8 @@ class CommandController extends Controller
 
         return response()->json(["success"=>true]);
     }
+
+
     public function edit($command_id){
         $commands = Command::find($command_id);
         $products = product::all();

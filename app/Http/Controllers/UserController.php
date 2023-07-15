@@ -194,4 +194,44 @@ class UserController extends Controller
         $pdf = PDF::loadView('dashboard.people.users.pdf.pdf', $data);
         return $pdf->download($user->name.' '.$user->surname.' file.pdf');
     }
+
+    public function getChangePassword(){
+        return view('dashboard.people.users.change_password');
+    }
+    public function changePassword(Request $request){
+        $validator = Validator::make($request->all(), [
+            'old_password'          => 'required',
+            'password'              => 'required',
+            'password2' =>  function ($attribute, $value, $fail) use ($request) {
+                if ($value != $request->input('password')) {
+                    $fail('The repeated password does not match the first password.');
+                }
+            }
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('type', "error");
+            session()->flash('message', "Please verify your form");
+            return redirect('dash/change_password')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user = Auth::user();
+        if (Hash::check($request->old_password,$user->password )) {
+            //add logic here
+            $user->password = Hash::make($request->password);
+            $user->save();
+            session()->flash('type', 'success');
+            session()->flash('message', 'Password updated successfully.');
+            return redirect()->back();
+        }else{
+            session()->flash('type', "error");
+            session()->flash('message',"The Old Password is Wrong");
+            return redirect('dash/change_password')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+    }
 }

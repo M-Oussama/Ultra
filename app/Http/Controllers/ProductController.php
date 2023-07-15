@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AccountType;
 use App\Models\product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
@@ -51,6 +52,14 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->quantity = $request->quantity;
         $product->type_id = 1;
+        $product->save();
+
+        $stock = new Stock();
+        $stock->product_id = $product->id;
+        $stock->quantity = $request->quantity;
+        $stock->save();
+
+        $product->stock_id = $stock->id;
         $product->save();
 
         if (!empty($request->avatar)) {

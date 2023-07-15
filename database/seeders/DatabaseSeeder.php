@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             PaymentTypesSeeder::class,
             CompanyProfileSeeder::class,
             EmployeeSeeder::class,
+            SalesSeeder::class,
+            StockSeeder::class,
         ]);
     }
 }

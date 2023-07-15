@@ -24,15 +24,15 @@
 <div class="navi navi-spacer-x-0 pt-5">
 
     <!--begin::Item-->
-    <a href="{{URL('dash/companyProfile')}}" class="navi-item px-8">
+    <a href="{{URL('dash/user/password/change')}}" class="navi-item px-8">
         <div class="navi-link">
             <div class="navi-icon mr-2">
                 <i class="flaticon2-calendar-3 text-success"></i>
             </div>
             <div class="navi-text">
-                <div class="font-weight-bold">My Company</div>
-                <div class="text-muted">Account settings and more
-                    <span class="label label-light-danger label-inline font-weight-bold">update</span>
+                <div class="font-weight-bold">My Profile</div>
+                <div class="text-muted">change your profile Settings
+                    <span class="label label-light-danger label-inline font-weight-bold">change</span>
                 </div>
             </div>
         </div>

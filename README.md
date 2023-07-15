@@ -30,3 +30,9 @@ This is a starter template for our projects.
 
 - php artisan migrate
 - php artisan db:seed --class=EmployeeSeeder
+// 13/07/2023
+- php artisan migrate
+- php artisan db:seed --class=SalesSeeder
+- php artisan db:seed --class=StockSeeder
+- add column for product called stock_id
+

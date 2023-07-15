@@ -18,6 +18,8 @@ use \App\Http\Controllers\ProfitController;
 use \App\Http\Controllers\CompanyProfileController;
 use \App\Http\Controllers\EmployeeController;
 use \App\Http\Controllers\AttendanceController;
+use \App\Http\Controllers\POSController;
+use \App\Http\Controllers\StockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +109,25 @@ Route::get('dash/salary/{id}', [AttendanceController::class, 'getSalaryPage']);
 Route::put('dash/monthly/salary', [AttendanceController::class, 'submitSalary']);
 Route::get('dash/salary/employees/{id}', [AttendanceController::class, 'showMonthlyCal']);
 Route::get('dash/monthlyAttendance/{id}/report', [AttendanceController::class, 'exportMonthlyReport']);
+Route::get('dash/user/password/change', [UserController::class, 'getChangePassword']);
+Route::post('dash/user/change_password', [UserController::class, 'changePassword']);
+
+
+/** SALES  */
+Route::get('dash/sales', [POSController::class, 'index']);
+Route::get('dash/sales/create', [POSController::class, 'create']);
+Route::post('dash/sales/store', [POSController::class, 'store']);
+Route::get('dash/sales/{id}/edit', [POSController::class, 'edit']);
+Route::post('dash/sales/{id}/update', [POSController::class, 'update']);
+Route::delete('dash/sales/{id}/destroy', [POSController::class, 'destroy']);
+
+
+/**
+ *  STOCK
+ */
+
+Route::get('dash/stock', [StockController::class, 'index']);
+
 
 // resources routes
 Route::resources([
@@ -121,6 +142,7 @@ Route::resources([
     'dash/profit' => ProfitController::class,
     'dash/employees' => EmployeeController::class,
     'dash/attendances' => AttendanceController::class,
+
 ]);
 
 /********************* Dashboard routes :: End **************************************/

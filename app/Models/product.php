@@ -13,5 +13,11 @@ class product extends Model implements HasMedia
 {
     use HasFactory, Notifiable, HasRoles, InteractsWithMedia;
 
+   // protected $with = ['stock'];
+
+    public function stock(){
+        return $this->belongsTo(Stock::class);
+    }
+
 
 }
