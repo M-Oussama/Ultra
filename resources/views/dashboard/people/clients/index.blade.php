@@ -65,7 +65,10 @@
                     width: '30px',
                 },
                 {
-                    data: 'name',
+                    data: null,
+                    render: function (data, type, row) {
+                        return data.name +  " "+data.surname;
+                    }
                 },
                 {
                     data: 'email',
