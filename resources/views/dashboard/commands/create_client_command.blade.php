@@ -252,6 +252,8 @@
             $('#product_quantity').val(product['quantity']);
 
         }
+
+        $('#client_id').select2();
         function getProductID(id) {
 
             for (let i = 0; i <added_products.length ; i++) {
@@ -520,7 +522,7 @@
                         <label>Choose a client : </label>
                         <select class="form-control" id="client_id" name="param">
                             @foreach($clients as $client)
-                                <option value="{{$client->id}}">{{$client->name}}</option>
+                                <option value="{{$client->id}}">{{$client->name}} {{$client->surname}}</option>
                             @endforeach
                         </select>
                     </div>
