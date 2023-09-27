@@ -29,28 +29,13 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'barcode' => 'required',
-            'price' => 'required',
-            'quantity' => 'required',
-
-        ]);
-
-        if ($validator->fails()) {
-            session()->flash('type', "error");
-            session()->flash('message', "Please verify your form");
-            return redirect('dash/products/create')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
 
         $product = new product();
         $product->name = $request->name;
         $product->barcode = $request->barcode;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
+        $product->stackable = $request->stackable == "on" ? true : false;
         $product->type_id = 1;
         $product->save();
 
@@ -123,6 +108,7 @@ class ProductController extends Controller
             $product->barcode = $request->barcode;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
+            $product->stackable = $request->stackable == "on" ? true : false;
             $product->type_id = 1;
             $product->save();
 
@@ -144,20 +130,41 @@ class ProductController extends Controller
             return redirect('dash/products');
         }
     }
-//
-//    /**
-//     * Remove the specified resource from storage.
-//     *
-//     * @param  \App\Models\User  $user
-//     */
-//    public function destroy(User $user)
-//    {
-//        $user->delete();
-//        session()->flash('type', 'success');
-//        session()->flash('message', 'User deleted successfully.');
-//        return redirect()->back();
-//    }
-//
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  product  $product
+     */
+    public function destroy(product $product)
+    {
+            // Check if the product is referenced in any other tables.
+        if ($product->sells()->count() > 0) {
+            // Handle the case where the product is still referenced in the sells table.
+            session()->flash('type', 'error');
+            session()->flash('message', 'Cannot delete. Product is referenced in sales.');
+            return redirect()->back();
+        }
+
+        if ($product->stock()->count() > 0) {
+            $stock = Stock::where('product_id',$product->id)->get()->first();
+            $stock->delete();
+
+        }
+
+        if ($product->commandProduct()->count() > 0) {
+            // Handle the case where the product is still referenced in the sells table.
+            session()->flash('type', 'error');
+            session()->flash('message', 'Cannot delete. Product is referenced in commands.');
+            return redirect()->back();
+        }
+
+        $product->delete();
+        session()->flash('type', 'success');
+        session()->flash('message', 'Product deleted successfully.');
+        return redirect()->back();
+    }
+
 //    public function deleteMulti(Request $request){
 //        $ids = $request->input('ids');
 //        foreach ($ids as $id){

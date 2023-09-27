@@ -15,6 +15,43 @@
     <!-- Page scripts -->
     <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
     <script>
+
+
+        function openInvoice(){
+            
+            // Define the data you want to display in the new window
+            var windowName = 'NEW_SALE_' + new Date().getTime();
+
+            // Open a new window with a blank page
+            var newWindow = window.open('' ,windowName, 'width=1200,height=1200,scrollbars=yes,resizable=yes');
+            // Write the data to the new window
+            var iframe = document.createElement('iframe');
+            iframe.src = '/assets/editable_table.html';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+
+            // Add the iframe to the new window's document
+            newWindow.document.body.appendChild(iframe);
+        }
+        function openWindow(){
+            console.log("clicked");
+            // Define the data you want to display in the new window
+            var windowName = 'NEW_SALE_' + new Date().getTime();
+
+            // Open a new window with a blank page
+            var newWindow = window.open('' ,windowName, 'width=1200,height=1200,scrollbars=yes,resizable=yes');
+            // Write the data to the new window
+            var iframe = document.createElement('iframe');
+            iframe.src = '/assets/editable_table.html';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+
+            // Add the iframe to the new window's document
+            newWindow.document.body.appendChild(iframe);
+        }
+
         var table = $('#kt_datatable');
 
         // begin table
@@ -130,40 +167,35 @@
                     className: 'text-center',
                     render: function (data, type, row) {
                         return '@canany(['edit-sale','delete-sale'])
+                            <a  class="btn btn-sm btn-clean btn-icon mr-2" title="facture" onclick="openInvoice()">\
+                                  <span class="svg-icon svg-icon-lg-xxl">\
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="480" height="480" viewBox="0 0 48 48">\
+                                                <path fill="#616161" d="M34.6 28.1H38.6V45.1H34.6z" transform="rotate(-45.001 36.586 36.587)"></path><path fill="#616161" d="M20 4A16 16 0 1 0 20 36A16 16 0 1 0 20 4Z"></path><path fill="#37474F" d="M36.2 32.1H40.2V44.400000000000006H36.2z" transform="rotate(-45.001 38.24 38.24)"></path><path fill="#64B5F6" d="M20 7A13 13 0 1 0 20 33A13 13 0 1 0 20 7Z"></path><path fill="#BBDEFB" d="M26.9,14.2c-1.7-2-4.2-3.2-6.9-3.2s-5.2,1.2-6.9,3.2c-0.4,0.4-0.3,1.1,0.1,1.4c0.4,0.4,1.1,0.3,1.4-0.1C16,13.9,17.9,13,20,13s4,0.9,5.4,2.5c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.5-0.1,0.6-0.2C27.2,15.3,27.2,14.6,26.9,14.2z"></path>\
+                                        </svg>\
+                                </span>\
+                                </a>\
+                                <a  class="btn btn-sm btn-clean btn-icon mr-2" title="bon de livraison" onclick="openWindow()">\
+                                  <span class="svg-icon svg-icon-lg-xxl">\
+<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="480" height="480" viewBox="0 0 48 48">\
+                                                <path fill="#616161" d="M34.6 28.1H38.6V45.1H34.6z" transform="rotate(-45.001 36.586 36.587)"></path><path fill="#616161" d="M20 4A16 16 0 1 0 20 36A16 16 0 1 0 20 4Z"></path><path fill="#37474F" d="M36.2 32.1H40.2V44.400000000000006H36.2z" transform="rotate(-45.001 38.24 38.24)"></path><path fill="#64B5F6" d="M20 7A13 13 0 1 0 20 33A13 13 0 1 0 20 7Z"></path><path fill="#BBDEFB" d="M26.9,14.2c-1.7-2-4.2-3.2-6.9-3.2s-5.2,1.2-6.9,3.2c-0.4,0.4-0.3,1.1,0.1,1.4c0.4,0.4,1.1,0.3,1.4-0.1C16,13.9,17.9,13,20,13s4,0.9,5.4,2.5c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.5-0.1,0.6-0.2C27.2,15.3,27.2,14.6,26.9,14.2z"></path>\
+                                        </svg>\                                </span>\
+                                </a>\
                                 @can('edit-sale')
                             <a href="dash/sales/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\
                                     <span class="svg-icon svg-icon-md">\
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
-                                                <rect x="0" y="0" width="24" height="24"/>\
-                                                <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero"\ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>\
-                                                <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>\
-                                            </g>\
-                                        </svg>\
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="480" height="480" viewBox="0 0 48 48">\
+                                                        <path fill="#E57373" d="M42.583,9.067l-3.651-3.65c-0.555-0.556-1.459-0.556-2.015,0l-1.718,1.72l5.664,5.664l1.72-1.718C43.139,10.526,43.139,9.625,42.583,9.067"></path><path fill="#FF9800" d="M4.465 21.524H40.471999999999994V29.535H4.465z" transform="rotate(134.999 22.469 25.53)"></path><path fill="#B0BEC5" d="M34.61 7.379H38.616V15.392H34.61z" transform="rotate(-45.02 36.61 11.385)"></path><path fill="#FFC107" d="M6.905 35.43L5 43 12.571 41.094z"></path><path fill="#37474F" d="M5.965 39.172L5 43 8.827 42.035z"></path>\
+                                         </svg>\
                                     </span>\
-                                </a>\
-                            @endcan
-                            @can('view-sale')
-                            <a href="dash/sales/' + row.id + '/viewInvoice" class="btn btn-sm btn-clean btn-icon mr-2" title="print">\
-                                   <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Devices/Printer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
-                                        <rect x="0" y="0" width="24" height="24"/>\
-                                        <path d="M16,17 L16,21 C16,21.5522847 15.5522847,22 15,22 L9,22 C8.44771525,22 8,21.5522847 8,21 L8,17 L5,17 C3.8954305,17 3,16.1045695 3,15 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,15 C21,16.1045695 20.1045695,17 19,17 L16,17 Z M17.5,11 C18.3284271,11 19,10.3284271 19,9.5 C19,8.67157288 18.3284271,8 17.5,8 C16.6715729,8 16,8.67157288 16,9.5 C16,10.3284271 16.6715729,11 17.5,11 Z M10,14 L10,20 L14,20 L14,14 L10,14 Z" fill="#000000"/>\
-                                        <rect fill="#000000" opacity="0.3" x="8" y="2" width="8" height="2" rx="1"/>\
-                                    </g>\
-                                </svg><!--end::Svg Icon--></span>\
                                 </a>\
                             @endcan
                             @can('delete-sale')
                                 <a href="#" data-toggle="modal"  data-target="#deleteModal" data-sale_id="' + row.id + '"  class="btn btn-sm btn-clean btn-icon" title="Delete">\
-                                    <span class="svg-icon svg-icon-md">\
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
-                                                <rect x="0" y="0" width="24" height="24"/>\
-                                                <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"/>\
-                                                <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>\
-                                            </g>\
+                                     <span class="svg-icon svg-icon-lg-xxl">\
+                                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="480" height="480" viewBox="0 0 48 48">\
+                                              <path fill="#9575CD" d="M34,12l-6-6h-8l-6,6h-3v28c0,2.2,1.8,4,4,4h18c2.2,0,4-1.8,4-4V12H34z"></path><path fill="#7454B3" d="M24.5 39h-1c-.8 0-1.5-.7-1.5-1.5v-19c0-.8.7-1.5 1.5-1.5h1c.8 0 1.5.7 1.5 1.5v19C26 38.3 25.3 39 24.5 39zM31.5 39L31.5 39c-.8 0-1.5-.7-1.5-1.5v-19c0-.8.7-1.5 1.5-1.5l0 0c.8 0 1.5.7 1.5 1.5v19C33 38.3 32.3 39 31.5 39zM16.5 39L16.5 39c-.8 0-1.5-.7-1.5-1.5v-19c0-.8.7-1.5 1.5-1.5l0 0c.8 0 1.5.7 1.5 1.5v19C18 38.3 17.3 39 16.5 39z"></path><path fill="#B39DDB" d="M11,8h26c1.1,0,2,0.9,2,2v2H9v-2C9,8.9,9.9,8,11,8z"></path>\
                                         </svg>\
+                                        <!--end::Svg Icon-->\
                                     </span>\
                                 </a>\
                             @endcan

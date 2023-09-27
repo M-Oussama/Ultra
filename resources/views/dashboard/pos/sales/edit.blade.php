@@ -400,7 +400,7 @@
 
                 product['price'] = price;
                 product['quantity'] = quantity;
-                product['stock']['quantity']  = product['stock']['current_stock'] - quantity;
+                product['stock']['quantity']  = product['stock']['quantity'] - quantity;
                 product['amount']  = montant;
                 added_products.push(product);
                 var rowNew = {"id": id ,"name": product['name'], "price": parseFloat(price).toFixed(2), "quantity": parseFloat(quantity).toFixed(2), "amount": parseFloat(montant).toFixed(2), "actions": product};
