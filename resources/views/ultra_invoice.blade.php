@@ -364,10 +364,10 @@
                             <td>{{sprintf('%0.2f',$command->amount*0.19)}} DA</td>
                         </tr>
 
-                        @if($command->payment_type == 1 || !$command->timber)
+                        @if($command->payment_type == 1 || $command->timber)
                           <tr>
                          <td >Timbre 1%</td>
-                              @if(!$command->timber)
+                              @if($command->timber)
                                   <td>{{sprintf('%0.2f',$command->timber_val)}} DA</td>
 
                               @else
@@ -376,8 +376,15 @@
                               @endif
                         </tr>
                          <tr>
-                         <td >Montant TTC</td>
-                            <td>{{sprintf('%0.2f',$command->amount*1.20)}} DA</td>
+                             @if($command->timber)
+
+                                 <td >Montant TTC</td>
+                                 <td>{{sprintf('%0.2f',(($command->amount*1.19) + $command->timber_val))}} DA</td>
+                             @else
+                                 <td >Montant TTC</td>
+                                 <td>{{sprintf('%0.2f',$command->amount*1.20)}} DA</td>
+                             @endif
+
                         </tr>
                         @else
                         <tr>
