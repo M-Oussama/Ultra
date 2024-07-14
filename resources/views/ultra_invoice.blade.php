@@ -249,7 +249,7 @@
                             <h5>Email: {{$company->email}}</h5>
                             <br/>
                         </div>
-                        <div class="col right-col"  style="    align-self: center;">
+                        <div class="col right-col"  style="    align-self: center; ">
                             <div style="border: 1px solid black; padding: 10px">
 
                                     <h6>N°AI: {{$company->NART}}</h6>
@@ -294,7 +294,8 @@
                         <h6><b>Sétif le: </b>{{date("d/m/Y", strtotime($command->date))}}</h6>
 
                     </div>
-                    <div class="col right-col" style="    align-self: center;">
+                    @if($command->client->NRC || $command->client->NIF || $command->client->NART || $command->client->NIS)
+                    <div class="col right-col" style="align-self: center;">
                         <div style="border: 1px solid black; padding: 10px">
                             @if($command->client->NRC)
                                 <h6>N°RC: {{$command->client->NRC}}</h6>
@@ -313,6 +314,7 @@
 
 
                     </div>
+                        @endif
                 </div>
                 <table border="0" cellspacing="0" cellpadding="0">
                     <thead>
@@ -362,10 +364,16 @@
                             <td>{{sprintf('%0.2f',$command->amount*0.19)}} DA</td>
                         </tr>
 
-                        @if($command->payment_type == 1)
+                        @if($command->payment_type == 1 || $command->timber)
                           <tr>
                          <td >Timbre 1%</td>
-                                                    <td>{{sprintf('%0.2f',$command->amount*1.01)}} DA</td>
+                              @if($command->timber)
+                                  <td>{{sprintf('%0.2f',$command->timber_val)}} DA</td>
+
+                              @else
+                                  <td>{{sprintf('%0.2f',$command->amount*1.01)}} DA</td>
+
+                              @endif
                         </tr>
                          <tr>
                          <td >Montant TTC</td>
