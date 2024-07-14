@@ -17,8 +17,8 @@
     <script>
 
 
-        function openInvoice(){
-            
+        function openRealInvoice(){
+
             // Define the data you want to display in the new window
             var windowName = 'NEW_SALE_' + new Date().getTime();
 
@@ -26,7 +26,7 @@
             var newWindow = window.open('' ,windowName, 'width=1200,height=1200,scrollbars=yes,resizable=yes');
             // Write the data to the new window
             var iframe = document.createElement('iframe');
-            iframe.src = '/assets/editable_table.html';
+            iframe.src = '/assets/real_invoice.html';
             iframe.style.width = '100%';
             iframe.style.height = '100%';
             iframe.style.border = 'none';
@@ -34,7 +34,8 @@
             // Add the iframe to the new window's document
             newWindow.document.body.appendChild(iframe);
         }
-        function openWindow(){
+
+        function openInvoice(){
             console.log("clicked");
             // Define the data you want to display in the new window
             var windowName = 'NEW_SALE_' + new Date().getTime();
@@ -43,7 +44,7 @@
             var newWindow = window.open('' ,windowName, 'width=1200,height=1200,scrollbars=yes,resizable=yes');
             // Write the data to the new window
             var iframe = document.createElement('iframe');
-            iframe.src = '/assets/editable_table.html';
+            iframe.src = '/assets/invoice.html';
             iframe.style.width = '100%';
             iframe.style.height = '100%';
             iframe.style.border = 'none';
@@ -167,18 +168,32 @@
                     className: 'text-center',
                     render: function (data, type, row) {
                         return '@canany(['edit-sale','delete-sale'])
-                            <a  class="btn btn-sm btn-clean btn-icon mr-2" title="facture" onclick="openInvoice()">\
+                            <a  class="btn btn-sm btn-clean btn-icon mr-2" title="facture" onclick="openRealInvoice()">\
                                   <span class="svg-icon svg-icon-lg-xxl">\
-                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="480" height="480" viewBox="0 0 48 48">\
-                                                <path fill="#616161" d="M34.6 28.1H38.6V45.1H34.6z" transform="rotate(-45.001 36.586 36.587)"></path><path fill="#616161" d="M20 4A16 16 0 1 0 20 36A16 16 0 1 0 20 4Z"></path><path fill="#37474F" d="M36.2 32.1H40.2V44.400000000000006H36.2z" transform="rotate(-45.001 38.24 38.24)"></path><path fill="#64B5F6" d="M20 7A13 13 0 1 0 20 33A13 13 0 1 0 20 7Z"></path><path fill="#BBDEFB" d="M26.9,14.2c-1.7-2-4.2-3.2-6.9-3.2s-5.2,1.2-6.9,3.2c-0.4,0.4-0.3,1.1,0.1,1.4c0.4,0.4,1.1,0.3,1.4-0.1C16,13.9,17.9,13,20,13s4,0.9,5.4,2.5c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.5-0.1,0.6-0.2C27.2,15.3,27.2,14.6,26.9,14.2z"></path>\
-                                        </svg>\
+                                       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                                                <rect x="0" y="0" width="24" height="24"/>\
+                                                <path d="M16,17 L16,21 C16,21.5522847 15.5522847,22 15,22 L9,22 C8.44771525,22 8,21.5522847 8,21 L8,17 L5,17 C3.8954305,17 3,16.1045695 3,15 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,15 C21,16.1045695 20.1045695,17 19,17 L16,17 Z M17.5,11 C18.3284271,11 19,10.3284271 19,9.5 C19,8.67157288 18.3284271,8 17.5,8 C16.6715729,8 16,8.67157288 16,9.5 C16,10.3284271 16.6715729,11 17.5,11 Z M10,14 L10,20 L14,20 L14,14 L10,14 Z" fill="#000000"/>\
+                                                <rect fill="#000000" opacity="0.3" x="8" y="2" width="8" height="2" rx="1"/>\
+                                                </g>\
+                                        </svg><!--end::Svg Icon-->\
                                 </span>\
                                 </a>\
-                                <a  class="btn btn-sm btn-clean btn-icon mr-2" title="bon de livraison" onclick="openWindow()">\
-                                  <span class="svg-icon svg-icon-lg-xxl">\
-<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="480" height="480" viewBox="0 0 48 48">\
-                                                <path fill="#616161" d="M34.6 28.1H38.6V45.1H34.6z" transform="rotate(-45.001 36.586 36.587)"></path><path fill="#616161" d="M20 4A16 16 0 1 0 20 36A16 16 0 1 0 20 4Z"></path><path fill="#37474F" d="M36.2 32.1H40.2V44.400000000000006H36.2z" transform="rotate(-45.001 38.24 38.24)"></path><path fill="#64B5F6" d="M20 7A13 13 0 1 0 20 33A13 13 0 1 0 20 7Z"></path><path fill="#BBDEFB" d="M26.9,14.2c-1.7-2-4.2-3.2-6.9-3.2s-5.2,1.2-6.9,3.2c-0.4,0.4-0.3,1.1,0.1,1.4c0.4,0.4,1.1,0.3,1.4-0.1C16,13.9,17.9,13,20,13s4,0.9,5.4,2.5c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.5-0.1,0.6-0.2C27.2,15.3,27.2,14.6,26.9,14.2z"></path>\
-                                        </svg>\                                </span>\
+                                <a  class="btn btn-sm btn-clean btn-icon mr-2" title="bon de livraison" onclick="openInvoice()">\
+                                  <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Communication/Clipboard-list.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
+                            <rect x="0" y="0" width="24" height="24"/>\
+                            <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3"/>\
+                            <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>\
+                            <rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1"/>\
+                            <rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1"/>\
+                            <rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1"/>\
+                            <rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1"/>\
+                            <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1"/>\
+                            <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1"/>\
+                            </g>\
+                    </svg><!--end::Svg Icon--></span>   \
+                                          </span>\
                                 </a>\
                                 @can('edit-sale')
                             <a href="dash/sales/' + row.id + '/edit" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">\

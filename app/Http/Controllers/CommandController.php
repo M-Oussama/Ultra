@@ -68,6 +68,9 @@ class CommandController extends Controller
         $command->date = $fac_date;
         $command->client_id = $client->id;
         $command->payment_type = $request->payment_type;
+        $command->timber = $request->timber;
+        if($request->timber)
+            $command->timber_val = $request->timber_val;
         $command->save();
         $amount = 0;
 
@@ -129,6 +132,12 @@ class CommandController extends Controller
         $command->payment_type = $request->payment_type;
         $command->client_id = $request->client_id;
         $command->fac_id = $request->fac_id;
+
+        $command->timber = $request->timber ? 1 : 0;
+        if($request->timber)
+            $command->timber_val = $request->timber_val;
+        else
+            $command->timber_val = 0;
         $command->save();
 
 
@@ -146,10 +155,12 @@ class CommandController extends Controller
         $command->delete();
 
     }
+
     function isDecimal( $val )
     {
         return is_numeric( $val ) && floor( $val ) != $val;
     }
+
     public function viewInvoice($command_id){
         $command = Command::find($command_id);
         $company = CompanyProfile::find(1);

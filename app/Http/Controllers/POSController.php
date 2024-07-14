@@ -47,9 +47,9 @@ class POSController extends Controller
 
         ];
 
-        foreach ($products as $product){
-            $product->stock->current_stock =  $product->stock->quantity;
-        }
+//        foreach ($products as $product){
+//            $product->stock->current_stock =  $product->stock->quantity;
+//        }
 
 
 

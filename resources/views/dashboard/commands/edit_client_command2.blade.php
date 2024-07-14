@@ -246,14 +246,23 @@
             }
 
 
+            var checkVal = $('#timberCheck').is(":checked");
+
+            if(checkVal){
+                timber_amount = parseFloat($('#timber_value').val()).toFixed(2);
+                montant_ttc = parseFloat(montant_ht) + parseFloat(tva)+parseFloat(timber_amount);
+
+            }
 
 
-            $('#ht').html(montant_ht.toFixed(2) + " DA");
-            $('#tva').html(tva.toFixed(2) + " DA");
-            $('#ttc').html(montant_ttc.toFixed(2) + " DA");
-            $('#timber_amount').html(timber_amount.toFixed(2) + " DA");
 
-            $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(montant_ttc.toFixed(2)));
+            $('#ht').html(parseFloat(montant_ht).toFixed(2) + " DA");
+            $('#tva').html(parseFloat(tva).toFixed(2) + " DA");
+            $('#ttc').html(parseFloat(montant_ttc).toFixed(2) + " DA");
+            $('#timber_amount').html(parseFloat(timber_amount).toFixed(2) + " DA");
+
+            $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(parseFloat(montant_ttc).toFixed(2)));
+
         }
 
         function calculateTotal(){
@@ -263,22 +272,49 @@
             montant_ttc = 0;
             for (let i = 0; i <added_products.length ; i++) {
 
-                montant_ht += added_products[i]['amount'] ;
-                console.log("totale : "+added_products[0]);
-                console.log("totale : "+added_products[1]);
-                console.log("totale : "+added_products[2]);
+                montant_ht += (added_products[i]['quantity'] * added_products[i]['price']) ;
+
+
+            }
+            console.log("montant "+ montant_ht)
+            tva = parseFloat(montant_ht) * 0.19;
+            montant_ttc = parseFloat(montant_ht) + parseFloat(tva);
+
+            var checkVal = $('#timberCheck').is(":checked");
+
+            if(checkVal){
+                timber_amount = parseFloat($('#timber_value').val()).toFixed(2);
+                montant_ttc = parseFloat(montant_ht) + parseFloat(tva)+parseFloat(timber_amount);
+
             }
 
-            tva = montant_ht * 0.19;
-            montant_ttc = montant_ht + tva;
 
 
-            $('#ht').html(montant_ht.toFixed(2) + " DA");
-            $('#tva').html(tva.toFixed(2) + " DA");
-            $('#ttc').html(montant_ttc.toFixed(2) + " DA");
+            $('#ht').html(parseFloat(montant_ht).toFixed(2) + " DA");
+            $('#tva').html(parseFloat(tva).toFixed(2) + " DA");
+            $('#ttc').html(parseFloat(montant_ttc).toFixed(2) + " DA");
+            $('#timber_amount').html(parseFloat(timber_amount).toFixed(2) + " DA");
 
-            $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(montant_ttc.toFixed(2)));
+            $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(parseFloat(montant_ttc).toFixed(2)));
         }
+
+        $('#timberCheck').on('change', function (e){
+            if(this.checked ) {
+                $('#timberHolder').show();
+                _calculateTotal();
+            }
+            else{
+                $('#timberHolder').hide();
+                _calculateTotal();
+            }
+
+
+        })
+
+        $('#timber_value').on('keyup', function (e){
+            _calculateTotal()
+        })
+
 
         $('#addProduct').on('show.bs.modal', function (e) {
             if(products.length > 0){
@@ -391,6 +427,8 @@
                     fac_date : $('#fac_date').val(),
                     fac_id : $('#fac_id').val(),
                     payment_type : $('#payment_type').val(),
+                    timber : $('#timber').is('checked'),
+                    timber_val : $('#timber_value').val(),
                     products: added_products,
 
                 },
@@ -656,7 +694,23 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="col-3">
+                    <label class="switch">
+                        <input type="checkbox" name="timber" id="timberCheck"  {{$commands->timber ? 'checked' : ''}}>
+                        <span class="slider"></span>
+                    </label>
 
+
+                    <div class="form-group mt-5 {{$commands->timber ? '' : 'd-none'}}" id="timberHolder" >
+                        <label>Timber : </label>
+                        <div class="input-group timber" >
+                            <input type="number" class="form-control"  id="timber_value" name="timber_val" value="{{$commands->timber_val}}">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 

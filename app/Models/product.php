@@ -17,7 +17,7 @@ class product extends Model implements HasMedia
    // protected $with = ['stock'];
 
     public function stock(){
-        return $this->hasMany(Stock::class);
+        return $this->belongsTo(Stock::class);
     }
 
     public function sells()

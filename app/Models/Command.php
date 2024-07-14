@@ -10,6 +10,17 @@ class Command extends Model
     use HasFactory;
 
     protected $with = ['client','payment'];
+    protected $casts = [
+        'timber' => 'boolean',
+    ];
+    protected $fillable=[
+        'fac_id',
+        'date',
+        'client_id',
+        'payment_type',
+        'timber',
+        'timber_val',
+    ];
     public function client(){
         return $this->belongsTo(Client::class);
     }

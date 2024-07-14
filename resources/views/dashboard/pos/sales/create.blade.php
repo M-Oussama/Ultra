@@ -322,12 +322,16 @@
 
         function dismissAddProduct(){
             $("#addProduct").modal('toggle');
+            @if(sizeof($products)> 0)
             $('#kt_select2_product').val({{$products[0]->id}}).trigger('change');
+            @endif
         }
         var id = 1;
         function addProduct(){
+            @if(sizeof($products)> 0)
             price = $('#product_price').val();
             quantity = $('#product_quantity').val();
+            @if(sizeof($products)> 0)
             if(!productExists(product) && quantity <= product.stock.quantity && quantity >0){
                 var montant = price * quantity;
 
@@ -344,9 +348,13 @@
                 id++;
                 calculateTotal();
                 calculateRest();
+                @endif
             }
             $("#addProduct").modal('toggle');
+            @if(sizeof($products)> 0)
             $('#kt_select2_product').val({{$products[0]->id}}).trigger('change');
+            @endif
+            @endif
         }
         var currentDate = new Date().toISOString().slice(0, 10);
         $("#fac_date").val(currentDate);
@@ -428,6 +436,7 @@
         $('#kt_select2_product').select2();
         $('#payment_type').select2();
         $('#client_id').select2();
+        $('#products').select2();
 
     </script>
 @endsection
@@ -560,6 +569,15 @@
                             @endforeach
                         </select>
                     </div>
+
+{{--                    <div class="form-group col-sm-6 col-md-6">--}}
+{{--                        <label>Choose a product : </label>--}}
+{{--                        <select class="form-control" id="products" name="param">--}}
+{{--                            @foreach($products as $product)--}}
+{{--                                <option value="{{$product->id}}" >{{$product->name}}   <span style="float: right;">({{$product->stock->quantity}})</span></option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
                 </div>
 
                 <form id="deleteMultiForm" action="dash/sales/delete-multi" method="post">

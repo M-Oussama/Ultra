@@ -11,6 +11,9 @@
 
 @section('styles')
     <!-- Page styles -->
+    <style>
+
+    </style>
 @endsection
 
 @section('scripts')
@@ -32,6 +35,7 @@
 
         var val = 1;
 
+        $('#timberHolder').hide();
          $('#payment_type').on('change',function(){
          val = $('#payment_type').val();
            if(val== 1){
@@ -201,29 +205,55 @@
             montant_ttc = 0;
             for (let i = 0; i <added_products.length ; i++) {
 
-                montant_ht += added_products[i]['amount'];
+                montant_ht += parseFloat(added_products[i]['amount']);
             }
-              tva = montant_ht * 0.19;
+              tva = parseFloat(montant_ht) * 0.19;
 
               if(val == 1){
 
-                  timber_amount = (montant_ht + tva)*timber;
-                  montant_ttc = montant_ht + tva+timber_amount;
-                    console.log("val "+timber_amount);
+                  timber_amount = (parseFloat(montant_ht) + parseFloat(tva))*parseFloat(timber);
+                  montant_ttc = parseFloat(montant_ht) + parseFloat(tva)+parseFloat(timber_amount);
+
               } else{
                 timber_amount = 0;
-                montant_ttc = montant_ht + tva;
+                montant_ttc = parseFloat(montant_ht) + parseFloat(tva);
               }
 
 
-            $('#ht').html(montant_ht.toFixed(2) + " DA");
-            $('#tva').html(tva.toFixed(2) + " DA");
-            $('#ttc').html(montant_ttc.toFixed(2) + " DA");
-            $('#timber_amount').html(timber_amount.toFixed(2) + " DA");
+              var checkVal = $('#timberCheck').is(":checked");
 
-            $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(montant_ttc.toFixed(2)));
+              if(checkVal){
+                  timber_amount = parseFloat($('#timber_value').val()).toFixed(2);
+                  montant_ttc = parseFloat(montant_ht) + parseFloat(tva)+parseFloat(timber_amount);
+
+              }
+
+
+            $('#ht').html(parseFloat(montant_ht).toFixed(2) + " DA");
+            $('#tva').html(parseFloat(tva).toFixed(2) + " DA");
+            $('#ttc').html(parseFloat(montant_ttc).toFixed(2) + " DA");
+            $('#timber_amount').html(parseFloat(timber_amount).toFixed(2) + " DA");
+
+            $('#amount_letter').html("La présente facture est arrêtée à la somme de : "+calcule(parseFloat(montant_ttc).toFixed(2)));
         }
 
+        $('#timberCheck').on('change', function (e){
+            if(this.checked ) {
+                $('#timberHolder').show();
+                calculateTotal();
+
+            }
+            else{
+                $('#timberHolder').hide();
+                calculateTotal();
+
+            }
+
+        })
+
+        $('#timber_value').on('keyup', function (e){
+            calculateTotal()
+        })
         $('#addProduct').on('show.bs.modal', function (e) {
             if(products.length > 0){
                 findProduct(products[0].id);
@@ -321,7 +351,8 @@
                     fac_id : $('#fac_id').val(),
                     payment_type : $('#payment_type').val(),
                     products: added_products,
-
+                    timber : $('#timber').is('checked') ? 1: 0,
+                    timber_val : $('#timber_val').val(),
                 },
                 dataType: "json",
                 success: function (data) {
@@ -586,8 +617,23 @@
                 </div>
 
 
+                <div class="col-3">
+                    <label class="switch">
+                        <input type="checkbox" name="timber" id="timberCheck">
+                        <span class="slider"></span>
+                    </label>
 
 
+                    <div class="form-group mt-5" id="timberHolder" >
+                        <label>Timber: </label>
+                        <div class="input-group timber" >
+                            <input type="number" class="form-control" id="timber_value" name="timber_val">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
