@@ -301,10 +301,12 @@
         $('#timberCheck').on('change', function (e){
             if(this.checked ) {
                 $('#timberHolder').show();
+                $('#timber_row').show();
                 _calculateTotal();
             }
             else{
                 $('#timberHolder').hide();
+                $('#timber_row').hide();
                 _calculateTotal();
             }
 
