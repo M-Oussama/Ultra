@@ -233,9 +233,9 @@
                 <div class="row">
                     <div class=" row" STYLE="width: 100%">
                         <div   style="width: 20%" >
-                           @if($company->getFirstMedia('avatars') != null)
-                            <img src="{{$company->getFirstMedia('avatars')->getURL()}}" data-holder-rendered="true" width="200" height="150"/>
-                           @endif
+
+                            <img src="{{Url('/public/logo.png')}}" data-holder-rendered="true" width="200" height="150"/>
+
                         </div>
                         <div class="col" style="width:40%;">
                             <h5>{{$company->name}}</h5>
@@ -283,7 +283,7 @@
 
                         <br/>
                         <h6><b>Patient:</b> {{$command->client->name}} {{$command->client->surname}}</h6>
-                        @if(!$command->timber)
+                        @if($command->timber)
                             <br/>
                             <h6><b>address:</b> {{$command->client->address}}</h6>
                         @endif
