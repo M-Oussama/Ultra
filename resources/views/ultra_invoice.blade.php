@@ -283,7 +283,7 @@
 
                         <br/>
                         <h6><b>Patient:</b> {{$command->client->name}} {{$command->client->surname}}</h6>
-                        @if($command->timber)
+                        @if(!$command->timber)
                             <br/>
                             <h6><b>address:</b> {{$command->client->address}}</h6>
                         @endif
