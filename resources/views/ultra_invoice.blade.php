@@ -234,7 +234,7 @@
                     <div class=" row" STYLE="width: 100%">
                         <div   style="width: 20%" >
 
-                            <img src="{{Url('/public/logo.png')}}" data-holder-rendered="true" width="200" height="150"/>
+                            <img src="{{Url('/storage/media/1/logo.png')}}" data-holder-rendered="true" width="200" height="150"/>
 
                         </div>
                         <div class="col" style="width:40%;">
