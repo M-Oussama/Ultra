@@ -233,9 +233,9 @@
                 <div class="row">
                     <div class=" row" STYLE="width: 100%">
                         <div   style="width: 20%" >
-                           @if($company->getFirstMedia('avatars') != null)
-                            <img src="{{$company->getFirstMedia('avatars')->getURL()}}" data-holder-rendered="true" width="200" height="150"/>
-                           @endif
+
+                            <img src="{{Url('/storage/media/1/logo.png')}}" data-holder-rendered="true" width="200" height="150"/>
+
                         </div>
                         <div class="col" style="width:40%;">
                             <h5>{{$company->name}}</h5>
