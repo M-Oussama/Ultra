@@ -258,8 +258,9 @@
                                     <h6>N°RC: {{$company->NRC}}</h6>
 
 
+                                @if($company->NIS)
                                     <h6>N°IS: {{$company->NIS}}</h6>
-
+                                @endif
 
                                     <h6>N°IF: {{$company->NIF}}</h6>
 
@@ -279,17 +280,13 @@
                     <div class="col invoice-to">
                         <h6><b>Facture :</b> FAJ/{{date('Y', strtotime($command->date))}}/{{sprintf("%02d", $command->fac_id)}}
                         </h6>
-                        <h6>
-                            </br>
 
-                          <!-- <h6><b>Mode de paiement:</b>  versement Banquer</h6>-->
-                            <h6><b>Mode de paiement:</b>  {{$command->payment->type}}</h6>
-
-                        </h6>
                         <br/>
                         <h6><b>Patient:</b> {{$command->client->name}} {{$command->client->surname}}</h6>
-                        <br/>
-                        <h6><b>address:</b> {{$command->client->address}}</h6>
+                        @if(!$command->timber)
+                            <br/>
+                            <h6><b>address:</b> {{$command->client->address}}</h6>
+                        @endif
                         <br/>
                         <h6><b>Sétif le: </b>{{date("d/m/Y", strtotime($command->date))}}</h6>
 
@@ -399,6 +396,8 @@
                     <span style="font-size: 23px;"><b>Arrêtée la présente facture a la somme de : {{$amountLetter}} </b></span>
 
                 </div>
+                </br>
+                <h6><b>Mode de paiement:</b>  {{$command->payment->type}}</h6>
                 </br>
 
                 <div CLASS="text-center">
