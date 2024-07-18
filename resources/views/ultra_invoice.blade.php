@@ -363,11 +363,14 @@
 
                         @if($command->payment_type == 1 || $command->timber)
                           <tr>
-                         <td >Timbre 1%</td>
+
+
                               @if($command->timber)
+                                  <td >Timbre </td>
                                   <td>{{sprintf('%0.2f',$command->timber_val)}} DA</td>
 
                               @else
+                                  <td >Timbre 1%</td>
                                   <td>{{sprintf('%0.2f',$command->amount*1.01)}} DA</td>
 
                               @endif
