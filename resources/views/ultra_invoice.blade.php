@@ -258,7 +258,7 @@
                                     <h6>N°RC: {{$company->NRC}}</h6>
 
 
-                                @if($company->NIS)
+                                @if($company->NIS != "")
                                     <h6>N°IS: {{$company->NIS}}</h6>
                                 @endif
 
