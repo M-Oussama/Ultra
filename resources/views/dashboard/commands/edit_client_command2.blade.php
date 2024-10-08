@@ -301,6 +301,7 @@
         $('#timberCheck').on('change', function (e){
             if(this.checked ) {
                 $('#timberHolder').show();
+                $('#timberHolder').removeClass('d-none');
                 $('#timber_row').show();
                 _calculateTotal();
             }
