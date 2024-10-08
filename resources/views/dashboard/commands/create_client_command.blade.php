@@ -328,6 +328,8 @@
         }
 
         $('#saveCommand').on('click',function () {
+
+
             KTApp.blockPage({
                 overlayColor: '#000000',
                 opacity: 0.1,
@@ -354,8 +356,8 @@
                     fac_id : $('#fac_id').val(),
                     payment_type : $('#payment_type').val(),
                     products: added_products,
-                    timber : $('#timber').is('checked') ? 1: 0,
-                    timber_val : $('#timber_val').val(),
+                    timber : $('#timberCheck').is(':checked'),
+                    timber_val : $('#timber_value').val(),
                 },
                 dataType: "json",
                 success: function (data) {

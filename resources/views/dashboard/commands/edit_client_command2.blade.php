@@ -429,7 +429,7 @@
                     fac_date : $('#fac_date').val(),
                     fac_id : $('#fac_id').val(),
                     payment_type : $('#payment_type').val(),
-                    timber : $('#timber').is('checked'),
+                    timber : $('#timberCheck').is('checked'),
                     timber_val : $('#timber_value').val(),
                     products: added_products,
 

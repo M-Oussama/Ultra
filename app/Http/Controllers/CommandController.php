@@ -68,9 +68,12 @@ class CommandController extends Controller
         $command->date = $fac_date;
         $command->client_id = $client->id;
         $command->payment_type = $request->payment_type;
-        $command->timber = $request->timber;
-        if($request->timber)
+
+        if($request->timber){
+           $command->timber = 1;
             $command->timber_val = $request->timber_val;
+        }
+
         $command->save();
         $amount = 0;
 
