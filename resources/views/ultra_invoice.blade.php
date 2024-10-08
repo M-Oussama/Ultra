@@ -292,8 +292,11 @@
                             <br/>
                             <h6><b>address:</b> {{$command->client->address}}</h6>
                         @endif
-                        <br/>
-                        <h6><b>Activité:</b> {{$command->client->profession}}</h6>
+                        @if($command->client->profession != "")
+                            <br/>
+                            <h6><b>Activité:</b> {{$command->client->profession}}</h6>
+                        @endif
+
                         <br/>
                         <h6><b>Sétif le: </b>{{date("d/m/Y", strtotime($command->date))}}</h6>
 

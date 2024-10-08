@@ -297,9 +297,12 @@
                                     <br/>
 
                                     <h6><b>address:</b> {{$invoice['command']->client->address}}</h6>
-                                    <br/>
-                                    <h6><b>Activité:</b> {{$invoice['command']->client->profession}}</h6>
-                                    <br/>
+
+                                    @if($invoice['command']->client->profession != "")
+                                        <br/>
+                                        <h6><b>Activité:</b> {{$invoice['command']->client->profession}}</h6>
+                                    @endif
+                                        <br/>
                                     <h6><b>Sétif le: </b>{{date("d/m/Y", strtotime($invoice['command']->date))}}</h6>
 
                                 </div>
