@@ -88,6 +88,14 @@
                             </div>
 
                             <div class="form-group col-sm-12 col-md-12">
+                                <label>profession* :</label>
+                                <input type="text" name="profession" value="{{old('profession')}}" autocomplete="given-name"
+                                       class="form-control form-control-solid" placeholder="Enter the profession"
+                                       required/>
+                                <span class="form-text text-muted">Please enter the profession</span>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-12">
                                 <label>Email* :</label>
                                 <input type="email" name="email" autocomplete="email" value="{{old('email')}}"
                                        class="form-control form-control-solid @error('email') is-invalid @enderror"

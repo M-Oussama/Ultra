@@ -239,8 +239,13 @@
                         </div>
                         <div class="col" style="width:40%;">
                             <h5>{{$invoice['company']->name}}</h5>
+                            @if($invoice['company']->profession != "")
+                                <br/>
+                                <h5>{{$invoice['company']->profession}}</h5>
+                            @endif
                             <br/>
                             <h5>{{$invoice['company']->address}}</h5>
+
                             <br/>
                             <h5>Capital Social: {{$invoice['company']->capital}}</h5>
                             <br/>
@@ -290,7 +295,10 @@
                                     <br/>
                                     <h6><b>Patient:</b> {{$invoice['command']->client->name}} {{$invoice['command']->client->surname}}</h6>
                                     <br/>
+
                                     <h6><b>address:</b> {{$invoice['command']->client->address}}</h6>
+                                    <br/>
+                                    <h6><b>Activité:</b> {{$invoice['command']->client->profession}}</h6>
                                     <br/>
                                     <h6><b>Sétif le: </b>{{date("d/m/Y", strtotime($invoice['command']->date))}}</h6>
 

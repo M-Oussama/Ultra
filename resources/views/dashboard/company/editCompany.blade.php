@@ -101,6 +101,14 @@
                                        required/>
                                 <span class="form-text text-muted">Please enter the companys's address</span>
                             </div>
+
+                            <div class="form-group col-sm-12 col-md-12">
+                                <label>profession* :</label>
+                                <input type="text" name="profession" value="{{old('profession',$company->profession)}}" autocomplete="given-name"
+                                       class="form-control form-control-solid" placeholder="Enter profession "
+                                       required/>
+                                <span class="form-text text-muted">Please enter the companys's profession</span>
+                            </div>
                             <div class="form-group col-sm-12 col-md-12">
                                 <label>capital* :</label>
                                 <input type="text" name="capital" value="{{old('surname',$company->capital)}}" autocomplete="given-name"

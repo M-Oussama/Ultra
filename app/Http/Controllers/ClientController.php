@@ -60,6 +60,7 @@ class ClientController extends Controller
             $client->email = $request->email;
             $client->sold = $request->sold;
             $client->address = $request->address;
+            $client->profession = $request->profession;
             $client->type_id = 1;
             $client->NRC = $request->nrc;
             $client->NIF = $request->nif;
@@ -118,6 +119,7 @@ class ClientController extends Controller
             $client->email = $request->email;
             $client->sold = $request->sold;
             $client->address = $request->address;
+            $client->profession = $request->profession;
             $client->type_id = 1;
             $client->NRC = $request->nrc;
             $client->NIF = $request->nif;

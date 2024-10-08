@@ -21,6 +21,7 @@ class CompanyProfileController extends Controller
         $company->address = $request->address;
         $company->phone = $request->phone;
         $company->capital = $request->capital;
+        $company->profession = $request->profession;
         $company->NRC = $request->nrc;
         $company->NIF = $request->nif;
         $company->NART = $request->nart;

@@ -30,6 +30,19 @@
                 <i class="flaticon2-calendar-3 text-success"></i>
             </div>
             <div class="navi-text">
+                <div class="font-weight-bold">Settings</div>
+                <div class="text-muted">change your profile Settings
+                    <span class="label label-light-danger label-inline font-weight-bold">change</span>
+                </div>
+            </div>
+        </div>
+    </a>
+   <a href="{{URL('dash/companyProfile')}}" class="navi-item px-8">
+        <div class="navi-link">
+            <div class="navi-icon mr-2">
+                <i class="flaticon2-calendar-3 text-success"></i>
+            </div>
+            <div class="navi-text">
                 <div class="font-weight-bold">My Profile</div>
                 <div class="text-muted">change your profile Settings
                     <span class="label label-light-danger label-inline font-weight-bold">change</span>

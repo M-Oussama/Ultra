@@ -239,8 +239,13 @@
                         </div>
                         <div class="col" style="width:40%;">
                             <h5>{{$company->name}}</h5>
+                            @if($company->profession != "")
+                                <br/>
+                                <h5>{{$company->profession}}</h5>
+                            @endif
                             <br/>
                             <h5>{{$company->address}}</h5>
+
                             <br/>
                             <h5>Capital Social: {{$company->capital}}</h5>
                             <br/>
@@ -287,6 +292,8 @@
                             <br/>
                             <h6><b>address:</b> {{$command->client->address}}</h6>
                         @endif
+                        <br/>
+                        <h6><b>Activité:</b> {{$command->client->profession}}</h6>
                         <br/>
                         <h6><b>Sétif le: </b>{{date("d/m/Y", strtotime($command->date))}}</h6>
 
